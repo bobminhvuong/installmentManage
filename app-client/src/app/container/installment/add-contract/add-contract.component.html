@@ -1,0 +1,144 @@
+<h4>
+  Tạo hợp đồng
+</h4>
+<div class="box box-success">
+  <div class="box-body">
+    <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm(validateForm.value)">
+      <div class="row">
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+
+          <nz-form-item>
+            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="loan">Số tiền</nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24">
+              <input nz-input formControlName="loan" id="loan" />
+              <nz-form-explain *ngIf="validateForm.get('loan')?.dirty && validateForm.get('loan')?.errors">
+                Số tiền không được để trống!
+              </nz-form-explain>
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item>
+            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="date">Ngày vay</nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24">
+              <input nz-input formControlName="date" id="email" />
+              <nz-form-explain *ngIf="validateForm.get('date')?.dirty && validateForm.get('date')?.errors">
+                Bạn chưa chọn ngày vay!
+              </nz-form-explain>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="date">Ngày dự kiến trả</nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24">
+              <input nz-input formControlName="date" id="email" />
+              <nz-form-explain *ngIf="validateForm.get('date')?.dirty && validateForm.get('date')?.errors">
+                Bạn chưa chọn ngày trả!
+              </nz-form-explain>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="date">Lãi suất</nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24">
+              <input nz-input formControlName="date" id="email" />
+              <nz-form-explain *ngIf="validateForm.get('date')?.dirty && validateForm.get('date')?.errors">
+                Bạn chưa nhập lãi suất!
+              </nz-form-explain>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="loan" nzRequired>Số lần trả</nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input the captcha you got!"
+              nzExtra="We must make sure that your are a human.">
+              <div nz-row [nzGutter]="8">
+                <div nz-col [nzSpan]="12">
+                  <input nz-input formControlName="loan" id="captcha" />
+                </div>
+                <div nz-col [nzSpan]="12">
+                  <input nz-input formControlName="loan" id="captcha" placeholder="Lãi theo ngày" />
+                </div>
+              </div>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="date">Ghi chú</nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24">
+              <textarea formControlName="date" nz-input rows="2" placeholder="write any thing"></textarea>
+              <nz-form-explain *ngIf="validateForm.get('date')?.dirty && validateForm.get('date')?.errors">
+                Địa chỉ email không hợp lệ!
+              </nz-form-explain>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+          <nz-form-item>
+            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="loan">Tài sản cầm cố</nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24">
+              <input nz-input formControlName="loan" id="loan" />
+              <nz-form-explain *ngIf="validateForm.get('loan')?.dirty && validateForm.get('loan')?.errors">
+                Chọn một loại tài sản!
+              </nz-form-explain>
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item>
+            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="date">Tên tài sản</nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24">
+              <input nz-input formControlName="date" id="email" />
+              <nz-form-explain *ngIf="validateForm.get('date')?.dirty && validateForm.get('date')?.errors">
+                Nhập tên tài sản!
+              </nz-form-explain>
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item>
+            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="date">Giá trị</nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24">
+              <input nz-input formControlName="date" id="email" />
+              <nz-form-explain *ngIf="validateForm.get('date')?.dirty && validateForm.get('date')?.errors">
+                Nhập giá trị tài sản!
+              </nz-form-explain>
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item>
+            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="date">Nguồn tham chiếu</nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24">
+              <input nz-input formControlName="date" id="email" />
+              <nz-form-explain *ngIf="validateForm.get('date')?.dirty && validateForm.get('date')?.errors">
+                Nhập giá trị tài sản!
+              </nz-form-explain>
+            </nz-form-control>
+          </nz-form-item>
+
+
+          <nz-form-item>
+            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="date">Nguồn vốn</nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24">
+              <input nz-input formControlName="date" id="email" />
+              <nz-form-explain *ngIf="validateForm.get('date')?.dirty && validateForm.get('date')?.errors">
+                Nhập giá trị tài sản!
+              </nz-form-explain>
+            </nz-form-control>
+          </nz-form-item>
+
+
+          <nz-form-item>
+            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="date">Số tiền</nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24">
+              <input nz-input formControlName="date" id="email" />
+              <nz-form-explain *ngIf="validateForm.get('date')?.dirty && validateForm.get('date')?.errors">
+                Nhập giá trị tài sản!
+              </nz-form-explain>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+        <button class="btn btn-success float-right" style="submit">
+          <i class="fa fa-save"></i>
+          Tạo hợp đồng
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

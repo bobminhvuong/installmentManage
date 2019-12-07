@@ -1,0 +1,37 @@
+<div class="login-container lightmode">
+  <div class="login-box animated fadeInDown">
+    <!-- <div class="login-logo"></div> -->
+    <div class="login-body">
+      <div class="login-title text-center"><strong style="font-weight: bold;">Đăng nhập</strong> </div>
+
+      <form nz-form [formGroup]="validateForm" class="login-form form-horizontal" (ngSubmit)="submitForm()">
+        <nz-form-item>
+          <nz-form-control nzErrorTip="Bạn chưa nhập tài khoản!">
+            <nz-input-group nzPrefixIcon="user">
+              <input type="text" nz-input formControlName="user" autofocus placeholder="Username" />
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control nzErrorTip="Bạn chưa nhập mật khẩu!">
+            <nz-input-group nzPrefixIcon="lock">
+              <input type="password" nz-input formControlName="password" placeholder="Password" />
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control>
+              <label nz-checkbox formControlName="remember">
+                  <span>Remember me</span>
+                </label>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control>
+            <button style="width: 100%;" nz-button class="login-form-button" [nzType]="'primary'">Log in</button>
+          </nz-form-control>
+        </nz-form-item>
+      </form>
+    </div>
+  </div>
+</div>

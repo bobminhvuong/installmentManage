@@ -1,0 +1,45 @@
+<nz-layout>
+  <nz-sider nzCollapsible
+            [(nzCollapsed)]="isCollapsed"
+            [nzBreakpoint]="'lg'"
+            [nzCollapsedWidth]="0"
+            >
+    <div class="logo "></div>
+    <ul nz-menu   [nzTheme]="'dark'" [nzMode]="'inline'" [nzInlineCollapsed]="isCollapsed">
+      <div *ngFor="let item of menus" >
+          <li *ngIf="!item.subMenu || item.subMenu.length == 0" nzSelected="{{getSelected(item.url)}}"  nz-menu-item [routerLink]="[item.url]">
+            <span><i nz-icon type="{{item.icon}}" class="ico"></i><span class="nav-text">{{item.title}}</span></span>
+          </li>
+          <li nz-submenu nzOpen="{{getOpenSubMenu(item)}}" *ngIf="item.subMenu && item.subMenu.length > 0">
+              <span title><i nz-icon class="ico" type="{{item.icon}}"></i><span class="nav-text">{{item.title}}</span></span>
+              <ul *ngFor="let i of item.subMenu">
+                <li nz-menu-item nzSelected="{{getSelected(i.url)}}" [routerLink]="[i.url]">{{i.title}}</li>
+              </ul>
+            </li>
+      </div>
+    </ul>
+  </nz-sider>
+  <nz-layout>
+    <nz-header style="background: #fff; padding:0;">
+      <i class="trigger" nz-icon [type]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+        (click)="isCollapsed = !isCollapsed"></i>
+
+      <nz-dropdown style="float: right;margin-right: 40px" [nzTrigger]="'click'">
+        <a nz-dropdown> <strong></strong> 
+          <img *ngIf="user.avatar && user.avatar !=''" class="img-admin" src="{{ user.avatar}}" alt=""> 
+          <img *ngIf="!(user.avatar && user.avatar !='')" class="img-admin" src="./assets/images/account.png" alt=""> </a>
+        <ul nz-menu style="margin-top: 20px">
+          <li nz-menu-item [routerLink]="['/manager/profile']"><i nz-icon type="user"></i> Cá nhân</li>
+          <li nz-menu-item (click)="logout()"><i nz-icon type="logout"></i> Đăng xuất</li>
+        </ul>
+      </nz-dropdown>
+    </nz-header>
+    <nz-content style="margin:0 16px;">
+      <nz-breadcrumb style="margin:16px 0;">
+      </nz-breadcrumb>
+      <div style="min-height: 360px;">
+        <router-outlet></router-outlet>
+      </div>
+    </nz-content>
+  </nz-layout>
+</nz-layout>
