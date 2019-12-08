@@ -1,0 +1,124 @@
+<nz-modal [(nzVisible)]="isVisible" nzTitle="Nhân Viên" nzOkText="Ok" nzCancelText="Cancel" (nzOnOk)="submitForm()"
+  (nzOnCancel)="handleCancel()" nzWidth="60%">
+
+
+  <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+
+    <div nz-row>
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="fullName">Họ tên</nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24">
+            <input [(ngModel)]="dataEdit.fullName" nz-input formControlName="fullName" id="fullName" />
+            <nz-form-explain *ngIf="validateForm.get('fullName')?.dirty && validateForm.get('fullName')?.errors">
+              Họ tên không được để trống!
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="email">E-mail</nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24">
+            <input [(ngModel)]="dataEdit.email" nz-input formControlName="email" id="email" />
+            <nz-form-explain *ngIf="validateForm.get('email')?.dirty && validateForm.get('email')?.errors">
+              Địa chỉ email không hợp lệ!
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="phoneNumber">Điện Thoại</nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24">
+            <input nz-input [(ngModel)]="dataEdit.phoneNumber" formControlName="phoneNumber" id="phoneNumber" />
+            <nz-form-explain *ngIf="validateForm.get('phoneNumber')?.dirty && validateForm.get('phoneNumber')?.errors">
+              Số điện thoại không được để trống
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="password" nzRequired>Mật khẩu</nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24">
+            <input nz-input [(ngModel)]="dataEdit.password" type="password" id="password" formControlName="password"
+              (ngModelChange)="updateConfirmValidator()" />
+            <nz-form-explain *ngIf="validateForm.get('password')?.dirty && validateForm.get('password')?.errors">mật
+              khẩu không được để trống!</nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+
+
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="checkPassword" nzRequired>Nhập lại mật khẩu</nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24">
+            <input [(ngModel)]="dataEdit.password" nz-input type="password" formControlName="checkPassword"
+              id="checkPassword" />
+            <nz-form-explain
+              *ngIf="validateForm.get('checkPassword')?.dirty && validateForm.get('checkPassword')?.errors">
+              <ng-container *ngIf="validateForm.get('checkPassword')?.hasError('required')">
+                Hãy nhập lại mật khẩu!
+              </ng-container>
+              <ng-container *ngIf="validateForm.get('checkPassword')?.hasError('confirm')">
+                Hai mật khẩu không khớp!
+              </ng-container>
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzSpan="12">
+
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>Ngày Sinh</nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24">
+            <!-- <nz-date-picker defaultValue={moment(dataEdit.dob, dateFormat)} format={dateFormat } formControlName="dob"
+              zn-width="100%"></nz-date-picker> -->
+            <input [(ngModel)]="dataEdit.dob" nz-input formControlName="dob" id="dob" placeholder="1995/12/02" />
+
+            <nz-form-explain *ngIf="validateForm.get('dob')?.dirty && validateForm.get('dob')?.errors">
+              Ngày sinh không được để trống
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="gender" nzRequired>Giới tính</nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24">
+            <nz-select id="gender" formControlName="gender" [(ngModel)]="dataEdit.gender"
+             >
+              <nz-option nzValue="male" nzLabel="male"></nz-option>
+              <nz-option nzValue="female" nzLabel="female"></nz-option>
+            </nz-select>
+
+            <nz-form-explain *ngIf="validateForm.get('gender')?.dirty && validateForm.get('gender')?.errors">
+              Hãy chọn một giới tính !
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="address">Địa Chỉ</nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24">
+            <input [(ngModel)]="dataEdit.address" nz-input formControlName="address" id="address" />
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="note">Ghi chú</nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24">
+            <textarea [(ngModel)]="dataEdit.note" formControlName="note" nz-input rows="2"></textarea>
+
+          </nz-form-control>
+        </nz-form-item>
+
+        <!-- <div class="clearfix">
+          <nz-upload nzAction="https://jsonplaceholder.typicode.com/posts/" nzListType="picture-card"
+            [(nzFileList)]="fileList" [nzShowButton]="fileList.length < 3" [nzShowUploadList]="showUploadList">
+            <i nz-icon nzType="plus"></i>
+            <div class="ant-upload-text">Upload</div>
+          </nz-upload>
+        </div> -->
+      </div>
+    </div>
+
+  </form>
+
+</nz-modal>

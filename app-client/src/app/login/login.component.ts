@@ -14,12 +14,12 @@ export class LoginComponent implements OnInit {
   constructor(private fb: FormBuilder,private router: Router, private loginSV: LoginService, private message: NzMessageService) { }
 
   ngOnInit() {
-    if (localStorage.getItem('user')) {
+    if (localStorage.getItem('x-key-x-u-log')) {
       this.router.navigate(['/manager']);
     }
 
     this.validateForm = this.fb.group({
-      user: [null, [Validators.required]],
+      phone: [null, [Validators.required]],
       password: [null, [Validators.required]],
       remember:[null]
     });
@@ -31,14 +31,12 @@ export class LoginComponent implements OnInit {
       if (r && r.status == 1) {
         let user = {
           api: r.data.api,
-          name: r.data.TenNhanVien,
-          avatar: r.data.ImageUrl,
-          department: r.data.IDBoPhan,
-          id: r.data.ID,
-          expTime: r.data.expTime
+          name: r.data.name,
+          id: r.data.id,
+          type: r.data.type
         };
 
-        localStorage.setItem('user', JSON.stringify(user));
+        localStorage.setItem('x-key-x-u-log', JSON.stringify(user));
         this.router.navigate(['/manager']);
       } else {
         this.message.create('error', r.message);
