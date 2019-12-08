@@ -17,7 +17,7 @@ const routes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full' },
     { path: 'login', component: LoginComponent },
     {
-        path: 'manager', component: MainComponent,  children: [
+        path: 'manager', component: MainComponent,canActivate: [CanActivateService], data: {role: 'Admin'},  children: [
             { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
             { path: 'installment', component: InstallmentComponent, children: [
                 {path: '', redirectTo: 'itm-list', pathMatch: 'full'},

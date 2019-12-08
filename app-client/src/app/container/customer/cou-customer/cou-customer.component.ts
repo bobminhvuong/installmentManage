@@ -19,12 +19,11 @@ export class CouCustomerComponent implements OnInit {
 
   ngOnInit() {
     this.validateForm = this.fb.group({
-      fullName: [null, [Validators.required]],
-      email: [null, [Validators.email, Validators.required]],
-      phoneNumber: [null, [Validators.required]],
+      name: [null, [Validators.required]],
+      phone: [null, Validators.required],
+      identity_number: [null],
+      identity_image: [null],
       address: [null],
-      dob: [null, [Validators.required]],
-      gender: [null, [Validators.required]]
     });
   }
 
@@ -42,15 +41,9 @@ export class CouCustomerComponent implements OnInit {
     if (this.validateForm.status === 'VALID') {
       let client = this.validateForm.value;
       client = { ...this.dataEdit, ...client };
-      if (this.dataEdit.id) {
-        this.customerSV.updateCustomer(client).subscribe(r => {
-          this.handleCancel();
-        });
-      } else {
-        this.customerSV.createCustomer(client).subscribe(r => {
-          this.handleCancel();
-        });
-      }
+      this.customerSV.updateOrCreateCustomer(client).subscribe(r => {
+        this.handleCancel();
+      });
     }
   }
 

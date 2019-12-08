@@ -1,4 +1,4 @@
-import { CanActivate, Router } from '@angular/router';
+import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -7,8 +7,9 @@ import { Injectable } from '@angular/core';
 export class CanActivateService implements CanActivate {
 
   constructor(private router: Router) { }
-  canActivate() {
-    const tokenUser = localStorage.getItem('user');
+  canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    console.log(next.data);
+    const tokenUser = localStorage.getItem('x-key-x-u-log');
     if (!tokenUser) {
       this.router.navigate(['']);
     }

@@ -32,15 +32,11 @@ export class CouUserComponent implements OnInit {
 
   ngOnInit() {
     this.validateForm = this.fb.group({
-      fullName: [null, [Validators.required]],
-      email: [null, [Validators.email, Validators.required]],
+      name: [null, [Validators.required]],
       password: [null, [Validators.required]],
-      checkPassword: [null, [Validators.required, this.confirmationValidator]],
-      phoneNumber: [null, [Validators.required]],
-      address: [null],
-      dob: [null, [Validators.required]],
-      note: [null],
-      gender: [null, [Validators.required]]
+      phone: [null, [Validators.required]],
+      type: [null, [Validators.required]],
+      active: [this.dataEdit ? this.dataEdit.active : true]
     });
   }
 
@@ -60,15 +56,9 @@ export class CouUserComponent implements OnInit {
       user = { ...this.dataEdit, ...user };
 
       delete user.checkPassword;
-      if (this.dataEdit.id) {
-        this.userSV.updateUser(user).subscribe(r => {
+        this.userSV.createOrUpdateUser(user).subscribe(r => {
           this.handleCancel();
         });
-      } else {
-        this.userSV.createUser(user).subscribe(r => {
-          this.handleCancel();
-        });
-      }
     }
   }
 

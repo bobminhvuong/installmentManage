@@ -24,8 +24,13 @@ export class MainService {
   }
 
   getCurrentUser() {
-    let user = localStorage.getItem('user');
+    let user = localStorage.getItem('x-key-x-u-log');
     return  user ? JSON.parse(user): {};
+  }
+
+  getApikey(){
+    let user = JSON.parse(localStorage.getItem('x-key-x-u-log'));
+    return user.api ? user.api : '';
   }
 
   getHttpOptionsNotToken() {

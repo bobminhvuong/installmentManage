@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { map, catchError, tap } from 'rxjs/operators';
+import { environment } from './../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -12,9 +13,14 @@ export class CustomerService {
   constructor(private http: HttpClient, private mainSV: MainService) { }
 
   getAll(filter): Observable<any> {
-    filter = JSON.stringify(filter);
-    const url = this.mainSV.host();
-    return this.http.get(url + '/user?filter=' + filter).pipe(
+    // filter = JSON.stringify(filter);
+    let data = {
+      api: this.mainSV.getApikey(),
+      find:'',
+      offset: 0,
+      limit: 50
+    }
+    return this.http.post(environment.APIHOST + '/api/customer/get', data,this.mainSV.getHttpOptionsNotToken()).pipe(
       catchError(this.mainSV.handleError)
     );
   }
@@ -33,9 +39,9 @@ export class CustomerService {
     );
   }
 
-  updateCustomer(user): Observable<any> {
-    const url = this.mainSV.host();
-    return this.http.put(url + '/user/' + user.id, user, this.mainSV.getHttpOptions()).pipe(
+  updateOrCreateCustomer(cus): Observable<any> {
+    cus.api = this.mainSV.getApikey();
+    return this.http.post(environment.APIHOST + '/api/customer/add',cus, this.mainSV.getHttpOptionsNotToken()).pipe(
       catchError(this.mainSV.handleError)
     );
   }

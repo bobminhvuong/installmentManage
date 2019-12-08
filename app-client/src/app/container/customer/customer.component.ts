@@ -105,8 +105,12 @@ export class CustomerComponent implements OnInit {
   }
 
   getAll(filter) {
+    console.log(filter);
+    
     this.customerSV.getAll(filter).subscribe(res => {
-      this.listOfData = res.rows;
+      console.log(res);
+      
+      this.listOfData = res.data;
       this.loading = false;
       this.total = res.count;
     });

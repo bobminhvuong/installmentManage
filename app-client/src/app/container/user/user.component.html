@@ -11,108 +11,71 @@
 
   </div>
 </div>
-<nz-table nzBordered #ajaxTable nzShowSizeChanger [nzFrontPagination]="false" [nzData]="listOfData" [nzLoading]="loading"
-  [nzTotal]="total" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" (nzPageIndexChange)="searchData()"
-  (nzPageSizeChange)="searchData(true)">
-  <thead (nzSortChange)="sort($event)" nzSingleSort>
-    <tr>
-      <th nzCustomFilter nzShowSort nzSortKey="fullName" width="15%">
-        Họ tên
-        <nz-dropdown nzTrigger="click" nzPlacement="bottomRight" [nzClickHide]="false" nzTableFilter #dropdown>
-          <i nz-icon nzType="search" class="ant-table-filter-icon" [class.ant-table-filter-open]="dropdown.nzVisible"
-            nz-dropdown></i>
-          <div class="search-box">
-            <input type="text" nz-input placeholder="Search name" [(ngModel)]="searchValue" />
-            <button nz-button nzSize="small" nzType="primary" (click)="search({key:'fullName',value: searchValue})"
-              class="search-button">
-              Search
-            </button>
-            <button nz-button nzSize="small" (click)="reset()">Reset</button>
-          </div>
-        </nz-dropdown>
+<div class="box box-success">
+  <div class="box-body">
 
-      <th width="10%" nzShowFilter [nzFilters]="filterGender" (nzFilterChange)="updateFilter($event,{'key':'dob'})">
-        Giới tính
-      </th>
-      <th width="15%" nzShowFilter [nzFilters]="filterGender" (nzFilterChange)="updateFilter($event,{'key':'gender'})">
-          Ngày sinh
-      </th>
-      <th width="15%" nzShowSort nzSortKey="email">
-        <span>Email</span>
+    <nz-table nzBordered #ajaxTable nzShowSizeChanger [nzFrontPagination]="false" [nzData]="listOfData"
+      [nzLoading]="loading" [nzTotal]="total" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize"
+      (nzPageIndexChange)="searchData()" (nzPageSizeChange)="searchData(true)">
+      <thead (nzSortChange)="sort($event)" nzSingleSort>
+        <tr>
+          <th nzCustomFilter nzShowSort nzSortKey="fullName" width="15%">
+            Họ tên
+            <nz-dropdown nzTrigger="click" nzPlacement="bottomRight" [nzClickHide]="false" nzTableFilter #dropdown>
+              <i nz-icon nzType="search" class="ant-table-filter-icon"
+                [class.ant-table-filter-open]="dropdown.nzVisible" nz-dropdown></i>
+              <div class="search-box">
+                <input type="text" nz-input placeholder="Tìm kiếm" [(ngModel)]="searchValue" />
+                <button nz-button nzSize="small" nzType="primary" (click)="search({key:'name',value: searchValue})"
+                  class="search-button">
+                  Tìm kiếm
+                </button>
+                <button nz-button nzSize="small" (click)="reset()">Reset</button>
+              </div>
+            </nz-dropdown>
+          </th>
 
-        <nz-dropdown nzTrigger="click" nzPlacement="bottomRight" [nzClickHide]="false" nzTableFilter #dropdown>
-          <i nz-icon nzType="search" class="ant-table-filter-icon" [class.ant-table-filter-open]="dropdown.nzVisible"
-            nz-dropdown></i>
-          <div class="search-box">
-            <input type="text" nz-input placeholder="Search name" [(ngModel)]="searchValue" />
-            <button nz-button nzSize="small" nzType="primary" (click)="search({key:'email',value: searchValue})"
-              class="search-button">
-              Search
-            </button>
-            <button nz-button nzSize="small" (click)="reset()">Reset</button>
-          </div>
-        </nz-dropdown>
-      </th>
+          <th width="10%" class="text-center">
+            Điện thoại
+          </th>
+          <th width="15%" class="text-center">
+            Quyền
+          </th>
+          <th width="15%" class="text-center">
+            Trạng thái
+          </th>
+          <th width="15%" class="text-center"><span>Action</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of ajaxTable.data">
+          <td>{{ data.name }}</td>
+          <td class="text-center">{{ data.phone }}</td>
+          <td class="text-center">{{ data.type }}</td>
+          <td class="text-center">
+            <span *ngIf="data.active" class="badge badge-success">
+              Kích hoạt
+            </span>
+            <span *ngIf="!data.active" class="badge badge-danger">
+              Không kích hoạt
+            </span>
+          </td>
+          <td class="cttd text-center">
+            <div zn-row>
+              <button nz-tooltip nzTitle="Sửa người dùng" (click)="handleCorU(data)" nz-button nzType="primary"
+                style="margin-right: 10px">
+                <i nz-icon nzType="edit" nzTheme="outline"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+      <div zn-row style="margin-top: 10px">
+        <strong *ngIf="total!=0">Tổng số: {{total}}</strong>
+      </div>
+    </nz-table>
 
-      <th width="15%" nzShowSort nzSortKey="phoneNumber">
-        <span>Điện thoại</span>
-        <nz-dropdown nzTrigger="click" nzPlacement="bottomRight" [nzClickHide]="false" nzTableFilter #dropdown>
-          <i nz-icon nzType="search" class="ant-table-filter-icon" [class.ant-table-filter-open]="dropdown.nzVisible"
-            nz-dropdown></i>
-          <div class="search-box">
-            <input type="text" nz-input placeholder="Search name" [(ngModel)]="searchValue" />
-            <button nz-button nzSize="small" nzType="primary" (click)="search({key:'phoneNumber',value: searchValue})"
-              class="search-button">
-              Search
-            </button>
-            <button nz-button nzSize="small" (click)="reset()">Reset</button>
-          </div>
-        </nz-dropdown>
-      </th>
-
-      <th width="20%" nzShowSort nzSortKey="address">
-        <span>Địa chỉ</span>
-        <nz-dropdown nzTrigger="click" nzPlacement="bottomRight" [nzClickHide]="false" nzTableFilter #dropdown>
-          <i nz-icon nzType="search" class="ant-table-filter-icon" [class.ant-table-filter-open]="dropdown.nzVisible"
-            nz-dropdown></i>
-          <div class="search-box">
-            <input type="text" nz-input placeholder="Search name" [(ngModel)]="searchValue" />
-            <button nz-button nzSize="small" nzType="primary" (click)="search({key:'address',value: searchValue})"
-              class="search-button">
-              Search
-            </button>
-            <button nz-button nzSize="small" (click)="reset()">Reset</button>
-          </div>
-        </nz-dropdown>
-      </th>
-
-      <th width="15%"><span>Action</span></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let data of ajaxTable.data">
-      <td>{{ data.fullName }}</td>
-      <td>{{ data.gender }}</td>
-      <td>{{ data.dob }}</td>
-      <td>{{ data.email }}</td>
-      <td>{{ data.phoneNumber }}</td>
-      <td>{{ data.address }}</td>
-      <td class="cttd">
-        <div zn-row>
-          <button nz-tooltip nzTitle="Sửa người dùng" (click)="handleCorU(data)" nz-button nzType="primary" style="margin-right: 10px">
-              <i nz-icon nzType="edit" nzTheme="outline"></i>
-          </button>
-          <button nz-tooltip nzTitle="Xóa người dùng" (click)="delete(data)" nz-button nzType="danger"><i nz-icon nzType="delete"
-              nzTheme="outline"></i></button>
-        </div>
-      </td>
-    </tr>
-  </tbody>
-  <div zn-row style="margin-top: 10px">
-    <strong *ngIf="total!=0">Tổng số: {{total}}</strong>
+    <app-cou-user *ngIf="isVisible" [dataEdit]="dataEdit" [isVisible]="isVisible" (closeModal)="closeModal($event)">
+    </app-cou-user>
   </div>
-</nz-table>
-
-<app-cou-user *ngIf="isVisible" [dataEdit]="dataEdit" [isVisible]="isVisible"
-  (closeModal)="closeModal($event)">
-</app-cou-user>
+</div>

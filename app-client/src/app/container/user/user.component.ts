@@ -26,6 +26,7 @@ export class UserComponent implements OnInit {
   constructor( private modalService: NzModalService, private userSV: UserService) { }
 
   ngOnInit() {
+    this.searchData();
   }
 
   searchData(reset: boolean = false): void {
@@ -108,7 +109,7 @@ export class UserComponent implements OnInit {
 
   getAll(filter) {
     this.userSV.getAll(filter).subscribe(res => {
-      this.listOfData = res.rows;
+      this.listOfData = res.data;
       this.loading = false;
       this.total = res.count;
     });
