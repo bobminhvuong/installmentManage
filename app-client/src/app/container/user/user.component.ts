@@ -108,7 +108,7 @@ export class UserComponent implements OnInit {
   }
 
   getAll(filter) {
-    this.userSV.getAll(filter).subscribe(res => {
+    this.userSV.getAll(0).subscribe(res => {
       this.listOfData = res.data;
       this.loading = false;
       this.total = res.count;

@@ -14,9 +14,9 @@ export class UserService {
 
   constructor(private http: HttpClient, private mainSV: MainService) { }
 
-  getAll(filter): Observable<any> {
-    filter = JSON.stringify(filter);
-    return this.http.get(environment.APIHOST + '/api/staff/get?api='+this.mainSV.getApikey()+'&&' + filter).pipe(
+  getAll(active): Observable<any> {
+    active = active ? active : 0;
+    return this.http.get(environment.APIHOST + '/api/staff/get?api=' + this.mainSV.getApikey() + '&&active=' + active).pipe(
       catchError(this.mainSV.handleError)
     );
   }
@@ -29,8 +29,8 @@ export class UserService {
   }
 
   createOrUpdateUser(user): Observable<any> {
-    user.active = user.active ? 1: 0;
-    return this.http.post(environment.APIHOST + '/api/staff/register', user,this.mainSV.getHttpOptionsNotToken()).pipe(
+    user.active = user.active ? 1 : 0;
+    return this.http.post(environment.APIHOST + '/api/staff/register', user, this.mainSV.getHttpOptionsNotToken()).pipe(
       catchError(this.mainSV.handleError)
     );
   }

@@ -1,3 +1,5 @@
+import { InvoiceService } from './service/invoice/invoice.service';
+import { AssetService } from './service/asset/asset.service';
 import { CustomerService } from './service/customer/customer.service';
 import { UserService } from './service/user/user.service';
 import { LoginService } from './service/auth/login.service';
@@ -30,6 +32,8 @@ import { PaymoneyComponent } from './container/installment/paymoney/paymoney.com
 import { ItmListComponent } from './container/installment/itm-list/itm-list.component';
 import { CouUserComponent } from './container/user/cou-user/cou-user.component';
 import { CouCustomerComponent } from './container/customer/cou-customer/cou-customer.component';
+import { ProfileComponent } from './container/profile/profile.component';
+import { AssetComponent } from './container/asset/asset.component';
 
 registerLocaleData(en);
 
@@ -48,7 +52,9 @@ registerLocaleData(en);
     PaymoneyComponent,
     ItmListComponent,
     CouUserComponent,
-    CouCustomerComponent
+    CouCustomerComponent,
+    ProfileComponent,
+    AssetComponent
   ],
   imports: [
     BrowserModule,
@@ -68,7 +74,9 @@ registerLocaleData(en);
     MainService,
     UserService,
     FileUploadService,
-    CustomerService
+    CustomerService,
+    AssetService,
+    InvoiceService
   ],
   bootstrap: [AppComponent]
 })

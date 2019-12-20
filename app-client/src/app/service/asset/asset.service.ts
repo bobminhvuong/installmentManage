@@ -1,22 +1,26 @@
-import { FormGroup } from '@angular/forms';
+import { catchError } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { MainService } from './../main.service';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
-import { Observable, of, throwError } from 'rxjs';
-import { map, catchError, tap } from 'rxjs/operators';
-import { environment } from './../../../environments/environment';
-import * as moment from 'moment';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CustomerService {
+export class AssetService {
+
   constructor(private http: HttpClient, private mainSV: MainService) { }
 
   getAll(filter): Observable<any> {
     // filter = JSON.stringify(filter);
-    filter.api =this.mainSV.getApikey();
-    return this.http.post(environment.APIHOST + '/api/customer/get', filter,this.mainSV.getHttpOptionsNotToken()).pipe(
+    let data = {
+      api: this.mainSV.getApikey(),
+      find:'',
+      offset: 0,
+      limit: 50
+    }
+    return this.http.post(environment.APIHOST + '/api/invoice/asset/get', data,this.mainSV.getHttpOptionsNotToken()).pipe(
       catchError(this.mainSV.handleError)
     );
   }
@@ -27,4 +31,5 @@ export class CustomerService {
       catchError(this.mainSV.handleError)
     );
   }
+
 }

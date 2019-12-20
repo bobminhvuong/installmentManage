@@ -1,3 +1,5 @@
+import { AssetComponent } from './../container/asset/asset.component';
+import { ProfileComponent } from './../container/profile/profile.component';
 import { ItmListComponent } from './../container/installment/itm-list/itm-list.component';
 import { PaymoneyComponent } from './../container/installment/paymoney/paymoney.component';
 import { AddContractComponent } from './../container/installment/add-contract/add-contract.component';
@@ -28,6 +30,8 @@ const routes: Routes = [
             { path: 'dashboard', component: DashboardComponent },
             { path: 'customer', component: CustomerComponent },
             { path: 'user', component: UserComponent },
+            { path: 'profile', component: ProfileComponent },
+            { path: 'assets', component: AssetComponent },
         ]
     },
 ];

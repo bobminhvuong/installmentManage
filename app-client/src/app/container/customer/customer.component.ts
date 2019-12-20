@@ -1,6 +1,8 @@
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { CustomerService } from './../../service/customer/customer.service';
 import { Component, OnInit } from '@angular/core';
 import { NzModalService } from 'ng-zorro-antd';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-customer',
@@ -14,102 +16,28 @@ export class CustomerComponent implements OnInit {
   total = 1;
   listOfData = [];
   loading = true;
-  order: any[] | null = null;
-  searchVL: any | null = null;
-  filterGender = [{ text: 'male', value: 'male' }, { text: 'female', value: 'female' }];
-  searchDataFilter: any | null = null;
-  deleteParam: any | null = null;
   dataEdit: any | null = null;
+  filterForm: FormGroup;
 
-  constructor(private modalService: NzModalService, private customerSV: CustomerService) { }
+  constructor(private modalService: NzModalService, private customerSV: CustomerService, private fb: FormBuilder) { }
 
   ngOnInit() {
-    this.searchData();
-  }
-  searchData(reset: boolean = false): void {
-    if (reset) {
-      this.pageIndex = 1;
-    }
-    this.loading = true;
-    let filter = {
-      limit: this.pageSize,
-      offset: (this.pageIndex - 1) * this.pageSize,
-      where: {},
-      order: [['createdAt', 'DESC']]
-    };
-
-    if (this.order && !reset) {
-      let ft = {
-        order: []
-      };
-      ft.order.push(this.order);
-      filter.order = ft.order;
-    }
-
-    if (this.searchVL && this.searchVL.value !== '' && !reset) {
-      filter.where[this.searchVL.key] = { like: `.$.${this.searchVL.value}.$.` };
-    }
-
-    if (this.searchDataFilter && !reset) {
-      filter.where[this.searchDataFilter.key] = this.searchDataFilter.value;
-    }
-
-    this.getAll(filter);
-  }
-
-  updateFilter(value: string[], data): void {
-
-    if (value.length == 0) {
-      this.searchData(true);
-    } else {
-      let tmp = {
-        key: '',
-        value: ''
-      };
-      tmp.key = data.key;
-      tmp.value = value[0];
-      this.searchDataFilter = tmp;
-      this.searchData();
-    }
-  }
-
-  search(value) {
-    this.searchVL = value;
-    this.pageIndex = 1;
-    this.searchData();
-  }
-
-  reset() {
-    this.searchData(true);
-  }
-
-  sort(sort: { key: string; value: string }): void {
-    let sortValue = sort.value === 'descend' ? 'DESC' : 'ASC';
-    this.order = [sort.key, sortValue];
-    this.searchData();
-  }
-
-  delete(value): void {
-    this.deleteParam = value;
-    this.modalService.confirm({
-      nzTitle: 'Delete',
-      nzContent: 'Bạn có chắc chắn xóa mục này?',
-      nzOkText: 'OK',
-      nzCancelText: 'Cancel',
-      nzOnOk: () => {
-        this.customerSV.deleteCustomer(this.deleteParam.id).subscribe(r => {
-          this.searchData();
-        });
-      }
+    this.filterForm = this.fb.group({
+      find: [''],
     });
+    this.getAll(this.filterForm.value);
   }
+
+
 
   getAll(filter) {
-    console.log(filter);
+    let val = {
+      find: filter.find,
+      offset: 0,
+      limit: 50
+    }
     
-    this.customerSV.getAll(filter).subscribe(res => {
-      console.log(res);
-      
+    this.customerSV.getAll(val).subscribe(res => {
       this.listOfData = res.data;
       this.loading = false;
       this.total = res.count;
@@ -123,7 +51,10 @@ export class CustomerComponent implements OnInit {
 
   closeModal(e) {
     this.isVisible = e;
-    this.searchData(true);
+    this.getAll(this.filterForm.value);
   }
 
+  filterData(){
+    this.getAll(this.filterForm.value);
+  }
 }

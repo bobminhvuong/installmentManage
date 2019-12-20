@@ -13,7 +13,7 @@ export class MainComponent implements OnInit {
 
   public user: any;
   public menus: any;
-  public currentUrl :string;
+  public currentUrl: string;
   isCollapsed = false;
   triggerTemplate: TemplateRef<void> | null = null;
   // @ViewChild('trigger') customTrigger: TemplateRef<void>;
@@ -21,8 +21,10 @@ export class MainComponent implements OnInit {
   // changeTrigger(): void {
   //   this.triggerTemplate = this.customTrigger;
   // }
-  constructor(private router: Router, private globalData: GlobalDataService, private mainSV: MainService) { }
   private currentUser: any;
+
+  constructor(private router: Router, private globalData: GlobalDataService, private mainSV: MainService) { 
+  }
 
   ngOnInit() {
     // const token = localStorage.getItem('token');
@@ -32,37 +34,68 @@ export class MainComponent implements OnInit {
     this.user = this.mainSV.getCurrentUser();
     this.menus = this.getMenu();
     this.currentUrl = this.router.url;
-    
+
   }
 
-  getMenu(){
+  getMenu() {
     return [
       {
         title: 'Trang chủ',
         url: '/manager/dashboard',
-        role:['admin'],
+        role: ['admin'],
         icon: 'home'
       },
       {
         title: 'Trả góp',
         url: '',
-        role:['admin'],
+        role: ['admin'],
         icon: 'pay-circle',
-        subMenu:[
+        subMenu: [
           {
             title: 'Tạo hợp đồng',
             url: '/manager/installment/addcontract',
-            role:['admin'],
+            role: ['admin'],
           },
           {
             title: 'Danh sách hợp đồng',
             url: '/manager/installment',
-            role:['admin'],
+            role: ['admin'],
           },
           {
             title: 'Đóng tiền lãi',
             url: '/manager/installment/paymoney',
-            role:['admin'],
+            role: ['admin'],
+          }
+        ]
+      },
+      {
+        title: 'Bất động sản',
+        url: '',
+        role: ['admin'],
+        icon: 'home',
+        subMenu: [
+          {
+            title: 'Mua Bất động sản',
+            url: '/manager/bds/buybds',
+            role: ['admin'],
+          },
+          {
+            title: 'Bán Bất động sản',
+            url: '/manager/bds/sellbds',
+            role: ['admin'],
+          }
+        ]
+      },
+      {
+        title: 'Tài sản',
+        url: '',
+        icon: 'hdd',
+        role: ['admin'],
+        subMenu: [
+          {
+            title: 'Danh sách',
+            url: '/manager/assets',
+            role: ['admin'],
           }
         ]
       },
@@ -70,12 +103,12 @@ export class MainComponent implements OnInit {
         title: 'Nhân viên',
         url: '',
         icon: 'user',
-        role:['admin'],
-        subMenu:[
+        role: ['admin'],
+        subMenu: [
           {
             title: 'Danh sách',
             url: '/manager/user',
-            role:['admin'],
+            role: ['admin'],
           }
         ]
       },
@@ -83,25 +116,25 @@ export class MainComponent implements OnInit {
         title: 'Khách hàng',
         url: '',
         icon: 'usergroup-add',
-        role:['admin'],
-        subMenu:[
+        role: ['admin'],
+        subMenu: [
           {
             title: 'Danh sách',
             url: '/manager/customer',
-            role:['admin'],
+            role: ['admin'],
           }
         ]
       }
     ]
   }
 
-  getSelected(url){
+  getSelected(url) {
     return url == this.currentUrl ? true : false;
   }
 
-  getOpenSubMenu(item){
+  getOpenSubMenu(item) {
     // console.log(item);
-    let hasItem = item.subMenu.find(e=>{return e.url ==this.currentUrl})
+    let hasItem = item.subMenu.find(e => { return e.url == this.currentUrl })
     return hasItem ? true : false;
   }
 
