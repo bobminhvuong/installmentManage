@@ -1,15 +1,15 @@
-import { FormGroup, FormBuilder } from '@angular/forms';
-import { CustomerService } from './../../service/customer/customer.service';
-import { Component, OnInit } from '@angular/core';
+import { BdsService } from './../../service/bds/bds.service';
 import { NzModalService } from 'ng-zorro-antd';
-import * as moment from 'moment';
+import { FormGroup, FormBuilder } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-customer',
-  templateUrl: './customer.component.html',
-  styleUrls: ['./customer.component.scss']
+  selector: 'app-bds',
+  templateUrl: './bds.component.html',
+  styleUrls: ['./bds.component.scss']
 })
-export class CustomerComponent implements OnInit {
+export class BdsComponent implements OnInit {
+
   isVisible = false;
   pageIndex = 1;
   pageSize = 10;
@@ -19,16 +19,15 @@ export class CustomerComponent implements OnInit {
   dataEdit: any | null = null;
   filterForm: FormGroup;
 
-  constructor(private modalService: NzModalService, private fb: FormBuilder, private customerSV: CustomerService) { }
+  constructor(private modalService: NzModalService, private fb: FormBuilder, private bdsSV: BdsService) { }
 
   ngOnInit() {
     this.filterForm = this.fb.group({
       find: [''],
     });
     this.getAll(this.filterForm.value);
+
   }
-
-
 
   getAll(filter) {
     let val = {
@@ -37,7 +36,7 @@ export class CustomerComponent implements OnInit {
       limit: 50
     }
 
-    this.customerSV.getAll(val).subscribe(res => {
+    this.bdsSV.getAll(val).subscribe(res => {
       this.listOfData = res.data;
       this.loading = false;
       this.total = res.count;
@@ -57,4 +56,5 @@ export class CustomerComponent implements OnInit {
   filterData() {
     this.getAll(this.filterForm.value);
   }
+
 }

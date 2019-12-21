@@ -1,3 +1,4 @@
+import { BdsService } from './service/bds/bds.service';
 import { InvoiceService } from './service/invoice/invoice.service';
 import { AssetService } from './service/asset/asset.service';
 import { CustomerService } from './service/customer/customer.service';
@@ -34,6 +35,9 @@ import { CouUserComponent } from './container/user/cou-user/cou-user.component';
 import { CouCustomerComponent } from './container/customer/cou-customer/cou-customer.component';
 import { ProfileComponent } from './container/profile/profile.component';
 import { AssetComponent } from './container/asset/asset.component';
+import { BdsComponent } from './container/bds/bds.component';
+import { AddBdsComponent } from './container/bds/add-bds/add-bds.component';
+import { SellBdsComponent } from './container/bds/sell-bds/sell-bds.component';
 
 registerLocaleData(en);
 
@@ -54,7 +58,10 @@ registerLocaleData(en);
     CouUserComponent,
     CouCustomerComponent,
     ProfileComponent,
-    AssetComponent
+    AssetComponent,
+    BdsComponent,
+    AddBdsComponent,
+    SellBdsComponent
   ],
   imports: [
     BrowserModule,
@@ -76,7 +83,8 @@ registerLocaleData(en);
     FileUploadService,
     CustomerService,
     AssetService,
-    InvoiceService
+    InvoiceService,
+    BdsService
   ],
   bootstrap: [AppComponent]
 })

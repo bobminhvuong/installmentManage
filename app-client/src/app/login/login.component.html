@@ -1,4 +1,4 @@
-<div class="login-container lightmode">
+<div class="login-container lightmode" [ngClass]="{ 'opacity': isLoading }" >
   <div class="login-box animated fadeInDown">
     <!-- <div class="login-logo"></div> -->
     <div class="login-body">
@@ -21,9 +21,9 @@
         </nz-form-item>
         <nz-form-item>
           <nz-form-control>
-              <label nz-checkbox formControlName="remember">
-                  <span>Remember me</span>
-                </label>
+            <label nz-checkbox formControlName="remember">
+              <span>Remember me</span>
+            </label>
           </nz-form-control>
         </nz-form-item>
         <nz-form-item>
@@ -32,6 +32,28 @@
           </nz-form-control>
         </nz-form-item>
       </form>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="isLoading"  style="z-index: 1000;position: fixed; width: 100%;height: 100%;opacity: 1;" class="text-center">
+  <div style="margin-top: 200px;height: 100%;">
+    <div class="loader">
+      <svg viewBox="0 0 80 80">
+        <circle id="test" cx="40" cy="40" r="32"></circle>
+      </svg>
+    </div>
+
+    <div class="loader triangle">
+      <svg viewBox="0 0 86 80">
+        <polygon points="43 8 79 72 7 72"></polygon>
+      </svg>
+    </div>
+
+    <div class="loader">
+      <svg viewBox="0 0 80 80">
+        <rect x="8" y="8" width="64" height="64"></rect>
+      </svg>
     </div>
   </div>
 </div>

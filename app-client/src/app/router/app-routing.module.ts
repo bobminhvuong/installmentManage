@@ -1,3 +1,4 @@
+import { BdsComponent } from './../container/bds/bds.component';
 import { AssetComponent } from './../container/asset/asset.component';
 import { ProfileComponent } from './../container/profile/profile.component';
 import { ItmListComponent } from './../container/installment/itm-list/itm-list.component';
@@ -32,6 +33,7 @@ const routes: Routes = [
             { path: 'user', component: UserComponent },
             { path: 'profile', component: ProfileComponent },
             { path: 'assets', component: AssetComponent },
+            { path: 'bds', component: BdsComponent },
         ]
     },
 ];

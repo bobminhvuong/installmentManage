@@ -75,13 +75,8 @@ export class MainComponent implements OnInit {
         icon: 'home',
         subMenu: [
           {
-            title: 'Mua Bất động sản',
-            url: '/manager/bds/buybds',
-            role: ['admin'],
-          },
-          {
-            title: 'Bán Bất động sản',
-            url: '/manager/bds/sellbds',
+            title: 'Nhà đất',
+            url: '/manager/bds',
             role: ['admin'],
           }
         ]

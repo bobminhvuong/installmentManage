@@ -10,7 +10,7 @@ import { FormBuilder, FormGroup,Validators  } from '@angular/forms';
 })
 export class LoginComponent implements OnInit {
   validateForm: FormGroup;
-  
+  isLoading = false;
   constructor(private fb: FormBuilder,private router: Router, private loginSV: LoginService, private message: NzMessageService) { }
 
   ngOnInit() {
@@ -27,6 +27,7 @@ export class LoginComponent implements OnInit {
   }
 
   login(data) {
+    this.isLoading = true;
     this.loginSV.login(data).subscribe(r => {
       if (r && r.status == 1) {
         let user = {
@@ -41,6 +42,7 @@ export class LoginComponent implements OnInit {
       } else {
         this.message.create('error', r.message);
       }
+      this.isLoading = false;
     });
   }
 

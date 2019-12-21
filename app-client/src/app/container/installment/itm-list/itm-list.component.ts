@@ -21,9 +21,10 @@ export class ItmListComponent implements OnInit {
   constructor(private invSv: InvoiceService, private fb: FormBuilder) { }
 
   ngOnInit() {
+    let dateNow = new Date();
     this.filterForm = this.fb.group({
       date: [[
-        new Date(moment().subtract(1, 'months')),
+        dateNow.setMonth(dateNow.getMonth() - 1),
         new Date()
       ]],
       find: [''],

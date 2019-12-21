@@ -1,0 +1,86 @@
+<div nz-row class="mgbt20">
+    <div nz-col nzSpan="12">
+      <h3>Bất động sản</h3>
+    </div>
+    <div nz-col nzSpan="12">
+      <div class="float-right">
+        <button (click)="handleCorU()" nz-button nzType="primary" [nzSize]="Large"><i nz-icon nzType="plus"
+            nzTheme="outline"></i>
+          Thêm BDS </button>
+      </div>
+    </div>
+  </div>
+  <div class="box box-success">
+    <div class="box-header">
+      <form nz-form [nzLayout]="'inline'" [formGroup]="filterForm" (ngSubmit)="filterData()">
+        <nz-form-item>
+          <nz-form-control>
+            <nz-input-group nzPrefixIcon="key">
+              <input nz-input type="text" formControlName="find" placeholder="Từ khóa" />
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control>
+            <button nz-button (click)="filterData()" nzType="primary">Hiển thị</button>
+          </nz-form-control>
+        </nz-form-item>
+      </form>
+    </div>
+  
+    <div class="box-body">
+      <nz-table nzBordered #ajaxTable nzShowSizeChanger [nzFrontPagination]="false" [nzData]="listOfData"
+        [nzLoading]="loading" [nzTotal]="total" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize"
+        (nzPageIndexChange)="searchData()" (nzPageSizeChange)="searchData(true)">
+        <thead (nzSortChange)="sort($event)" nzSingleSort>
+          <tr>
+            <th width="4%" class="text-center">STT</th>
+            <th width="15%">
+              Ngày mua
+            <th width="10%">
+              Người bán
+            </th>
+            <th width="15%" class="text-center">
+              Điện thoại
+            </th>
+            <th width="15%" class="text-center">
+              Loại Đất
+            </th>
+            <th width="15%" class="text-center" >
+                Giá mua
+            </th>
+            <th width="15%" >
+                Nguồn vốn
+            </th>
+            <th width="20%" class="text-center"><span>Công cụ</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of ajaxTable.data;let i = index">
+            <td class="text-center">{{ i+ 1}}</td>
+            <td>{{ data.name }}</td>
+            <td>{{ data.phone }}</td>
+            <td class="text-center">{{ data.identity_number }}</td>
+            <td>{{ data.identity_images }}</td>
+            <td>{{ data.address }}</td>
+            <td class="cttd" class="text-center">
+              <div zn-row>
+                <button nz-tooltip nzTitle="Giao dịch và công nợ" [routerLink]="['/manager/clients',data.id]" nz-button
+                  nzType="primary" style="margin-right: 10px">
+                  <i nz-icon nzType="snippets" nzTheme="outline"></i>
+                </button>
+                <button nz-tooltip nzTitle="Sửa khách hàng" (click)="handleCorU(data)" nz-button nzType="primary"
+                  style="margin-right: 10px">
+                  <i nz-icon nzType="edit" nzTheme="outline"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </div>
+  </div>
+  
+<app-add-bds *ngIf="isVisible" [dataEdit]="dataEdit" [isVisible]="isVisible" (closeModal)="closeModal($event)"
+    class="fade in">
+  </app-add-bds>

@@ -320,3 +320,16 @@
     margin-bottom: 0;
   }
 }
+
+
+@media (max-width: 768px){
+  .ant-modal{
+    width: 90% !important;
+  }
+}
+
+@media (max-width: 992px)  and (min-width:769px ){
+  .ant-modal{
+    width: 70% !important;
+  }
+}

@@ -1,0 +1,123 @@
+<nz-modal [(nzVisible)]="isVisible" nzTitle="Khách hàng" nzOkText="Ok" nzCancelText="Cancel" (nzOnOk)="submitForm()"
+  (nzOnCancel)="handleCancel()" nzWidth="60%">
+  <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+    <div nz-row>
+      <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12">
+        <nz-form-item>
+          <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="name">Người bán</nz-form-label>
+          <nz-form-control [nzSm]="12" [nzXs]="24">
+            <input [(ngModel)]="dataEdit.name" nz-input formControlName="name" id="name" />
+            <nz-form-explain *ngIf="validateForm.get('name')?.dirty && validateForm.get('name')?.errors">
+              Người bán không được để trống!
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="phone">Điện Thoại</nz-form-label>
+          <nz-form-control [nzSm]="12" [nzXs]="24">
+            <input nz-input [(ngModel)]="dataEdit.phone" formControlName="phone" id="phone" />
+            <nz-form-explain *ngIf="validateForm.get('phone')?.dirty && validateForm.get('phone')?.errors">
+              Số điện thoại không được để trống
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="phone">Ngày mua</nz-form-label>
+          <nz-form-control [nzSm]="12" [nzXs]="24">
+            <nz-date-picker nzFormat="dd/mm/yyyy" [(ngModel)]="dateNow" (ngModelChange)="onChange($event)">
+            </nz-date-picker>
+            <nz-form-explain *ngIf="validateForm.get('phone')?.dirty && validateForm.get('phone')?.errors">
+              Ngày không được để trống
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+
+
+        <nz-form-item>
+          <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="identity_number">Thông tin BDS</nz-form-label>
+          <nz-form-control [nzSm]="12" [nzXs]="24">
+            <textarea nz-input [(ngModel)]="value" [nzAutosize]="{ minRows: 3, maxRows: 8 }"></textarea>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="identity_image">Thêm hình ảnh</nz-form-label>
+          <nz-form-control [nzSm]="12" [nzXs]="24">
+            <nz-upload nzAction="https://jsonplaceholder.typicode.com/posts/" [nzFileList]="fileList" nzMultiple
+              [nzLimit]="2" [nzFilter]="filters" (nzChange)="handleChange($event)">
+              <button nz-button><i nz-icon nzType="upload"></i><span>Upload</span></button>
+            </nz-upload>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+
+      <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12">
+        <nz-form-item>
+          <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="name">Loại đất</nz-form-label>
+          <nz-form-control [nzSm]="12" [nzXs]="24">
+            <nz-select [(ngModel)]="selectedValue" nzAllowClear nzPlaceHolder="Choose">
+              <nz-option nzValue="1" nzLabel="Đất thổ cư"></nz-option>
+              <nz-option nzValue="2" nzLabel="Đất nông nghiệp"></nz-option>
+              <nz-option nzValue="3" nzLabel="Đất cây trồng lâu năm"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="phone">Sổ đỏ</nz-form-label>
+          <nz-form-control [nzSm]="12" [nzXs]="24">
+            <input nz-input [(ngModel)]="dataEdit.phone" formControlName="phone" id="phone" />
+            <nz-form-explain *ngIf="validateForm.get('phone')?.dirty && validateForm.get('phone')?.errors">
+              Số điện thoại không được để trống
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="phone">Giá mua</nz-form-label>
+          <nz-form-control [nzSm]="12" [nzXs]="24">
+            <input nz-input [(ngModel)]="dataEdit.phone" formControlName="phone" id="phone" />
+            <nz-form-explain *ngIf="validateForm.get('phone')?.dirty && validateForm.get('phone')?.errors">
+              Số điện thoại không được để trống
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="phone">Người góp vốn</nz-form-label>
+          <nz-form-control [nzSm]="10" [nzXs]="20">
+            <input class="passenger-input" nz-input placeholder="placeholder" />
+            <nz-form-explain *ngIf="validateForm.get('phone')?.dirty && validateForm.get('phone')?.errors">
+              Bạn chưa thêm người góp vốn
+            </nz-form-explain>
+          </nz-form-control>
+          <i nz-icon nz-size="" nzType="plus-circle" style="cursor: pointer;
+                  position: relative;
+                  top: 5px;
+                  font-size: 24px;
+                  transition: all 0.3s;
+                  margin-left: 5px;"></i>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label [nzSm]="12" [nzXs]="24" nzFor="phone">Nguyễn minh vương</nz-form-label>
+          <nz-form-control [nzSm]="6" [nzXs]="20">
+            <input class="passenger-input" nz-input placeholder="placeholder" />
+            <nz-form-explain *ngIf="validateForm.get('phone')?.dirty && validateForm.get('phone')?.errors">
+              Bạn chưa thêm người góp vốn
+            </nz-form-explain>
+          </nz-form-control>
+          <i nz-icon nz-size="" nzType="delete" style="cursor: pointer;
+                  position: relative;
+                  top: 5px;
+                  font-size: 24px;
+                  transition: all 0.3s;
+                  margin-left: 5px;"></i>
+        </nz-form-item>
+      </div>
+    </div>
+  </form>
+
+</nz-modal>

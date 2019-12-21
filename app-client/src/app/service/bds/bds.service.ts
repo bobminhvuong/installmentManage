@@ -8,21 +8,23 @@ import { environment } from './../../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class CustomerService {
+export class BdsService {
+
   constructor(private http: HttpClient, private mainSV: MainService) { }
 
   getAll(filter): Observable<any> {
     // filter = JSON.stringify(filter);
     filter.api =this.mainSV.getApikey();
-    return this.http.post(environment.APIHOST + '/api/customer/get', filter,this.mainSV.getHttpOptionsNotToken()).pipe(
+    return this.http.post(environment.APIHOST + '/api/bds/get', filter,this.mainSV.getHttpOptionsNotToken()).pipe(
       catchError(this.mainSV.handleError)
     );
   }
 
-  updateOrCreateCustomer(cus): Observable<any> {
-    cus.api = this.mainSV.getApikey();
-    return this.http.post(environment.APIHOST + '/api/customer/add',cus, this.mainSV.getHttpOptionsNotToken()).pipe(
+  updateOrCreate(bds): Observable<any> {
+    bds.api = this.mainSV.getApikey();
+    return this.http.post(environment.APIHOST + '/api/bds/add',bds, this.mainSV.getHttpOptionsNotToken()).pipe(
       catchError(this.mainSV.handleError)
     );
   }
+
 }
