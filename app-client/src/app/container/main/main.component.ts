@@ -52,18 +52,8 @@ export class MainComponent implements OnInit {
         icon: 'pay-circle',
         subMenu: [
           {
-            title: 'Tạo hợp đồng',
-            url: '/manager/installment/addcontract',
-            role: ['admin'],
-          },
-          {
             title: 'Danh sách hợp đồng',
             url: '/manager/installment',
-            role: ['admin'],
-          },
-          {
-            title: 'Đóng tiền lãi',
-            url: '/manager/installment/paymoney',
             role: ['admin'],
           }
         ]

@@ -1,0 +1,9 @@
+.mg-top-5{
+    margin-top: 5px;
+}
+
+:host ::ng-deep .upload-list-inline .ant-upload-list-item {
+    float: left;
+    width: 200px;
+    margin-right: 8px;
+  }

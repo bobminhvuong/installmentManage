@@ -29,11 +29,23 @@ export class InvoiceService {
     );
   }
 
-  updateOrCreateCustomer(cus): Observable<any> {
-    cus.api = this.mainSV.getApikey();
-    return this.http.post(environment.APIHOST + '/api/customer/add', cus, this.mainSV.getHttpOptionsNotToken()).pipe(
+  getDataResource(): Observable<any> {
+    return this.http.get(environment.APIHOST + '/api/invoice/getresource?api='+this.mainSV.getApikey(), this.mainSV.getHttpOptionsNotToken()).pipe(
       catchError(this.mainSV.handleError)
     );
   }
 
+  updateOrCreate(data): Observable<any> {
+    data.api = this.mainSV.getApikey();
+    data.user_id = data.id ? data.user_id: this.mainSV.getCurrentUser().id;
+    return this.http.post(environment.APIHOST + '/api/invoice/add', data, this.mainSV.getHttpOptionsNotToken()).pipe(
+      catchError(this.mainSV.handleError)
+    );
+  }
+
+  getStatus(): Observable<any> {
+    return this.http.post(environment.APIHOST + '/api/invocie/getstatus?api='+this.mainSV.getApikey(), this.mainSV.getHttpOptionsNotToken()).pipe(
+      catchError(this.mainSV.handleError)
+    );
+  }
 }

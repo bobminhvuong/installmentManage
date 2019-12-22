@@ -35,7 +35,7 @@ export class ImageCtrComponent implements OnInit {
     });
     this.uploading = true;
 
-    this.fileService.insertImage(formData).subscribe(r => {
+    this.fileService.uploadImage(formData,'').subscribe(r => {
       this.uploading = false;
       this.imgUpload = r;
       this.message.create('success', `Hình ảnh đã được tải lên hệ thống!`);

@@ -3,6 +3,8 @@ import { MainService } from './../main.service';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
+import { environment } from './../../../environments/environment';
+
 
 @Injectable({
   providedIn: 'root'
@@ -11,9 +13,8 @@ export class FileUploadService {
 
   constructor(private http: HttpClient, private mainSV: MainService) { }
 
-  insertImage(file): Observable<any> {
-    const url = this.mainSV.host();
-    return this.http.post(url + '/fileUpload/image', file).pipe(
+  uploadImage(file, path): Observable<any> {
+    return this.http.post(environment.APICURRENTSERVE + '/api/fileUpload?pathImg=' + path, file).pipe(
       catchError(this.mainSV.handleError)
     );
   }

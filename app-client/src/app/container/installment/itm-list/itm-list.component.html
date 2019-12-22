@@ -1,6 +1,15 @@
 <div nz-row class="mgbt20">
-  <div nz-col nzSpan="12">
-    <h4>Danh sách hợp đồng</h4>
+  <div class="row">
+
+    <div class="col-6 col-sm-6 col-md-6 col-lg-6">
+      <h4>Danh sách hợp đồng</h4>
+    </div>
+    <div class="col-6 col-sm-6 col-md-6 col-lg-6">
+      <button (click)="handleCorU({})" nz-button nzType="primary" class="float-right">
+        <i nz-icon nzType="plus" nzTheme="outline"></i>
+        Tạo hợp đồng
+      </button>
+    </div>
   </div>
 </div>
 <div class="box box-success">
@@ -22,10 +31,9 @@
       </nz-form-item>
       <nz-form-item>
         <nz-form-control>
-            <nz-select style="width: 200px;" formControlName="active" nzPlaceHolder="Trạng thái">
-              <nz-option nzValue="1" nzLabel="Kích hoạt"></nz-option>
-              <nz-option nzValue="0" nzLabel="Đã xóa"></nz-option>
-            </nz-select>
+          <nz-select style="width: 200px;" formControlName="active" nzPlaceHolder="Trạng thái">
+            <nz-option *ngFor="let item of lsStatus" nzValue="{{item.id}}" nzLabel="{{item.name}}"></nz-option>
+          </nz-select>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
@@ -37,9 +45,8 @@
   </div>
   <div class="box-body">
     <nz-table nzBordered #ajaxTable nzShowSizeChanger [nzFrontPagination]="false" [nzData]="listOfData"
-      [nzLoading]="loading" [nzTotal]="total" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize"
-      (nzPageIndexChange)="searchData()" (nzPageSizeChange)="searchData(true)">
-      <thead (nzSortChange)="sort($event)" nzSingleSort>
+      [nzLoading]="loading" [nzTotal]="total" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize">
+      <thead>
         <tr>
           <th width="3%" class="text-center">STT</th>
           <th width="10%" class="text-center">
@@ -59,10 +66,10 @@
           <th width="15%" class="text-center">
             Ghi chú
           </th>
-          <th width="10%" class="text-center">
+          <th width="5%" class="text-center">
             Trạng thái
           </th>
-          <th width="5%" class="text-center"><span>Action</span></th>
+          <th width="10%" class="text-center"><span>Action</span></th>
         </tr>
       </thead>
       <tbody>
@@ -89,7 +96,7 @@
               </tr>
               <tr>
                 <td><span class="badge badge-warning">Số lần trả</span></td>
-                <td class="text-right"> {{data.num_repay_finish +' / '+ data.num_repay}}</td>
+                <td class="text-right"> {{data.num_repay_finish}}</td>
               </tr>
             </table>
           </td>
@@ -130,9 +137,13 @@
           </td>
           <td class="cttd" class="text-center">
             <div zn-row>
-              <button nz-tooltip nzTitle="Chi tiết" (click)="handleCorU(data)" nz-button nzType="primary"
-                style="margin-right: 10px">
+              <button nz-tooltip nzTitle="Chi tiết" (click)="handleCorU(data)" nz-button nzType="primary">
                 <i nz-icon nzType="eye" nzTheme="outline"></i>
+              </button>
+
+              <button nz-tooltip nzTitle="Chỉnh sửa" (click)="handleCorU(data)" nz-button nzType="primary"
+                style="margin-right: 10px">
+                <i nz-icon nzType="edit" nzTheme="outline"></i>
               </button>
             </div>
           </td>
@@ -141,3 +152,8 @@
     </nz-table>
   </div>
 </div>
+
+
+<app-add-contract *ngIf="isVisible" [dataEdit]="dataEdit" [isVisible]="isVisible" (closeModal)="closeModal($event)"
+  class="fade in">
+</app-add-contract>

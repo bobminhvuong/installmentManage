@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  APIHOST: 'http://vay.guone.vn'
+  APIHOST: 'http://vay.guone.vn',
+  APICURRENTSERVE:'http://localhost:8081'
 };
 
 /*

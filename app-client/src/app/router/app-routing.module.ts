@@ -24,9 +24,7 @@ const routes: Routes = [
             { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
             { path: 'installment', component: InstallmentComponent, children: [
                 {path: '', redirectTo: 'itm-list', pathMatch: 'full'},
-                {path: 'addcontract', component: AddContractComponent},
-                {path: 'itm-list', component: ItmListComponent},
-                {path: 'paymoney', component: PaymoneyComponent},
+                {path: 'itm-list', component: ItmListComponent}
             ] },
             { path: 'dashboard', component: DashboardComponent },
             { path: 'customer', component: CustomerComponent },

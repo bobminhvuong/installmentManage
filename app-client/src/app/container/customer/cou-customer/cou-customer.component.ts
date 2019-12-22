@@ -1,3 +1,4 @@
+import { NzMessageService } from 'ng-zorro-antd';
 import { CustomerService } from './../../../service/customer/customer.service';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormControl, Validators, FormBuilder, FormGroup } from '@angular/forms';
@@ -14,8 +15,13 @@ export class CouCustomerComponent implements OnInit {
   @Output() closeModal = new EventEmitter();
   validateForm: FormGroup;
   dateFormat = 'YYYY/MM/DD';
+  inputValue: string;
+  options: string[] = [];
 
-  constructor(private customerSV: CustomerService, private fb: FormBuilder) { }
+  constructor(
+    private customerSV: CustomerService,
+    private fb: FormBuilder,
+    private message: NzMessageService) { }
 
   ngOnInit() {
     this.validateForm = this.fb.group({
@@ -42,7 +48,12 @@ export class CouCustomerComponent implements OnInit {
       let client = this.validateForm.value;
       client = { ...this.dataEdit, ...client };
       this.customerSV.updateOrCreateCustomer(client).subscribe(r => {
-        this.handleCancel();
+        if (r && r.status == 1) {
+          this.message.create('success', this.dataEdit && this.dataEdit.id ? 'Tạo khách hàng thành công!' : 'Cập nhạt thành công!');
+          this.handleCancel();
+        } else {
+          this.message.create('error', r && r.message ? r.message : 'Đã có lổi xẩy ra. Vui lòng thử lại!');
+        }
       });
     }
   }

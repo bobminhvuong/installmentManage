@@ -26,7 +26,7 @@
         <nz-form-item>
           <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="phone">Ngày mua</nz-form-label>
           <nz-form-control [nzSm]="12" [nzXs]="24">
-            <nz-date-picker nzFormat="dd/mm/yyyy" [(ngModel)]="dateNow" (ngModelChange)="onChange($event)">
+            <nz-date-picker nzFormat="dd/mm/yyyy" >
             </nz-date-picker>
             <nz-form-explain *ngIf="validateForm.get('phone')?.dirty && validateForm.get('phone')?.errors">
               Ngày không được để trống
@@ -38,15 +38,19 @@
         <nz-form-item>
           <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="identity_number">Thông tin BDS</nz-form-label>
           <nz-form-control [nzSm]="12" [nzXs]="24">
-            <textarea nz-input [(ngModel)]="value" [nzAutosize]="{ minRows: 3, maxRows: 8 }"></textarea>
+            <textarea nz-input [nzAutosize]="{ minRows: 3, maxRows: 8 }"></textarea>
           </nz-form-control>
         </nz-form-item>
 
         <nz-form-item>
           <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="identity_image">Thêm hình ảnh</nz-form-label>
           <nz-form-control [nzSm]="12" [nzXs]="24">
-            <nz-upload nzAction="https://jsonplaceholder.typicode.com/posts/" [nzFileList]="fileList" nzMultiple
+            <!-- <nz-upload nzAction="https://jsonplaceholder.typicode.com/posts/" [nzFileList]="fileList" nzMultiple
               [nzLimit]="2" [nzFilter]="filters" (nzChange)="handleChange($event)">
+              <button nz-button><i nz-icon nzType="upload"></i><span>Upload</span></button>
+            </nz-upload> -->
+            <nz-upload nzAction="https://jsonplaceholder.typicode.com/posts/" nzMultiple
+              [nzLimit]="2" >
               <button nz-button><i nz-icon nzType="upload"></i><span>Upload</span></button>
             </nz-upload>
           </nz-form-control>
@@ -58,7 +62,7 @@
         <nz-form-item>
           <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="name">Loại đất</nz-form-label>
           <nz-form-control [nzSm]="12" [nzXs]="24">
-            <nz-select [(ngModel)]="selectedValue" nzAllowClear nzPlaceHolder="Choose">
+            <nz-select nzAllowClear nzPlaceHolder="Choose">
               <nz-option nzValue="1" nzLabel="Đất thổ cư"></nz-option>
               <nz-option nzValue="2" nzLabel="Đất nông nghiệp"></nz-option>
               <nz-option nzValue="3" nzLabel="Đất cây trồng lâu năm"></nz-option>

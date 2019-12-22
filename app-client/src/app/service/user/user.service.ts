@@ -15,7 +15,7 @@ export class UserService {
   constructor(private http: HttpClient, private mainSV: MainService) { }
 
   getAll(active): Observable<any> {
-    active = active ? active : 0;
+    active = active ? active : 1;
     return this.http.get(environment.APIHOST + '/api/staff/get?api=' + this.mainSV.getApikey() + '&&active=' + active).pipe(
       catchError(this.mainSV.handleError)
     );

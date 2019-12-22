@@ -4,7 +4,7 @@
   </div>
   <div nz-col nzSpan="12">
     <div class="float-right">
-      <button (click)="handleCorU()" nz-button nzType="primary" [nzSize]="Large"><i nz-icon nzType="plus"
+      <button (click)="handleCorU({})" nz-button nzType="primary" ><i nz-icon nzType="plus"
           nzTheme="outline"></i>
         Tạo mới </button>
     </div>
@@ -15,16 +15,13 @@
   <div class="box-body">
 
     <nz-table nzBordered #ajaxTable nzShowSizeChanger [nzFrontPagination]="false" [nzData]="listOfData"
-      [nzLoading]="loading" [nzTotal]="total" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize"
-      (nzPageIndexChange)="searchData()" (nzPageSizeChange)="searchData(true)">
-      <thead (nzSortChange)="sort($event)" nzSingleSort>
+      [nzLoading]="loading" [nzTotal]="total" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize">
+      <thead >
         <tr>
           <th width="3%" class="text-center">STT</th>
           <th  width="15%">
             Họ tên
-            
           </th>
-
           <th width="10%" class="text-center">
             Điện thoại
           </th>
