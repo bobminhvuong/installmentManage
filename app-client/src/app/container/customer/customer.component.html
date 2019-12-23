@@ -4,8 +4,7 @@
   </div>
   <div nz-col nzSpan="12">
     <div class="float-right">
-      <button (click)="handleCorU({})" nz-button nzType="primary"><i nz-icon nzType="plus"
-          nzTheme="outline"></i>
+      <button (click)="handleCorU({})" nz-button nzType="primary"><i nz-icon nzType="plus" nzTheme="outline"></i>
         Tạo mới </button>
     </div>
   </div>
@@ -30,9 +29,8 @@
 
   <div class="box-body">
     <nz-table nzBordered #ajaxTable nzShowSizeChanger [nzFrontPagination]="false" [nzData]="listOfData"
-      [nzLoading]="loading" [nzTotal]="total" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize"
-       >
-      <thead >
+      [nzLoading]="loading" [nzTotal]="total" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize">
+      <thead>
         <tr>
           <th width="3%" class="text-center">STT</th>
           <th width="15%">
@@ -46,7 +44,7 @@
           <th width="15%" class="text-center">
             <span>Hình ảnh</span>
           </th>
-          <th width="15%" >
+          <th width="15%">
             <span>Địa chỉ</span>
           </th>
 
@@ -59,7 +57,11 @@
           <td>{{ data.name }}</td>
           <td>{{ data.phone }}</td>
           <td class="text-center">{{ data.identity_number }}</td>
-          <td>{{ data.identity_images }}</td>
+          <td class="text-center">
+            <div *ngIf="data.identity_image && data.identity_image!=''">
+              <i (click)="handlePreviewImg(data.identity_image)" nz-icon nzType="file-image" class="text-prinary" style="font-size: 24px;" nzTheme="outline"></i>
+            </div>
+          </td>
           <td>{{ data.address }}</td>
           <td class="cttd" class="text-center">
             <div zn-row>
@@ -78,6 +80,13 @@
     </nz-table>
   </div>
 </div>
+
+<nz-modal [nzVisible]="previewVisible" [nzContent]="modalContent" [nzFooter]="null"
+  (nzOnCancel)="previewVisible = false">
+  <ng-template #modalContent>
+    <img [src]="previewImage" [ngStyle]="{ width: '100%' }" />
+  </ng-template>
+</nz-modal>
 
 <app-cou-customer *ngIf="isVisible" [dataEdit]="dataEdit" [isVisible]="isVisible" (closeModal)="closeModal($event)"
   class="fade in">

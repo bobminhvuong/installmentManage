@@ -119,7 +119,7 @@
 
         <nz-form-item>
           <nz-upload class="upload-list-inline offset-sm-3"
-            nzAction="http://localhost:8081/api/fileUpload?pathImg=customers" nzListType="picture"
+            nzAction="{{API_IMG}}/api/fileUpload?pathImg=invoices" nzListType="picture"
             [(nzFileList)]="images">
             <div nz-button>
               <span style="margin-top: 5px;"><i nz-icon nzType="upload"></i> Thêm hình ảnh</span>

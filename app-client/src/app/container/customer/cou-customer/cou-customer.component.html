@@ -23,18 +23,22 @@
     </nz-form-item>
 
     <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="identity_number" >Chứng minh</nz-form-label>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="identity_number">Chứng minh</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
-          <input nz-input id="identity_number" formControlName="identity_number" [(ngModel)]="dataEdit.identity_number" />
+        <input nz-input id="identity_number" formControlName="identity_number" [(ngModel)]="dataEdit.identity_number" />
       </nz-form-control>
     </nz-form-item>
 
     <nz-form-item>
-        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="identity_image" >Hình ảnh</nz-form-label>
-        <nz-form-control [nzSm]="14" [nzXs]="24">
-            <input nz-input id="identity_image" formControlName="identity_image" [(ngModel)]="dataEdit.identity_image" />
-        </nz-form-control>
-      </nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="identity_image">Hình ảnh</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <nz-upload   (nzChange)="handleChangeImg($event)" nzAction="{{ API_IMG }}/api/fileUpload?pathImg=customers" nzListType="picture" [(nzFileList)]="avatar">
+          <div nz-button><i nz-icon nzType="upload"></i><span>Upload</span></div>
+        </nz-upload>
+      </nz-form-control>
+    </nz-form-item>
+
+    
 
     <nz-form-item>
       <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="address">Địa Chỉ</nz-form-label>

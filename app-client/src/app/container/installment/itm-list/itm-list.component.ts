@@ -39,8 +39,6 @@ export class ItmListComponent implements OnInit {
     this.invSv.getStatus().subscribe(r => {
       if (r.status == 1) {
         this.lsStatus = r.data;
-        console.log(this.lsStatus);
-
       }
     })
   }

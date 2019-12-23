@@ -36,6 +36,7 @@ export class AddContractComponent implements OnInit {
   loan_price = '';
   loan_type = '';
   capital_sources = [];
+  API_IMG ='';
 
   formatterMoney = (value: number) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   parserMoney = (value: string) => value.replace(/\$\s?|(,*)/g, '');
@@ -52,7 +53,7 @@ export class AddContractComponent implements OnInit {
   ngOnInit() {
     let startDate = new Date();
     let endDate = new Date();
-    console.log(this.dataEdit);
+    this.API_IMG = environment.APICURRENTSERVE;
 
     if (this.dataEdit && this.dataEdit.id) {
       let dateStartArray = this.dataEdit.loan_date_start.split("/");
@@ -182,8 +183,6 @@ export class AddContractComponent implements OnInit {
       this.validateForm.controls[i].markAsDirty();
       this.validateForm.controls[i].updateValueAndValidity();
     }
-    console.log(1, this.listCapital);
-
     if (this.validateForm.valid && this.checkAsset() && this.checkCapital()) {
       let capitals = [];
       this.listCapital.forEach(e => {

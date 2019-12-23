@@ -5,36 +5,33 @@
     </ng-template>
     <ng-template #modalContent>
         <div *ngIf="customer && customer.id" class="row" style="margin-bottom: 10px;">
-            <div class="col-12 col-sm-6 col-md-6 col-lg-6 mg-top-5">
-                <div class="offset-md-3">
-                    <label for=""><b>Khách hàng:&nbsp;</b></label>
-                    <span>{{ customer.name }}</span>
-                </div>
+            <div class="col-12 col-sm-6 col-md-6 col-lg-6">
+                <label for=""><b>Khách hàng:&nbsp;</b></label>
+                <span>{{ customer.name }}</span>
             </div>
 
-            <div class="col-12 col-sm-7 col-md-8 col-lg-8 mg-top-5">
-                <div class="offset-md-3">
-                    <label for=""> <b>Điện thoại:&nbsp;</b> </label>
-                    <span>{{ customer.phone }}</span>
-                </div>
+            <div class="col-12 col-sm-6 col-md-8 col-lg-6 ">
+                <label for=""> <b>Điện thoại:&nbsp;</b> </label>
+                <span>{{ customer.phone }}</span>
             </div>
 
-            <div class="col-12 col-sm-5 col-md-4 col-lg-4 mg-top-5">
-                <div class="offset-md-3">
-                    <label for=""> <b>Chứng minh:&nbsp;</b></label>
-                    <span>{{ customer.identity_number }}</span>
-                </div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-6">
+                <label for=""> <b>Chứng minh:&nbsp;</b></label>
+                <span>{{ customer.identity_number }}</span>
             </div>
 
-            <div class="col-12 col-sm-6 col-md-6 col-lg-6 mg-top-5">
-                <div class="offset-md-3">
-                    <label for=""> <b>Địa chỉ:&nbsp;</b> </label>
-                    <span>{{ customer.address }}</span>
-                </div>
+            <div class="col-12 col-sm-6 col-md-6 col-lg-6">
+                <label for=""> <b>Địa chỉ:&nbsp;</b> </label>
+                <span>{{ customer.address }}</span>
+            </div>
+
+            <div class="col-12 col-sm-6 col-md-6 col-lg-6">
+                <label for=""> <b>Ngày vay:&nbsp;</b> </label>
+                <span>{{ formatDate(customer.created,'DD/MM/YYYY') }}</span>
             </div>
         </div>
         <div class="row">
-            <div class="col-12 col-sm-6 col-md-6 col-lg-6">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="box box-success" *ngIf="dataSource && dataSource.pay">
                     <nz-table #headerTable [nzData]="dataSource.pay" [nzFrontPagination]="false"
                         [nzShowPagination]="false" [nzScroll]="{ y: '250px' }">
@@ -60,13 +57,13 @@
                     </nz-table>
                 </div>
             </div>
-            <div class="col-12 col-sm-6 col-md-6 col-lg-6">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
                 <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="showConfirmPay(false)">
                     <nz-form-item>
-                        <nz-form-label [nzSm]="12" [nzXs]="24" nzRequired nzFor="price">Số tiền đóng lãi
+                        <nz-form-label [nzSm]="5" [nzXs]="24" nzRequired nzFor="price">Số tiền đóng lãi
                         </nz-form-label>
-                        <nz-form-control [nzSm]="12" [nzXs]="24">
-                            <input nz-input placeholder="Số tiền" formControlName="price" />
+                        <nz-form-control [nzSm]="5" [nzXs]="24">
+                            <input style="width: 95%;" nz-input placeholder="Số tiền" formControlName="price" />
                             <nz-form-explain
                                 *ngIf="validateForm.get('price')?.dirty && validateForm.get('price')?.errors">
                                 Số tiền không được để trống!
@@ -75,7 +72,7 @@
                     </nz-form-item>
 
                     <nz-form-item>
-                        <nz-form-label [nzSm]="12" [nzXs]="24" nzFor="next_payday">Ngày trả lãi kế tiếp
+                        <nz-form-label [nzSm]="5" [nzXs]="24" nzFor="next_payday">Ngày trả lãi kế tiếp
                         </nz-form-label>
                         <nz-form-control [nzSm]="12" [nzXs]="24">
                             <nz-date-picker style="width: 100%;" [nzFormat]="dd/MM/yyyy" formControlName="next_payday">

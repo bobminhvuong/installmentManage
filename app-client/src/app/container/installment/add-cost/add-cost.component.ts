@@ -2,6 +2,7 @@ import { NzModalService, NzMessageService } from 'ng-zorro-antd';
 import { InvoiceService } from './../../../service/invoice/invoice.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-add-cost',
@@ -27,7 +28,7 @@ export class AddCostComponent implements OnInit {
   ngOnInit() {
     this.validateForm = this.fb.group({
       price: [null, [Validators.required]],
-      note: [new Date(), [Validators.required]]
+      note: [null, [Validators.required]]
     });
 
     if (this.dataEdit && this.dataEdit.id) {
@@ -36,7 +37,8 @@ export class AddCostComponent implements OnInit {
         name: this.dataEdit.customer_name,
         address: this.dataEdit.customer_address,
         identity_number: this.dataEdit.customer_identity_number,
-        phone: this.dataEdit.customer_phone
+        phone: this.dataEdit.customer_phone,
+        created: this.dataEdit.created
       }
       this.getLsCost();
     }
@@ -55,7 +57,7 @@ export class AddCostComponent implements OnInit {
     this.closeModal.emit(this.isVisible);
   }
 
-  addNote() {
+  addCost() {
     for (const i in this.validateForm.controls) {
       this.validateForm.controls[i].markAsDirty();
       this.validateForm.controls[i].updateValueAndValidity();
@@ -69,13 +71,44 @@ export class AddCostComponent implements OnInit {
         if (r && r.status == 1) {
           this.message.create('success', 'Tạo thành công!');
           this.getLsCost();
+          this.validateForm.reset();
         } else {
           this.message.create('error', r && r.message ? r.message : 'Có lổi xẩy ra. Vui lòng thử lại sau!')
         }
         this.isLoadCost = false;
       })
     }
-
   }
 
+  confirmDeleteCost(data) {
+    this.modalService.confirm({
+      nzTitle: 'Bạn có chắc xóa chi phí này?',
+      nzOkText: 'Xác nhận',
+      nzOkType: 'danger',
+      nzOnOk: () => this.deleteNote(data.id),
+      nzCancelText: 'Hủy',
+    });
+  }
+
+  deleteNote(id) {
+    this.invSV.deleteCost(id).subscribe(r => {
+      if (r && r.status == 1) {
+        this.message.create('success', 'Xóa thành công!');
+        this.getLsCost();
+      } else {
+        this.message.create('error', r && r.message ? r.message : 'Có lổi xẩy ra. Vui lòng thử lại sau!')
+      }
+    })
+  }
+
+  formatCurrency(val) {
+    if (val && val != '') {
+      val = Number((val + '').replace(/,/g, ""));
+      return val.toLocaleString();
+    } else return '';
+  }
+
+  formatDate(date, format) {
+    return moment(date).format('DD/MM/YYYY');
+  }
 }

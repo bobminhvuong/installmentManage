@@ -1,3 +1,4 @@
+import { environment } from './../../../environments/environment';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { CustomerService } from './../../service/customer/customer.service';
 import { Component, OnInit } from '@angular/core';
@@ -18,6 +19,8 @@ export class CustomerComponent implements OnInit {
   loading = true;
   dataEdit: any | null = null;
   filterForm: FormGroup;
+  previewImage: string | undefined = '';
+  previewVisible = false;
 
   constructor(private modalService: NzModalService, private fb: FormBuilder, private customerSV: CustomerService) { }
 
@@ -27,8 +30,6 @@ export class CustomerComponent implements OnInit {
     });
     this.getAll(this.filterForm.value);
   }
-
-
 
   getAll(filter) {
     let val = {
@@ -57,4 +58,9 @@ export class CustomerComponent implements OnInit {
   filterData() {
     this.getAll(this.filterForm.value);
   }
+
+  handlePreviewImg = (url) => {
+    this.previewImage = environment.APICURRENTSERVE + '/' + url;
+    this.previewVisible = true;
+  };
 }

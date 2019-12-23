@@ -31,7 +31,8 @@ export class PaymoneyComponent implements OnInit {
         name: this.dataEdit.customer_name,
         address: this.dataEdit.customer_address,
         identity_number: this.dataEdit.customer_identity_number,
-        phone: this.dataEdit.customer_phone
+        phone: this.dataEdit.customer_phone,
+        created: this.dataEdit.created
       }
       this.getInvoiceDetail();
     }

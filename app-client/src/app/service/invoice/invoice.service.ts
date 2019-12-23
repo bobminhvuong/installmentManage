@@ -83,9 +83,9 @@ export class InvoiceService {
     );
   }
 
-  deleteCost(invoice_id): Observable<any> {
+  deleteCost(id): Observable<any> {
     let data = {
-      invoice_id: invoice_id,
+      id: id,
       api: this.mainSV.getApikey()
     }
     return this.http.post(environment.APIHOST + '/api/invoice/cashbook/delete', data, this.mainSV.getHttpOptionsNotToken()).pipe(
