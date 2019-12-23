@@ -38,6 +38,7 @@ import { AssetComponent } from './container/asset/asset.component';
 import { BdsComponent } from './container/bds/bds.component';
 import { AddBdsComponent } from './container/bds/add-bds/add-bds.component';
 import { SellBdsComponent } from './container/bds/sell-bds/sell-bds.component';
+import { AddCostComponent } from './container/installment/add-cost/add-cost.component';
 
 registerLocaleData(en);
 
@@ -61,7 +62,8 @@ registerLocaleData(en);
     AssetComponent,
     BdsComponent,
     AddBdsComponent,
-    SellBdsComponent
+    SellBdsComponent,
+    AddCostComponent
   ],
   imports: [
     BrowserModule,

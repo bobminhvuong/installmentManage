@@ -33,7 +33,9 @@ export class AddContractComponent implements OnInit {
   dateFormat = 'dd/MM/yyyy';
   isVisibleUser = false;
   dataUser = {};
-  loan_price ='';
+  loan_price = '';
+  loan_type = '';
+  capital_sources = [];
 
   formatterMoney = (value: number) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   parserMoney = (value: string) => value.replace(/\$\s?|(,*)/g, '');
@@ -50,7 +52,7 @@ export class AddContractComponent implements OnInit {
   ngOnInit() {
     let startDate = new Date();
     let endDate = new Date();
-
+    console.log(this.dataEdit);
 
     if (this.dataEdit && this.dataEdit.id) {
       let dateStartArray = this.dataEdit.loan_date_start.split("/");
@@ -58,15 +60,18 @@ export class AddContractComponent implements OnInit {
       startDate = new Date(dateStartArray[1] + '/' + dateStartArray[0] + '/' + dateStartArray[2]);
       endDate = new Date(dateEndArray[1] + '/' + dateEndArray[0] + '/' + dateEndArray[2]);
     }
-    this.loan_price = this.formatCurrentcy(this.dataEdit.loan_price ? this.dataEdit.loan_price : '');
+    this.loan_price = this.dataEdit.loan_price ? this.dataEdit.loan_price : '';
+    // this.loan_price = this.formatCurrentcy(this.dataEdit.loan_price ? this.dataEdit.loan_price : '');
+    this.loan_type = this.dataEdit && this.dataEdit.loan_type ? this.dataEdit.loan_type : 1;
 
     this.validateForm = this.fb.group({
-      loan_price: [this.formatCurrentcy(this.dataEdit.loan_price ? this.dataEdit.loan_price : ''), [Validators.required]],
+      loan_price: [this.dataEdit.loan_price ? this.dataEdit.loan_price : '', [Validators.required]],
+      // loan_price: [this.formatCurrentcy(this.dataEdit.loan_price ? this.dataEdit.loan_price : ''), [Validators.required]],
       loan_date_start: [startDate, [Validators.required]],
       loan_date_end: [endDate, [Validators.required]],
       loan_rate: [this.dataEdit.loan_rate ? this.dataEdit.loan_rate : '', [Validators.required]],
       customer_id: [this.dataEdit.customer_id ? this.dataEdit.customer_id : '', [Validators.required]],
-      loan_type: [this.dataEdit.loan_type ? this.dataEdit.loan_type : '', [Validators.required]],
+      loan_type: [this.dataEdit && this.dataEdit.loan_type ? this.dataEdit.loan_type : 1],
       note: [this.dataEdit.note ? this.dataEdit.note : '']
     });
 
@@ -94,8 +99,10 @@ export class AddContractComponent implements OnInit {
         })
 
         r.data.capital.forEach(e => {
+          e.id = e.user_id;
           e.name = e.user_name;
-          e.price = this.formatCurrentcy(e.price);
+          // e.price = this.formatCurrentcy(e.price);
+          e.price = e.price;
         })
         r.data.image.forEach(function (e, i) {
           e.url = environment.APICURRENTSERVE + '/' + e.url;
@@ -105,6 +112,7 @@ export class AddContractComponent implements OnInit {
         this.lsAssets = r.data.asset;
         this.listCapital = r.data.capital;
         this.images = r.data.image;
+        this.capital_sources = r.data.capital_source;
       }
     })
   }
@@ -136,17 +144,51 @@ export class AddContractComponent implements OnInit {
     })
   }
 
+  checkCapital() {
+    if (this.listCapital.length == 0) {
+      this.message.create('error', 'Bạn chưa chọn nguồn vốn!');
+      return false;
+    } else {
+      let us = this.listCapital.find(e => { return (!e.price || e.price === '') });
+      if (us) {
+        this.message.create('error', 'Số tiền vốn không được để trống!');
+        return false;
+      } else {
+        let total = 0;
+        this.listCapital.forEach(e => {
+          total = total + this.formatNumber(e.price);
+        })
+        console.log(total);
+
+        if (total !== this.formatNumber(this.validateForm.value.loan_price)) {
+          this.message.create('error', 'Số tiền vốn không đủ!');
+          return false;
+        } else return true;
+      }
+    }
+  }
+
+  checkAsset() {
+    if (this.lsAssets.length == 0) {
+      this.message.create('error', 'Bạn chưa chọn tài sản cầm cố!')
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   submitForm(): void {
     for (const i in this.validateForm.controls) {
       this.validateForm.controls[i].markAsDirty();
       this.validateForm.controls[i].updateValueAndValidity();
     }
+    console.log(1, this.listCapital);
 
-    if (this.validateForm.valid) {
+    if (this.validateForm.valid && this.checkAsset() && this.checkCapital()) {
       let capitals = [];
       this.listCapital.forEach(e => {
         capitals.push({
-          user_id: e.user_id,
+          user_id: e.id,
           price: e.price,
           money_source_id: e.money_source_id
         })
@@ -166,12 +208,14 @@ export class AddContractComponent implements OnInit {
       })
 
       let data = this.validateForm.value;
+      data.loan_price = data.loan_price.replace(/,/g, '');
       data.capitals = capitals;
       data.loan_date_start = moment(data.loan_date_start).format('DD/MM/YYYY');
       data.loan_date_end = moment(data.loan_date_end).format('DD/MM/YYYY');
       data.images = images;
       data.assets = assets;
       data = { ...this.dataEdit, ...data };
+
       this.invSV.updateOrCreate(data).subscribe(r => {
         if (r && r.status == 1) {
           this.handleCancel();
@@ -190,6 +234,7 @@ export class AddContractComponent implements OnInit {
   AddUser(id) {
     let us = this.lsUser.find(e => { return e.id == id });
     if (us && !this.listCapital.find(e => { return e.id == us.id })) {
+      us.money_source_id = 1;
       this.listCapital.push(us);
     } else {
       this.message.create('error', 'Đã chọn người này!');
@@ -198,6 +243,7 @@ export class AddContractComponent implements OnInit {
   AddAssets(id) {
     let as = this.dataSource.asset.find(e => { return e.id == id });
     if (as) {
+      as.price = 0;
       this.lsAssets.push(as);
     }
   }
@@ -223,28 +269,36 @@ export class AddContractComponent implements OnInit {
     this.getCustomers();
   }
 
-  changInputPrice(e){
-    if(this.loan_price != ''){
-      let val = Number(this.loan_price.replace(/,/g, ""));
+  changInputPrice(e) {
+    if (this.loan_price != '') {
+      let val = Number((this.loan_price + '').replace(/,/g, ""));
       this.loan_price = '';
-      if(!isNaN(val)) this.loan_price = val.toLocaleString();
+      if (!isNaN(val)) this.loan_price = val.toLocaleString();
     }
   }
 
-  formatCurrentcy(val){
-    if(val && val != ''){
-      val = Number((val +'').replace(/,/g, ""));
-      console.log(val.toLocaleString())
+  changeInputAsset(index) {
+    // console.log(this.lsAssets[index].price);
 
+    // if(this.lsAssets[index].price){
+    //   let val = Number((this.lsAssets[index].price+'').replace(/,/g, ""));
+    //   this.lsAssets[index].price = '';
+    //   if(!isNaN(val)) this.lsAssets[index].price = val.toLocaleString();
+    // }
+  }
+
+  formatCurrentcy(val) {
+    if (val && val != '') {
+      val = Number((val + '').replace(/,/g, ""));
       return val.toLocaleString();
-    }
+    } else return '';
   }
 
-  formatNumber(value){
-    if(value && value != ''){
-      return Number(value.replace(/,/g, ""));
-    }else{
-      return '';
+  formatNumber(value) {
+    if (value && value != '') {
+      return Number((value + '').replace(/,/g, ""));
+    } else {
+      return 0;
     }
   }
 }

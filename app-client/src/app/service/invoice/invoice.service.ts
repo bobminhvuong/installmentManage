@@ -30,21 +30,38 @@ export class InvoiceService {
   }
 
   getDataResource(): Observable<any> {
-    return this.http.get(environment.APIHOST + '/api/invoice/getresource?api='+this.mainSV.getApikey(), this.mainSV.getHttpOptionsNotToken()).pipe(
+    return this.http.get(environment.APIHOST + '/api/invoice/getresource?api=' + this.mainSV.getApikey(), this.mainSV.getHttpOptionsNotToken()).pipe(
       catchError(this.mainSV.handleError)
     );
   }
 
   updateOrCreate(data): Observable<any> {
     data.api = this.mainSV.getApikey();
-    data.user_id = data.id ? data.user_id: this.mainSV.getCurrentUser().id;
+    data.user_id = data.id ? data.user_id : this.mainSV.getCurrentUser().id;
     return this.http.post(environment.APIHOST + '/api/invoice/add', data, this.mainSV.getHttpOptionsNotToken()).pipe(
       catchError(this.mainSV.handleError)
     );
   }
 
   getStatus(): Observable<any> {
-    return this.http.post(environment.APIHOST + '/api/invocie/getstatus?api='+this.mainSV.getApikey(), this.mainSV.getHttpOptionsNotToken()).pipe(
+    return this.http.post(environment.APIHOST + '/api/invoice/getstatus?api=' + this.mainSV.getApikey(), this.mainSV.getHttpOptionsNotToken()).pipe(
+      catchError(this.mainSV.handleError)
+    );
+  }
+
+  payAdd(data): Observable<any> {
+    data.api = this.mainSV.getApikey();
+    return this.http.post(environment.APIHOST + '/api/invoice/pay/add', data, this.mainSV.getHttpOptionsNotToken()).pipe(
+      catchError(this.mainSV.handleError)
+    );
+  }
+
+  deletePay(idPay): Observable<any> {
+    let data = {
+      id: idPay,
+      api: this.mainSV.getApikey()
+    }
+    return this.http.post(environment.APIHOST + '/api/invoice/pay/delete', data, this.mainSV.getHttpOptionsNotToken()).pipe(
       catchError(this.mainSV.handleError)
     );
   }

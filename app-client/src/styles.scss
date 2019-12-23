@@ -345,3 +345,11 @@
   float: left;
   margin-left: 5px;
 }
+
+.iconAction{
+  cursor: pointer;
+  position: relative;
+  font-size: 18px;
+  transition: all 0.3s;
+  padding: 4px;
+}

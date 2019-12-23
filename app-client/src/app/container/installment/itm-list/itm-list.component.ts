@@ -19,13 +19,14 @@ export class ItmListComponent implements OnInit {
   filterForm: FormGroup;
   dataEdit: any;
   lsStatus = [];
+  isVisiblePay = false;
+  isVisibleCost = false;
 
   constructor(private invSv: InvoiceService, private fb: FormBuilder) { }
 
   ngOnInit() {
-    let dateNow = new Date();
     this.filterForm = this.fb.group({
-      date: [['', '']],
+      date: [null],
       find: [''],
       active: [1]
     });
@@ -39,17 +40,17 @@ export class ItmListComponent implements OnInit {
       if (r.status == 1) {
         this.lsStatus = r.data;
         console.log(this.lsStatus);
-        
+
       }
     })
   }
 
   getAll(valFilter) {
     let filter = {
-      offset: 0,
-      limit: 50,
-      from: valFilter.date[0] ? moment(valFilter.date[0]).format('DD/MM/YYYY') : '',
-      to: valFilter.date[1] ? moment(valFilter.date[1]).format('DD/MM/YYYY') : '',
+      offset: (this.pageIndex - 1) * this.pageSize,
+      limit: this.pageSize,
+      from: valFilter.date && valFilter.date[0] ? moment(valFilter.date[0]).format('DD/MM/YYYY') : '',
+      to: valFilter.date && valFilter.date[1] ? moment(valFilter.date[1]).format('DD/MM/YYYY') : '',
       active: valFilter.active,
       find: valFilter.find
     }
@@ -75,4 +76,24 @@ export class ItmListComponent implements OnInit {
     this.getAll(this.filterForm.value);
   }
 
+  panigate() {
+    this.getAll(this.filterForm.value);
+  }
+
+  payContact(data) {
+    this.isVisiblePay = true;
+    this.dataEdit = data;
+  }
+  closeModalPay(val) {
+    this.isVisiblePay = false;
+  }
+
+  closeModalCost(val) {
+    this.isVisibleCost = false;
+  }
+
+  addCost(val) {
+    this.dataEdit = val;
+    this.isVisibleCost = true;
+  }
 }

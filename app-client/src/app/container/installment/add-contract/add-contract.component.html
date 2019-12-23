@@ -58,15 +58,15 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+      <div class="col-12 col-sm-6 col-md-6 col-lg-6">
         <nz-form-item>
           <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="loan_price">Số tiền</nz-form-label>
           <nz-form-control [nzSm]="14" [nzXs]="24">
-              <input nz-input placeholder="Số tiền" 
-                    [(ngModel)]="loan_price" 
-                    (ngModelChange)="changInputPrice($event)"
-                    formControlName="loan_price"
-              />
+            <input nz-input placeholder="Số tiền" 
+              formControlName="loan_price" />
+
+              <!-- <input nz-input placeholder="Số tiền" [(ngModel)]="loan_price" (ngModelChange)="changInputPrice($event)"
+              formControlName="loan_price" /> -->
 
 
             <nz-form-explain *ngIf="validateForm.get('loan_price')?.dirty && validateForm.get('loan_price')?.errors">
@@ -107,10 +107,10 @@
                   [nzStep]="1"></nz-input-number>
               </div>
               <div nz-col [nzSpan]="12">
-                <nz-select nzAllowClear nzPlaceHolder="Lãi theo" formControlName="loan_type">
-                  <nz-option nzValue="1" nzLabel="Ngày"></nz-option>
-                  <nz-option nzValue="2" nzLabel="Tháng"></nz-option>
-                </nz-select>
+                <select class="ant-input" [(ngModel)]="loan_type" placeholder="Lãi theo" formControlName="loan_type">
+                  <option value="1">Ngày</option>
+                  <option value="2">Tháng</option>
+                </select>
               </div>
             </div>
           </nz-form-control>
@@ -122,16 +122,17 @@
           </nz-form-control>
         </nz-form-item>
 
-        <div class="clearfix">
-          <nz-upload class="upload-list-inline" nzAction="http://localhost:8081/api/fileUpload?pathImg=customers"
-            nzListType="picture" [(nzFileList)]="images">
-            <div nz-button class="offset-sm-10">
+        <nz-form-item>
+          <nz-upload class="upload-list-inline offset-sm-3"
+            nzAction="http://localhost:8081/api/fileUpload?pathImg=customers" nzListType="picture"
+            [(nzFileList)]="images">
+            <div nz-button>
               <span style="margin-top: 5px;"><i nz-icon nzType="upload"></i> Thêm hình ảnh</span>
             </div>
           </nz-upload>
-        </div>
+        </nz-form-item>
       </div>
-      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+      <div class="col-12 col-sm-6 col-md-6 col-lg-6">
         <nz-form-item>
           <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="asset_id">Tài sản cầm cố</nz-form-label>
           <nz-form-control [nzSm]="14" [nzXs]="24">
@@ -140,28 +141,27 @@
               <nz-option *ngFor="let item of  dataSource.asset" nzValue="{{ item.id }}" nzLabel="{{ item.name }}">
               </nz-option>
             </nz-select>
-            <nz-form-explain *ngIf="validateForm.get('asset_id')?.dirty && validateForm.get('asset_id')?.errors">
-              Chọn một loại tài sản!
-            </nz-form-explain>
           </nz-form-control>
         </nz-form-item>
 
         <nz-form-item *ngFor="let item of lsAssets;let i = index">
           <nz-form-label [nzSm]="8" [nzXs]="24">{{item.name}}</nz-form-label>
-          <nz-form-control [nzSm]="12" [nzXs]="20">
-            <nz-input-number [nzMin]="1" [nzPlaceHolder]="'Số tiền'" [(ngModel)]="item.price" style="width: 90%;"
-              [ngModelOptions]="{standalone: true}">
-            </nz-input-number>
+          <nz-form-control [nzSm]="12" [nzXs]="21">
+            <div nz-row>
+              <div nz-col [nzSpan]="20">
+                <input nz-input placeholder="Số tiền" (ngModelChange)="changeInputAsset(i)" [(ngModel)]="item.price"
+                  style="width: 100%;" [ngModelOptions]="{standalone: true}" />
+              </div>
+              <div nz-col [nzSpan]="4">
+                <i (click)="deleteAsset(i)" nz-icon class="text-danger" nzType="delete" style="cursor: pointer;
+                position: relative;
+                font-size: 24px;
+                transition: all 0.3s;
+                margin-left: 5px;"></i>
+              </div>
+            </div>
           </nz-form-control>
-          <i (click)="deleteAsset(i)" nz-icon nz-size="" nzType="delete" style="cursor: pointer;
-                  position: relative;
-                  top: 5px;
-                  font-size: 24px;
-                  transition: all 0.3s;
-                  margin-left: 5px;"></i>
         </nz-form-item>
-
-
 
         <nz-form-item>
           <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="phone">Người góp vốn</nz-form-label>
@@ -178,32 +178,30 @@
 
         <nz-form-item *ngFor="let item of listCapital;let i = index">
           <nz-form-label [nzSm]="8" [nzXs]="24">{{item.name}}</nz-form-label>
-          <nz-form-control [nzSm]="6" [nzXs]="20">
-            <nz-input-number [nzMin]="1" [nzPlaceHolder]="'Số tiền'" [(ngModel)]="item.price" style="width: 90%;"
-              [ngModelOptions]="{standalone: true}">
-            </nz-input-number>
+          <nz-form-control [nzSm]="12" [nzXs]="24">
+            <div nz-row>
+              <div nz-col [nzSpan]="12">
+                <nz-input-number [nzMin]="1" [nzPlaceHolder]="'Số tiền'" [(ngModel)]="item.price" style="width: 90%;"
+                  [ngModelOptions]="{standalone: true}">
+                </nz-input-number>
+              </div>
+              <div nz-col [nzSpan]="9">
+                <select class="ant-input" [(ngModel)]="item.money_source_id" [ngModelOptions]="{standalone: true}"
+                  placeholder="Lãi theo">
+                  <option *ngFor="let item of capital_sources" value="{{item.id}}">{{ item.name }}</option>
+                  <option value="1">Tiền mặt</option>
+                  <option value="2">Ngân hàng</option>
+                </select>
+              </div>
+              <div nz-col [nzSpan]="3">
+                <i (click)="deleteUserCapital(i)" nz-icon nz-size="" nzType="delete" class="text-danger" style="cursor: pointer;
+                position: relative;
+                font-size: 24px;
+                transition: all 0.3s;
+                margin-left: 5px;"></i>
+              </div>
+            </div>
           </nz-form-control>
-
-
-          <nz-form-control [nzSm]="6" [nzXs]="20">
-            <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Nguồn vốn" [(ngModel)]="item.money_source_id"
-              [ngModelOptions]="{standalone: true}">
-              <nz-option *ngFor="let item of listCapital.capital_source" nzLabel="{{ item.name }}"
-                nzValue="{{ item.id }}"></nz-option>
-              <nz-option nzLabel="Ngân hàng" nzValue="2"></nz-option>
-              <nz-option nzLabel="Khác" nzValue="3"></nz-option>
-            </nz-select>
-
-            <nz-form-explain *ngIf="validateForm.get('phone')?.dirty && validateForm.get('phone')?.errors">
-              Bạn chưa thêm người góp vốn
-            </nz-form-explain>
-          </nz-form-control>
-          <i (click)="deleteUserCapital(i)" nz-icon nz-size="" nzType="delete" style="cursor: pointer;
-                  position: relative;
-                  top: 5px;
-                  font-size: 24px;
-                  transition: all 0.3s;
-                  margin-left: 5px;"></i>
         </nz-form-item>
       </div>
     </div>

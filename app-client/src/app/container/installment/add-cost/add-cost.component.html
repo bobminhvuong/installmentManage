@@ -1,0 +1,98 @@
+<nz-modal [(nzVisible)]="isVisible" [nzTitle]="modalTitle" [nzContent]="modalContent" [nzFooter]="modalFooter"
+  (nzOnCancel)="handleCancel()" nzWidth="50%">
+  <ng-template #modalTitle>
+    Thêm chi phí
+  </ng-template>
+  <ng-template #modalContent>
+    <div *ngIf="customer && customer.id" class="row" style="margin-bottom: 10px;">
+      <div class="col-12 col-sm-6 col-md-6 col-lg-6 mg-top-5">
+        <div class="offset-md-3">
+          <label for=""><b>Khách hàng:&nbsp;</b></label>
+          <span>{{ customer.name }}</span>
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-7 col-md-8 col-lg-8 mg-top-5">
+        <div class="offset-md-3">
+          <label for=""> <b>Điện thoại:&nbsp;</b> </label>
+          <span>{{ customer.phone }}</span>
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-5 col-md-4 col-lg-4 mg-top-5">
+        <div class="offset-md-3">
+          <label for=""> <b>Chứng minh:&nbsp;</b></label>
+          <span>{{ customer.identity_number }}</span>
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-6 col-md-6 col-lg-6 mg-top-5">
+        <div class="offset-md-3">
+          <label for=""> <b>Địa chỉ:&nbsp;</b> </label>
+          <span>{{ customer.address }}</span>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="box box-success" *ngIf="dataSource && dataSource.pay">
+          <nz-table #headerTable [nzData]="dataSource.pay" [nzFrontPagination]="false" [nzShowPagination]="false"
+            [nzScroll]="{ y: '250px' }">
+            <thead>
+              <tr>
+                <th width="10%" class="text-center">STT</th>
+                <th width="40%" class="text-center">Chi phí</th>
+                <th width="40%" class="text-center">Ghi chú</th>
+                <th width="10%" class="text-center"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of headerTable.cashbook;let i= index">
+                <td class="text-center">{{ i+1 }}</td>
+                <td class="text-right">{{ formatCurrency(data.price) }} đ</td>
+                <td>{{ data.note}}</td>
+                <td class="text-center">
+                  <i nz-icon nz-tooltip nzTitle="Xóa chi phí" (click)="confirmDeleteCost(data)" nzType="delete"
+                    class="text-danger iconAction" nzTheme="outline"></i>
+                </td>
+              </tr>
+            </tbody>
+          </nz-table>
+        </div>
+      </div>
+      <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+        <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="showConfirmPay(false)">
+          <nz-form-item>
+            <nz-form-label [nzSm]="5" [nzXs]="24" nzRequired nzFor="price">Chi phí
+            </nz-form-label>
+            <nz-form-control [nzSm]="12" [nzXs]="24">
+              <input nz-input placeholder="Số tiền" formControlName="price" />
+              <nz-form-explain *ngIf="validateForm.get('price')?.dirty && validateForm.get('price')?.errors">
+                Chi phí không được để trống!
+              </nz-form-explain>
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item>
+            <nz-form-label [nzSm]="5" [nzXs]="24" nzRequired nzFor="note ">Ghi chú
+            </nz-form-label>
+            <nz-form-control [nzSm]="12" [nzXs]="24">
+              <textarea rows="3" nz-input formArrayName="note"></textarea>
+              <nz-form-explain *ngIf="validateForm.get('note')?.dirty && validateForm.get('note')?.errors">
+                Thêm ghi chú cho chi phí này
+              </nz-form-explain>
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item>
+            <button nz-button nzType="primary" (click)="addNote()">Thêm ghi chú</button>
+          </nz-form-item>
+        </form>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #modalFooter>
+    <button nz-button nzType="default" (click)="handleCancel()">Đóng</button>
+  </ng-template>
+</nz-modal>

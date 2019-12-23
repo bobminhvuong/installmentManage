@@ -44,112 +44,118 @@
     </form>
   </div>
   <div class="box-body">
-    <nz-table nzBordered #ajaxTable nzShowSizeChanger [nzFrontPagination]="false" [nzData]="listOfData"
-      [nzLoading]="loading" [nzTotal]="total" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize">
-      <thead>
-        <tr>
-          <th width="3%" class="text-center">STT</th>
-          <th width="10%" class="text-center">
-            Ngày tạo
-          <th width="10%" class="text-center">
-            Người tạo
-          </th>
-          <th width="10%" class="text-center">
-            Khách hàng
-          </th>
-          <th width="20%" class="text-center">
-            Thanh toán
-          </th>
-          <th width="20%" class="text-center">
-            Ngày vay
-          </th>
-          <th width="15%" class="text-center">
-            Ghi chú
-          </th>
-          <th width="5%" class="text-center">
-            Trạng thái
-          </th>
-          <th width="10%" class="text-center"><span>Action</span></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let data of ajaxTable.data;let i = index">
-          <td class="text-center">{{ i +1}}</td>
-          <td class="text-center">{{ data.created_date }}</td>
-          <td>{{ data.user_name }}</td>
-          <td>
-            <div>
-              <span>{{ data.customer_name }}</span>
-              <br>
-              <span>{{ data.customer_phone }}</span>
-            </div>
-          </td>
-          <td>
-            <table>
-              <tr>
-                <td> <span class="badge badge-primary">Số tiền vay</span> </td>
-                <td class="text-right">{{data.loan_price}}</td>
-              </tr>
-              <tr>
-                <td> <span class="badge badge-success">Lãi suất</span> </td>
-                <td class="text-right"> {{data.loan_rate+' / '+data.loan_type_name}}</td>
-              </tr>
-              <tr>
-                <td><span class="badge badge-warning">Số lần trả</span></td>
-                <td class="text-right"> {{data.num_repay_finish}}</td>
-              </tr>
-            </table>
-          </td>
-          <td>
-            <table>
-              <tr>
-                <td>
-                  <span class="badge badge-primary">Ngày bắt đầu</span>
-                </td>
-                <td class="text-right">
-                  <span>{{data.loan_date_start}}</span>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <span class="badge badge-success">Ngày kết thúc</span>
-                </td>
-                <td class="text-right">
-                  <span>{{ data.loan_date_end }}</span>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <span class="badge badge-warning">Lãi suất</span>
-                </td>
-                <td class="text-right">
-                  <span>
-                    {{data.repay_total_finish+' / '+data.repay_total}}
-                  </span>
-                </td>
-              </tr>
-            </table>
-          </td>
-          <td>{{ data.note }}</td>
-          <td class="text-center">
-            <span *ngIf="data.status_id ==1" class="badge badge-success">{{ data.status_name }}</span>
-            <span *ngIf="data.status_id ==0" class="badge badge-danger">{{ data.status_name }}</span>
-          </td>
-          <td class="cttd" class="text-center">
-            <div zn-row>
-              <button nz-tooltip nzTitle="Chi tiết" (click)="handleCorU(data)" nz-button nzType="primary">
-                <i nz-icon nzType="eye" nzTheme="outline"></i>
-              </button>
 
-              <button nz-tooltip nzTitle="Chỉnh sửa" (click)="handleCorU(data)" nz-button nzType="primary"
-                style="margin-right: 10px">
-                <i nz-icon nzType="edit" nzTheme="outline"></i>
-              </button>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </nz-table>
+    <div class="table-responsive">
+      <nz-table nzBordered #ajaxTable nzShowSizeChanger
+        nzFooter="Hiển thị {{ (pageSize > listOfData.length) ? listOfData.length : pageSize  }} trên tổng số {{ total}}"
+        [nzFrontPagination]="false" [nzData]="listOfData" [nzLoading]="loading" [nzTotal]="total"
+        [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" (nzPageIndexChange)="panigate()"
+        (nzPageSizeChange)="panigate()">
+        <thead>
+          <tr>
+            <th width="3%" class="text-center">STT</th>
+            <th width="10%" class="text-center">
+              Ngày tạo
+            <th width="10%" class="text-center">
+              Người tạo
+            </th>
+            <th width="10%" class="text-center">
+              Khách hàng
+            </th>
+            <th width="18%" class="text-center">
+              Thanh toán
+            </th>
+            <th width="18%" class="text-center">
+              Ngày vay
+            </th>
+            <th width="15%" class="text-center">
+              Ghi chú
+            </th>
+            <th width="10%" class="text-center">
+              Trạng thái
+            </th>
+            <th width="10%" class="text-center"><span>Công cụ</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of ajaxTable.data;let i = index">
+            <td class="text-center">{{ i + 1 + ((pageIndex -1) * pageSize) }}</td>
+            <td class="text-center">{{ data.created_date }}</td>
+            <td>{{ data.user_name }}</td>
+            <td>
+              <div>
+                <span>{{ data.customer_name }}</span>
+                <br>
+                <span>{{ data.customer_phone }}</span>
+              </div>
+            </td>
+            <td>
+              <table>
+                <tr>
+                  <td> <span class="badge badge-primary">Số tiền vay</span> </td>
+                  <td class="text-right">{{data.loan_price}}</td>
+                </tr>
+                <tr>
+                  <td> <span class="badge badge-success">Lãi suất</span> </td>
+                  <td class="text-right"> {{data.loan_rate+' / '+data.loan_type_name}}</td>
+                </tr>
+                <tr>
+                  <td><span class="badge badge-warning">Số lần trả</span></td>
+                  <td class="text-right"> {{data.num_repay_finish}}</td>
+                </tr>
+              </table>
+            </td>
+            <td>
+              <table>
+                <tr>
+                  <td>
+                    <span class="badge badge-primary">Ngày bắt đầu</span>
+                  </td>
+                  <td class="text-right">
+                    <span>{{data.loan_date_start}}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <span class="badge badge-success">Ngày kết thúc</span>
+                  </td>
+                  <td class="text-right">
+                    <span>{{ data.loan_date_end }}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <span class="badge badge-warning">Lãi suất</span>
+                  </td>
+                  <td class="text-right">
+                    <span>
+                      {{data.repay_total_finish+' / '+data.repay_total}}
+                    </span>
+                  </td>
+                </tr>
+              </table>
+            </td>
+            <td>{{ data.note }}</td>
+            <td class="text-center">
+              <span *ngIf="data.status_id ==1" class="badge badge-success">{{ data.status_name }}</span>
+              <span *ngIf="data.status_id ==0" class="badge badge-danger">{{ data.status_name }}</span>
+            </td>
+            <td class="cttd" class="text-center">
+              <div zn-row>
+                <i class="text-success iconAction" nz-icon nz-tooltip nzTitle="Thêm chi phí" nzType="money-collect"
+                  nzTheme="outline" (click)="addCost(data)"></i>
+
+                <i nz-icon nz-tooltip nzTitle="Đóng lãi" (click)="payContact(data)" nzType="pay-circle"
+                  class="text-primary iconAction" nzTheme="outline"></i>
+
+                <i nz-icon nzType="edit" (click)="handleCorU(data)" nz-tooltip nzTitle="Chỉnh sửa" nzTheme="outline"
+                  class="text-warning iconAction"></i>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </div>
   </div>
 </div>
 
@@ -157,3 +163,12 @@
 <app-add-contract *ngIf="isVisible" [dataEdit]="dataEdit" [isVisible]="isVisible" (closeModal)="closeModal($event)"
   class="fade in">
 </app-add-contract>
+
+
+<app-paymoney *ngIf="isVisiblePay" [dataEdit]="dataEdit" [isVisible]="isVisiblePay"
+  (closeModal)="closeModalPay($event)">
+</app-paymoney>
+
+<app-add-cost *ngIf="isVisibleCost" [dataEdit]="dataEdit" [isVisible]="isVisibleCost"
+  (closeModal)="closeModalCost($event)">
+</app-add-cost>

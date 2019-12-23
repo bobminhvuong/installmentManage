@@ -1,0 +1,99 @@
+<nz-modal [(nzVisible)]="isVisible" [nzTitle]="modalTitle" [nzContent]="modalContent" [nzFooter]="modalFooter"
+    (nzOnCancel)="handleCancel()" nzWidth="60%">
+    <ng-template #modalTitle>
+        Đóng lãi
+    </ng-template>
+    <ng-template #modalContent>
+        <div *ngIf="customer && customer.id" class="row" style="margin-bottom: 10px;">
+            <div class="col-12 col-sm-6 col-md-6 col-lg-6 mg-top-5">
+                <div class="offset-md-3">
+                    <label for=""><b>Khách hàng:&nbsp;</b></label>
+                    <span>{{ customer.name }}</span>
+                </div>
+            </div>
+
+            <div class="col-12 col-sm-7 col-md-8 col-lg-8 mg-top-5">
+                <div class="offset-md-3">
+                    <label for=""> <b>Điện thoại:&nbsp;</b> </label>
+                    <span>{{ customer.phone }}</span>
+                </div>
+            </div>
+
+            <div class="col-12 col-sm-5 col-md-4 col-lg-4 mg-top-5">
+                <div class="offset-md-3">
+                    <label for=""> <b>Chứng minh:&nbsp;</b></label>
+                    <span>{{ customer.identity_number }}</span>
+                </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-md-6 col-lg-6 mg-top-5">
+                <div class="offset-md-3">
+                    <label for=""> <b>Địa chỉ:&nbsp;</b> </label>
+                    <span>{{ customer.address }}</span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-sm-6 col-md-6 col-lg-6">
+                <div class="box box-success" *ngIf="dataSource && dataSource.pay">
+                    <nz-table #headerTable [nzData]="dataSource.pay" [nzFrontPagination]="false"
+                        [nzShowPagination]="false" [nzScroll]="{ y: '250px' }">
+                        <thead>
+                            <tr>
+                                <th width="10%" class="text-center">STT</th>
+                                <th width="40%" class="text-center">Số tiền</th>
+                                <th width="40%" class="text-center">Ngày đóng</th>
+                                <th width="10%" class="text-center"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let data of headerTable.data;let i= index">
+                                <td class="text-center">{{ i+1 }}</td>
+                                <td class="text-right">{{ formatCurrency(data.price) }} đ</td>
+                                <td class="text-center">{{ formatDate(data.created,'DD/MM/YYYY') }}</td>
+                                <td class="text-center">
+                                    <i nz-icon nz-tooltip nzTitle="Xóa phiên đóng lãi" (click)="confirmDeletePay(data)"
+                                        nzType="delete" class="text-danger iconAction" nzTheme="outline"></i>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </nz-table>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-6 col-lg-6">
+                <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="showConfirmPay(false)">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="12" [nzXs]="24" nzRequired nzFor="price">Số tiền đóng lãi
+                        </nz-form-label>
+                        <nz-form-control [nzSm]="12" [nzXs]="24">
+                            <input nz-input placeholder="Số tiền" formControlName="price" />
+                            <nz-form-explain
+                                *ngIf="validateForm.get('price')?.dirty && validateForm.get('price')?.errors">
+                                Số tiền không được để trống!
+                            </nz-form-explain>
+                        </nz-form-control>
+                    </nz-form-item>
+
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="12" [nzXs]="24" nzFor="next_payday">Ngày trả lãi kế tiếp
+                        </nz-form-label>
+                        <nz-form-control [nzSm]="12" [nzXs]="24">
+                            <nz-date-picker style="width: 100%;" [nzFormat]="dd/MM/yyyy" formControlName="next_payday">
+                            </nz-date-picker>
+                            <!-- <nz-form-explain
+                                *ngIf="validateForm.get('next_payday')?.dirty && validateForm.get('next_payday')?.errors">
+                                Chọn ngày trả lãi kế tiếp!
+                            </nz-form-explain> -->
+                        </nz-form-control>
+                    </nz-form-item>
+                </form>
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template #modalFooter>
+        <button class="btn btn-sm btn-light" (click)="handleCancel()">Đóng</button>
+        <button class="btn btn-primary btn-sm" (click)="showConfirmPay(false)">Đóng lãi</button>
+        <button class="btn btn-success btn-sm" (click)="showConfirmPay(true)">Đóng lãi và kết thúc</button>
+    </ng-template>
+</nz-modal>
