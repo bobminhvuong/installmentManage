@@ -35,9 +35,8 @@
     </div>
     <div class="row">
       <div class="col-12 col-sm-12 col-md-12 col-lg-12">
-        <div class="box box-success" *ngIf="dataSource && dataSource.pay">
-          <nz-table #headerTable [nzData]="dataSource.pay" [nzFrontPagination]="false" [nzShowPagination]="false"
-            [nzScroll]="{ y: '250px' }">
+        <div class="box box-success">
+          <nz-table [nzData]="listOfData" [nzFrontPagination]="false" [nzShowPagination]="false">
             <thead>
               <tr>
                 <th width="10%" class="text-center">STT</th>
@@ -47,12 +46,12 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let data of headerTable.cashbook;let i= index">
+              <tr *ngFor="let item of listOfData;let i= index">
                 <td class="text-center">{{ i+1 }}</td>
-                <td class="text-right">{{ formatCurrency(data.price) }} đ</td>
-                <td>{{ data.note}}</td>
+                <td class="text-right">{{ item.price }} đ</td>
+                <td>{{ item.note}}</td>
                 <td class="text-center">
-                  <i nz-icon nz-tooltip nzTitle="Xóa chi phí" (click)="confirmDeleteCost(data)" nzType="delete"
+                  <i nz-icon nz-tooltip nzTitle="Xóa chi phí" (click)="confirmDeleteCost(item)" nzType="delete"
                     class="text-danger iconAction" nzTheme="outline"></i>
                 </td>
               </tr>
@@ -61,7 +60,7 @@
         </div>
       </div>
       <div class="col-12 col-sm-12 col-md-12 col-lg-12">
-        <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="showConfirmPay(false)">
+        <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="addNote()">
           <nz-form-item>
             <nz-form-label [nzSm]="5" [nzXs]="24" nzRequired nzFor="price">Chi phí
             </nz-form-label>
@@ -85,7 +84,11 @@
           </nz-form-item>
 
           <nz-form-item>
-            <button nz-button nzType="primary" (click)="addNote()">Thêm ghi chú</button>
+
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+              <button class="offset-md-5" nz-button nzType="primary" type="submit" [nzLoading]="isLoadCost">Tạo chi
+                phí</button>
+            </div>
           </nz-form-item>
         </form>
       </div>

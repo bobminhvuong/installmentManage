@@ -261,7 +261,7 @@ export class AddContractComponent implements OnInit {
     this.lsAssets.splice(index, 1)
   }
 
-  addNewCustomer() {
+  addNewCustomer(): void {
     this.isVisibleUser = true;
   }
   closeModalUser(e) {

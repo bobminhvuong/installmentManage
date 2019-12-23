@@ -1,7 +1,7 @@
 <nz-modal [(nzVisible)]="isVisible" nzTitle="{{ dataEdit && dataEdit.id ? 'Cập nhật hợp Đồng' : 'Tạo hợp đồng' }}"
   nzOkText="{{ dataEdit && dataEdit.id ? 'Cập nhật hợp Đồng' : 'Tạo hợp đồng' }}" nzCancelText="Đóng"
-  (nzOnOk)="submitForm({})" (nzOnCancel)="handleCancel()" nzWidth="75%">
-  <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm(validateForm.value)">
+  (nzOnOk)="submitForm()" (nzOnCancel)="handleCancel()" nzWidth="75%">
+  <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
 
     <div class="row">
 
@@ -64,11 +64,6 @@
           <nz-form-control [nzSm]="14" [nzXs]="24">
             <input nz-input placeholder="Số tiền" 
               formControlName="loan_price" />
-
-              <!-- <input nz-input placeholder="Số tiền" [(ngModel)]="loan_price" (ngModelChange)="changInputPrice($event)"
-              formControlName="loan_price" /> -->
-
-
             <nz-form-explain *ngIf="validateForm.get('loan_price')?.dirty && validateForm.get('loan_price')?.errors">
               Số tiền không được để trống!
             </nz-form-explain>

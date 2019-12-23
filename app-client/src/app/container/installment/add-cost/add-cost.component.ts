@@ -15,7 +15,8 @@ export class AddCostComponent implements OnInit {
   @Output() closeModal = new EventEmitter();
   customer: any;
   validateForm: FormGroup;
-  dataSource: any;
+  listOfData: [];
+  isLoadCost = false;
   constructor(
     private fb: FormBuilder,
     private invSV: InvoiceService,
@@ -37,14 +38,14 @@ export class AddCostComponent implements OnInit {
         identity_number: this.dataEdit.customer_identity_number,
         phone: this.dataEdit.customer_phone
       }
-      this.getInvoiceDetail();
+      this.getLsCost();
     }
   }
 
-  getInvoiceDetail() {
-    this.invSV.getDetail(this.dataEdit.id).subscribe(r => {
+  getLsCost() {
+    this.invSV.getCost(this.dataEdit.id).subscribe(r => {
       if (r && r.status == 1) {
-        this.dataSource = r.data;
+        this.listOfData = r.data;
       }
     })
   }
@@ -52,6 +53,29 @@ export class AddCostComponent implements OnInit {
   handleCancel(): void {
     this.isVisible = false;
     this.closeModal.emit(this.isVisible);
+  }
+
+  addNote() {
+    for (const i in this.validateForm.controls) {
+      this.validateForm.controls[i].markAsDirty();
+      this.validateForm.controls[i].updateValueAndValidity();
+    }
+    if (this.validateForm.valid) {
+      let cost = this.validateForm.value;
+      cost.invoice_id = this.dataEdit.id;
+      this.isLoadCost = true;
+
+      this.invSV.addCost(cost).subscribe(r => {
+        if (r && r.status == 1) {
+          this.message.create('success', 'Tạo thành công!');
+          this.getLsCost();
+        } else {
+          this.message.create('error', r && r.message ? r.message : 'Có lổi xẩy ra. Vui lòng thử lại sau!')
+        }
+        this.isLoadCost = false;
+      })
+    }
+
   }
 
 }
