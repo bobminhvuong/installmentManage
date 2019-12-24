@@ -1,3 +1,4 @@
+import { NzModalService, NzMessageService } from 'ng-zorro-antd';
 import { InvoiceService } from './../../../service/invoice/invoice.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -5,14 +6,14 @@ import * as moment from 'moment';
 
 @Component({
   selector: 'app-itm-list',
-  templateUrl: './itm-list.component.html',
-  styleUrls: ['./itm-list.component.scss']
+  templateUrl: './interest-payment-history.component.html',
+  styleUrls: ['./interest-payment-history.component.scss']
 })
-export class ItmListComponent implements OnInit {
+export class InterestPaymentHistoryComponent implements OnInit {
 
   isVisible = false;
   pageIndex = 1;
-  pageSize = 20;
+  pageSize = 50;
   total = 1;
   listOfData = [];
   loading = true;
@@ -21,13 +22,17 @@ export class ItmListComponent implements OnInit {
   lsStatus = [];
   isVisiblePay = false;
   isVisibleCost = false;
-  constructor(private invSv: InvoiceService, private fb: FormBuilder) { }
+  isVisibleRate = false;
+
+  constructor(
+    private message: NzMessageService,
+    private invSv: InvoiceService,
+    private fb: FormBuilder,
+    private modalService: NzModalService) { }
 
   ngOnInit() {
     this.filterForm = this.fb.group({
-      date: [null],
       find: [''],
-      active: [1]
     });
 
     this.getAll(this.filterForm.value);
@@ -45,16 +50,10 @@ export class ItmListComponent implements OnInit {
   getAll(valFilter) {
     let filter = {
       offset: (this.pageIndex - 1) * this.pageSize,
-      limit: this.pageSize,
-      from: valFilter.date && valFilter.date[0] ? moment(valFilter.date[0]).format('DD/MM/YYYY') : '',
-      to: valFilter.date && valFilter.date[1] ? moment(valFilter.date[1]).format('DD/MM/YYYY') : '',
-      active: valFilter.active,
-      find: valFilter.find
+      limit: this.pageSize
     }
 
-    this.invSv.getAll(filter).subscribe(res => {
-      console.log(res);
-      
+    this.invSv.getAllPayHistory(filter).subscribe(res => {
       this.listOfData = res.data;
       this.loading = false;
       this.total = res.total;
@@ -79,29 +78,45 @@ export class ItmListComponent implements OnInit {
     this.getAll(this.filterForm.value);
   }
 
-  payContact(data) {
-    this.isVisiblePay = true;
+  closeModalRate(val) {
+    this.isVisibleRate = false;
+    this.getAll(this.filterForm.value);
+  }
+
+  addRate(data) {
     this.dataEdit = data;
-  }
-  closeModalPay(val) {
-    this.isVisiblePay = false;
+    this.isVisibleRate = true;
   }
 
-  closeModalCost(val) {
-    this.isVisibleCost = false;
+  confirmDeleteRate(data) {
+    this.modalService.confirm({
+      nzTitle: 'Bạn có chắc xóa chi phí này?',
+      nzOkText: 'Xác nhận',
+      nzOkType: 'danger',
+      nzOnOk: () => this.deleteRate(data.pay_id),
+      nzCancelText: 'Hủy',
+    });
   }
 
-  addCost(val) {
-    this.dataEdit = val;
-    this.isVisibleCost = true;
+  deleteRate(pay_id) {
+    this.invSv.deleteShareRate(pay_id).subscribe(r => {
+      if (r && r.status == 1) {
+        this.message.create('success', 'Xóa thành công!');
+        this.getAll(this.filterForm.value);
+      } else {
+        this.message.create('error', r && r.message ? r.message : 'Có lỗi xẩy ra. Vui lòng thử lại!');
+      }
+    })
   }
-
-  
 
   formatCurrency(val) {
     if (val && val != '') {
       val = Number((val + '').replace(/,/g, ""));
       return val.toLocaleString();
     } else return '';
+  }
+
+  formatDate(date, format) {
+    return moment(date).format(format);
   }
 }

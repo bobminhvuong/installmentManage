@@ -92,4 +92,28 @@ export class InvoiceService {
       catchError(this.mainSV.handleError)
     );
   }
+
+  shareRate(data): Observable<any> {
+    data.api = this.mainSV.getApikey();
+    return this.http.post(environment.APIHOST + '/api/invoice/Profit/Get', data, this.mainSV.getHttpOptionsNotToken()).pipe(
+      catchError(this.mainSV.handleError)
+    );
+  }
+
+  deleteShareRate(invoice_pay_id): Observable<any> {
+    let data = {
+      invoice_pay_id: invoice_pay_id,
+      api: this.mainSV.getApikey()
+    }
+    return this.http.post(environment.APIHOST + '/api/invoice/Profit/Delete', data, this.mainSV.getHttpOptionsNotToken()).pipe(
+      catchError(this.mainSV.handleError)
+    );
+  }
+
+  getAllPayHistory(filter): Observable<any> {
+    filter.api = this.mainSV.getApikey();
+    return this.http.post(environment.APIHOST + '/api/invoice/Pay/History', filter, this.mainSV.getHttpOptionsNotToken()).pipe(
+      catchError(this.mainSV.handleError)
+    );
+  }
 }

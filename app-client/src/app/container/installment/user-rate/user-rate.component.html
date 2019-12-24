@@ -1,0 +1,64 @@
+<nz-modal [(nzVisible)]="isVisible" [nzTitle]="modalTitle" [nzContent]="modalContent" [nzFooter]="modalFooter"
+  (nzOnCancel)="handleCancel()" nzWidth="40%">
+  <ng-template #modalTitle>
+    Đóng lãi
+  </ng-template>
+  <ng-template #modalContent>
+    <div *ngIf="dataEdit" class="row" style="margin-bottom: 10px;">
+      <div class="col-12 col-sm-6 col-md-6 col-lg-6">
+        <label for=""><b>Khách hàng:&nbsp;</b></label>
+        <span>{{ dataEdit.name }}</span>
+      </div>
+
+      <div class="col-12 col-sm-6 col-md-8 col-lg-6 ">
+        <label for=""> <b>Điện thoại:&nbsp;</b> </label>
+        <span>{{ dataEdit.phone }}</span>
+      </div>
+
+      <div class="col-12 col-sm-6 col-md-4 col-lg-6">
+        <label for=""> <b>Tiền trả lãi:&nbsp;</b></label>
+        <span>{{ formatCurrency(dataEdit.pay_price) }} đ</span>
+      </div>
+
+      <div class="col-12 col-sm-6 col-md-6 col-lg-6">
+        <label for=""> <b>Số tiền vay:&nbsp;</b> </label>
+        <span>{{ formatCurrency(dataEdit.loan_price) }} đ</span>
+      </div>
+
+      <div class="col-12 col-sm-6 col-md-6 col-lg-6">
+        <label for=""> <b>Ngày trả lãi:&nbsp;</b> </label>
+        <span>{{ formatDate(dataEdit.created,'DD/MM/YYYY') }}</span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="box box-success">
+          <nz-table #headerTable [nzData]="shareRates" [nzFrontPagination]="false" [nzShowPagination]="false">
+            <thead>
+              <tr>
+                <th width="60%">Người góp vốn</th>
+                <th width="40%">lãi được chia</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of headerTable.data;let i= index">
+                <td>
+                  {{ data.name }}
+                </td>
+                <td class="text-right">
+                  {{ formatCurrency(data.rate_by_user) }} đ
+                </td>
+              </tr>
+            </tbody>
+          </nz-table>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #modalFooter>
+    <button nz-button nzType="default" (click)="handleCancel()">Đóng</button>
+    <button *ngIf="dataEdit.is_sharemoney ==0" nz-button nzType="primary" (click)="shareRate(true)">Xác nhận chia
+      lãi</button>
+  </ng-template>
+</nz-modal>

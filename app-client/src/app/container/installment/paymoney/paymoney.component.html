@@ -38,16 +38,16 @@
                         <thead>
                             <tr>
                                 <th width="10%" class="text-center">STT</th>
-                                <th width="40%" class="text-center">Số tiền</th>
                                 <th width="40%" class="text-center">Ngày đóng</th>
-                                <th width="10%" class="text-center"></th>
+                                <th width="30%" class="text-center">Số tiền</th>
+                                <th width="20%" class="text-center"></th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr *ngFor="let data of headerTable.data;let i= index">
                                 <td class="text-center">{{ i+1 }}</td>
-                                <td class="text-right">{{ formatCurrency(data.price) }} đ</td>
                                 <td class="text-center">{{ formatDate(data.created,'DD/MM/YYYY') }}</td>
+                                <td class="text-right">{{ formatCurrency(data.price) }} đ</td>
                                 <td class="text-center">
                                     <i nz-icon nz-tooltip nzTitle="Xóa phiên đóng lãi" (click)="confirmDeletePay(data)"
                                         nzType="delete" class="text-danger iconAction" nzTheme="outline"></i>

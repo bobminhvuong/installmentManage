@@ -93,11 +93,11 @@
               <table>
                 <tr>
                   <td> <span class="badge badge-primary">Số tiền vay</span> </td>
-                  <td class="text-right">{{data.loan_price}}</td>
+                  <td class="text-right">{{formatCurrency(data.loan_price)}} đ</td>
                 </tr>
                 <tr>
                   <td> <span class="badge badge-success">Lãi suất</span> </td>
-                  <td class="text-right"> {{data.loan_rate+' / '+data.loan_type_name}}</td>
+                  <td class="text-right"> {{data.loan_rate +' / '+ data.loan_type_name}}</td>
                 </tr>
                 <tr>
                   <td><span class="badge badge-warning">Số lần trả</span></td>
@@ -125,11 +125,14 @@
                 </tr>
                 <tr>
                   <td>
-                    <span class="badge badge-warning">Lãi suất</span>
+                    <span class="badge badge-warning">Lãi đã đóng</span>
                   </td>
                   <td class="text-right">
-                    <span>
-                      {{data.repay_total_finish+' / '+data.repay_total}}
+                    <span *ngIf="data.repay_total_finish && data.repay_total_finish > 0">
+                      {{formatCurrency(data.repay_total_finish)}} đ
+                    </span>
+                    <span *ngIf="!data.repay_total_finish || data.repay_total_finish == 0">
+                      Chưa đóng
                     </span>
                   </td>
                 </tr>
@@ -150,6 +153,7 @@
 
                 <i nz-icon nzType="edit" (click)="handleCorU(data)" nz-tooltip nzTitle="Chỉnh sửa" nzTheme="outline"
                   class="text-warning iconAction"></i>
+
               </div>
             </td>
           </tr>

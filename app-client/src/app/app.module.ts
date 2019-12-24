@@ -39,6 +39,8 @@ import { BdsComponent } from './container/bds/bds.component';
 import { AddBdsComponent } from './container/bds/add-bds/add-bds.component';
 import { SellBdsComponent } from './container/bds/sell-bds/sell-bds.component';
 import { AddCostComponent } from './container/installment/add-cost/add-cost.component';
+import { UserRateComponent } from './container/installment/user-rate/user-rate.component';
+import { InterestPaymentHistoryComponent } from './container/installment/interest-payment-history/interest-payment-history.component';
 
 registerLocaleData(en);
 
@@ -63,7 +65,9 @@ registerLocaleData(en);
     BdsComponent,
     AddBdsComponent,
     SellBdsComponent,
-    AddCostComponent
+    AddCostComponent,
+    UserRateComponent,
+    InterestPaymentHistoryComponent
   ],
   imports: [
     BrowserModule,

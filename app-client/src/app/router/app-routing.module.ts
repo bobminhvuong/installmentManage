@@ -1,3 +1,4 @@
+import { InterestPaymentHistoryComponent } from './../container/installment/interest-payment-history/interest-payment-history.component';
 import { BdsComponent } from './../container/bds/bds.component';
 import { AssetComponent } from './../container/asset/asset.component';
 import { ProfileComponent } from './../container/profile/profile.component';
@@ -24,7 +25,8 @@ const routes: Routes = [
             { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
             { path: 'installment', component: InstallmentComponent, children: [
                 {path: '', redirectTo: 'itm-list', pathMatch: 'full'},
-                {path: 'itm-list', component: ItmListComponent}
+                {path: 'itm-list', component: ItmListComponent},
+                {path: 'pay-interest-history', component: InterestPaymentHistoryComponent},
             ] },
             { path: 'dashboard', component: DashboardComponent },
             { path: 'customer', component: CustomerComponent },
