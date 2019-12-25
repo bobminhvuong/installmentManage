@@ -60,13 +60,12 @@ export class PaymoneyComponent implements OnInit {
       date: this.formatDate(this.validateForm.value.date, 'DD/MM/YYYY')
     };
     this.invSV.getCaculatePayPrice(data).subscribe(r => {
-      console.log(r);
-      // if (r && r.status == 1) {
+      if (r && r.status == 1) {
         this.price = r.data.money;
         this.pay = r.data;
-      // } else {
-      //   this.message.create('error', r && r.message ? r.message : 'Đã có lổi xẩy ra. Vui lòng thử lại!');
-      // }
+      } else {
+        this.message.create('error', r && r.message ? r.message : 'Đã có lổi xẩy ra. Vui lòng thử lại!');
+      }
     })
   }
 
@@ -109,6 +108,7 @@ export class PaymoneyComponent implements OnInit {
     pay.invoice_id = this.dataEdit.id;
     pay.next_payday = this.formatDate(pay.next_payday, 'DD/MM/YYYY');
     pay.price = this.formatNumber(pay.price);
+    pay.date = this.formatDate(pay.date, 'DD/MM/YYYY')
     pay.is_finish = isSuccess;
     if (isSuccess) delete pay.next_payday;
 
@@ -123,6 +123,7 @@ export class PaymoneyComponent implements OnInit {
 
     })
   }
+
   confirmDeletePay(data) {
     this.modalService.confirm({
       nzTitle: 'Bạn có chắc xóa lần đóng lãi này?',

@@ -64,7 +64,7 @@
                         <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="date">Ngày trả lãi
                         </nz-form-label>
                         <nz-form-control [nzSm]="16" [nzXs]="24">
-                            <nz-date-picker [nzFormat]="'dd/MM/yyyy'" formControlName="date"></nz-date-picker>
+                            <nz-date-picker [nzFormat]="'dd/MM/yyyy'" (ngModelChange)="getPrice()" formControlName="date"></nz-date-picker>
                             <!-- <nz-form-explain
                                 *ngIf="validateForm.get('next_payday')?.dirty && validateForm.get('next_payday')?.errors">
                                 Chọn ngày trả lãi kế tiếp!
