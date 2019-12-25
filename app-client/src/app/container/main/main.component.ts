@@ -62,32 +62,32 @@ export class MainComponent implements OnInit {
           }
         ]
       },
-      {
-        title: 'Bất động sản',
-        url: '',
-        role: ['admin'],
-        icon: 'home',
-        subMenu: [
-          {
-            title: 'Nhà đất',
-            url: '/manager/bds',
-            role: ['admin'],
-          }
-        ]
-      },
-      {
-        title: 'Tài sản',
-        url: '',
-        icon: 'hdd',
-        role: ['admin'],
-        subMenu: [
-          {
-            title: 'Danh sách',
-            url: '/manager/assets',
-            role: ['admin'],
-          }
-        ]
-      },
+      // {
+      //   title: 'Bất động sản',
+      //   url: '',
+      //   role: ['admin'],
+      //   icon: 'home',
+      //   subMenu: [
+      //     {
+      //       title: 'Nhà đất',
+      //       url: '/manager/bds',
+      //       role: ['admin'],
+      //     }
+      //   ]
+      // },
+      // {
+      //   title: 'Tài sản',
+      //   url: '',
+      //   icon: 'hdd',
+      //   role: ['admin'],
+      //   subMenu: [
+      //     {
+      //       title: 'Danh sách',
+      //       url: '/manager/assets',
+      //       role: ['admin'],
+      //     }
+      //   ]
+      // },
       {
         title: 'Nhân viên',
         url: '',
