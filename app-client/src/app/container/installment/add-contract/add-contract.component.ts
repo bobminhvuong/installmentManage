@@ -72,7 +72,7 @@ export class AddContractComponent implements OnInit {
       loan_date_end: [endDate, [Validators.required]],
       loan_rate: [this.dataEdit.loan_rate ? this.dataEdit.loan_rate : '', [Validators.required]],
       customer_id: [this.dataEdit.customer_id ? this.dataEdit.customer_id : '', [Validators.required]],
-      loan_type: [this.dataEdit && this.dataEdit.loan_type ? this.dataEdit.loan_type : 1],
+      loan_type: [this.dataEdit && this.dataEdit.loan_type ? this.dataEdit.loan_type : 0],
       note: [this.dataEdit.note ? this.dataEdit.note : '']
     });
 

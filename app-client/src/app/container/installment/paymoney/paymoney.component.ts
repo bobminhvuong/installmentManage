@@ -1,6 +1,6 @@
 import { NzModalService, NzMessageService } from 'ng-zorro-antd';
 import { InvoiceService } from './../../../service/invoice/invoice.service';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { FormGroup, Validators, FormBuilder, FormControl } from '@angular/forms';
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import * as moment from 'moment';
 
@@ -16,13 +16,16 @@ export class PaymoneyComponent implements OnInit {
   customer: any;
   validateForm: FormGroup;
   dataSource: any;
+  pay: any;
+  price: '';
   constructor(private fb: FormBuilder,
     private invSV: InvoiceService, private modalService: NzModalService, private message: NzMessageService) { }
 
   ngOnInit() {
     this.validateForm = this.fb.group({
+      date: [new Date()],
       price: [null, [Validators.required]],
-      next_payday: [new Date()]
+      next_payday: [new Date(), [this.nextDateOke]]
     });
 
     if (this.dataEdit && this.dataEdit.id) {
@@ -37,6 +40,34 @@ export class PaymoneyComponent implements OnInit {
       this.getInvoiceDetail();
     }
 
+    this.getPrice();
+
+  }
+
+  nextDateOke = (control: FormControl): { [s: string]: boolean } => {
+    if (this.validateForm && this.validateForm.controls) {
+      if (control.value <= this.validateForm.controls.date.value) {
+        return { confirm: true, error: true };
+      }
+      return {};
+    }
+    return {};
+  };
+
+  getPrice() {
+    let data = {
+      invoice_id: this.dataEdit.id,
+      date: this.formatDate(this.validateForm.value.date, 'DD/MM/YYYY')
+    };
+    this.invSV.getCaculatePayPrice(data).subscribe(r => {
+      console.log(r);
+      // if (r && r.status == 1) {
+        this.price = r.data.money;
+        this.pay = r.data;
+      // } else {
+      //   this.message.create('error', r && r.message ? r.message : 'Đã có lổi xẩy ra. Vui lòng thử lại!');
+      // }
+    })
   }
 
   getInvoiceDetail() {
@@ -79,7 +110,7 @@ export class PaymoneyComponent implements OnInit {
     pay.next_payday = this.formatDate(pay.next_payday, 'DD/MM/YYYY');
     pay.price = this.formatNumber(pay.price);
     pay.is_finish = isSuccess;
-    if(isSuccess) delete pay.next_payday;
+    if (isSuccess) delete pay.next_payday;
 
     this.invSV.payAdd(pay).subscribe(r => {
       if (r && r.status == 1) {

@@ -57,13 +57,26 @@
                     </nz-table>
                 </div>
             </div>
-            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="col-12 col-sm-6 col-md-6 col-lg-6">
                 <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="showConfirmPay(false)">
+
                     <nz-form-item>
-                        <nz-form-label [nzSm]="5" [nzXs]="24" nzRequired nzFor="price">Số tiền đóng lãi
+                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="date">Ngày trả lãi
                         </nz-form-label>
-                        <nz-form-control [nzSm]="5" [nzXs]="24">
-                            <input style="width: 95%;" nz-input placeholder="Số tiền" formControlName="price" />
+                        <nz-form-control [nzSm]="16" [nzXs]="24">
+                            <nz-date-picker [nzFormat]="'dd/MM/yyyy'" formControlName="date"></nz-date-picker>
+                            <!-- <nz-form-explain
+                                *ngIf="validateForm.get('next_payday')?.dirty && validateForm.get('next_payday')?.errors">
+                                Chọn ngày trả lãi kế tiếp!
+                            </nz-form-explain> -->
+                        </nz-form-control>
+                    </nz-form-item>
+
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="price">Số tiền
+                        </nz-form-label>
+                        <nz-form-control [nzSm]="16" [nzXs]="24">
+                            <input style="width: 172px;" nz-input [(ngModel)]="price" placeholder="Số tiền" formControlName="price" />
                             <nz-form-explain
                                 *ngIf="validateForm.get('price')?.dirty && validateForm.get('price')?.errors">
                                 Số tiền không được để trống!
@@ -72,19 +85,45 @@
                     </nz-form-item>
 
                     <nz-form-item>
-                        <nz-form-label [nzSm]="5" [nzXs]="24" nzFor="next_payday">Ngày trả lãi kế tiếp
+                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="next_payday">Ngày trả lãi kế tiếp
                         </nz-form-label>
-                        <nz-form-control [nzSm]="12" [nzXs]="24">
-                            <nz-date-picker style="width: 100%;" [nzFormat]="dd/MM/yyyy" formControlName="next_payday">
+                        <nz-form-control [nzSm]="16" [nzXs]="24">
+                            <nz-date-picker [nzFormat]="'dd/MM/yyyy'" formControlName="next_payday">
                             </nz-date-picker>
-                            <!-- <nz-form-explain
+                            <nz-form-explain
                                 *ngIf="validateForm.get('next_payday')?.dirty && validateForm.get('next_payday')?.errors">
-                                Chọn ngày trả lãi kế tiếp!
-                            </nz-form-explain> -->
+                                Ngày đóng lãi kế tiếp phải lớn hơn ngày đóng lãi hiện tại!
+                            </nz-form-explain>
                         </nz-form-control>
                     </nz-form-item>
                 </form>
             </div>
+
+
+            <div *ngIf="pay" class="col-12 col-sm-6 col-md-6 col-lg-6">
+                <div class="row">
+                    <label for=""> <b>
+                            Ngày trả lãi trước đó:&nbsp;
+                        </b> </label>
+                    <span>{{pay.last_pay_date}}</span>
+                </div>
+                <div class="row">
+                    <label for=""> <b>Số ngày đóng lãi:&nbsp;</b> </label>
+                    <b>
+                        <span *ngIf="pay.years > 0">
+                            {{ pay.years }} Năm
+                        </span>
+                        
+                        <span *ngIf="pay.months > 0">
+                            {{ pay.months }} Tháng
+                        </span>
+                        <span>
+                            {{ pay.days }} Ngày
+                        </span>
+                    </b>
+                </div>
+            </div>
+
         </div>
     </ng-template>
 

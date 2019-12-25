@@ -116,4 +116,11 @@ export class InvoiceService {
       catchError(this.mainSV.handleError)
     );
   }
+
+  getCaculatePayPrice(filter): Observable<any> {
+    filter.api = this.mainSV.getApikey();
+    return this.http.post(environment.APIHOST + '/api/invoice/pay/Calculate', filter, this.mainSV.getHttpOptionsNotToken()).pipe(
+      catchError(this.mainSV.handleError)
+    );
+  }
 }
