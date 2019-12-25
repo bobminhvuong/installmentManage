@@ -90,7 +90,7 @@ export class InterestPaymentHistoryComponent implements OnInit {
 
   confirmDeleteRate(data) {
     this.modalService.confirm({
-      nzTitle: 'Bạn có chắc xóa chi phí này?',
+      nzTitle: 'Bạn có chắc xóa phần chia lãi này?',
       nzOkText: 'Xác nhận',
       nzOkType: 'danger',
       nzOnOk: () => this.deleteRate(data.pay_id),

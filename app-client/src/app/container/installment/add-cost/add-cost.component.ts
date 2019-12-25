@@ -38,7 +38,8 @@ export class AddCostComponent implements OnInit {
         address: this.dataEdit.customer_address,
         identity_number: this.dataEdit.customer_identity_number,
         phone: this.dataEdit.customer_phone,
-        created: this.dataEdit.created
+        created: this.dataEdit.created,
+        loan_price: this.dataEdit.loan_price
       }
       this.getLsCost();
     }

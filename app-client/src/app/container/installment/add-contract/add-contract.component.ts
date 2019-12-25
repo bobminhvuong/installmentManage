@@ -62,12 +62,12 @@ export class AddContractComponent implements OnInit {
       endDate = new Date(dateEndArray[1] + '/' + dateEndArray[0] + '/' + dateEndArray[2]);
     }
     this.loan_price = this.dataEdit.loan_price ? this.dataEdit.loan_price : '';
-    // this.loan_price = this.formatCurrentcy(this.dataEdit.loan_price ? this.dataEdit.loan_price : '');
+    this.loan_price = this.formatCurrentcy(this.dataEdit.loan_price ? this.dataEdit.loan_price : '');
     this.loan_type = this.dataEdit && this.dataEdit.loan_type ? this.dataEdit.loan_type : 1;
 
     this.validateForm = this.fb.group({
-      loan_price: [this.dataEdit.loan_price ? this.dataEdit.loan_price : '', [Validators.required]],
-      // loan_price: [this.formatCurrentcy(this.dataEdit.loan_price ? this.dataEdit.loan_price : ''), [Validators.required]],
+      // loan_price: [this.dataEdit.loan_price ? this.dataEdit.loan_price : '', [Validators.required]],
+      loan_price: [this.formatCurrentcy(this.dataEdit.loan_price ? this.dataEdit.loan_price : ''), [Validators.required]],
       loan_date_start: [startDate, [Validators.required]],
       loan_date_end: [endDate, [Validators.required]],
       loan_rate: [this.dataEdit.loan_rate ? this.dataEdit.loan_rate : '', [Validators.required]],
@@ -97,13 +97,14 @@ export class AddContractComponent implements OnInit {
         r.data.asset.forEach(e => {
           e.name = e.asset_source_name;
           e.id = e.asset_source_id;
+          e.price = this.formatCurrentcy(e.price);
         })
 
         r.data.capital.forEach(e => {
           e.id = e.user_id;
           e.name = e.user_name;
-          // e.price = this.formatCurrentcy(e.price);
-          e.price = e.price;
+          e.price = this.formatCurrentcy(e.price);
+          // e.price = e.price;
         })
         r.data.image.forEach(function (e, i) {
           e.url = environment.APICURRENTSERVE + '/' + e.url;
@@ -159,8 +160,6 @@ export class AddContractComponent implements OnInit {
         this.listCapital.forEach(e => {
           total = total + this.formatNumber(e.price);
         })
-        console.log(total);
-
         if (total !== this.formatNumber(this.validateForm.value.loan_price)) {
           this.message.create('error', 'Số tiền vốn không đủ!');
           return false;
@@ -188,7 +187,7 @@ export class AddContractComponent implements OnInit {
       this.listCapital.forEach(e => {
         capitals.push({
           user_id: e.id,
-          price: e.price,
+          price: Number(e.price.replace(/,/g, '')),
           money_source_id: e.money_source_id
         })
       })
@@ -196,7 +195,7 @@ export class AddContractComponent implements OnInit {
       this.lsAssets.forEach(e => {
         assets.push({
           asset_source_id: e.id,
-          price: e.price
+          price: Number(e.price.replace(/,/g, ''))
         })
       })
 
@@ -207,7 +206,7 @@ export class AddContractComponent implements OnInit {
       })
 
       let data = this.validateForm.value;
-      data.loan_price = data.loan_price.replace(/,/g, '');
+      data.loan_price = Number(data.loan_price.replace(/,/g, ''));
       data.capitals = capitals;
       data.loan_date_start = moment(data.loan_date_start).format('DD/MM/YYYY');
       data.loan_date_end = moment(data.loan_date_end).format('DD/MM/YYYY');
@@ -276,14 +275,21 @@ export class AddContractComponent implements OnInit {
     }
   }
 
-  changeInputAsset(index) {
-    // console.log(this.lsAssets[index].price);
+  numberOnly(event): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
 
-    // if(this.lsAssets[index].price){
-    //   let val = Number((this.lsAssets[index].price+'').replace(/,/g, ""));
-    //   this.lsAssets[index].price = '';
-    //   if(!isNaN(val)) this.lsAssets[index].price = val.toLocaleString();
-    // }
+  }
+
+  changeInputAsset(val,index) {
+    if(this.lsAssets[index].price){
+      val = Number((val+'').replace(/,/g, ""));
+      this.lsAssets[index].price = '';
+      if(!isNaN(val)) this.lsAssets[index].price = val.toLocaleString();
+    }
   }
 
   formatCurrentcy(val) {

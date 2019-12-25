@@ -29,6 +29,10 @@
                 <label for=""> <b>Ngày vay:&nbsp;</b> </label>
                 <span>{{ formatDate(customer.created,'DD/MM/YYYY') }}</span>
             </div>
+            <div class="col-12 col-sm-6 col-md-6 col-lg-6">
+                <label for=""> <b>Số tiền vay:&nbsp;</b> </label>
+                <span>{{ formatCurrency(customer.loan_price) }} đ</span>
+            </div>
         </div>
         <div class="row">
             <div class="col-12 col-sm-12 col-md-12 col-lg-12">
@@ -76,7 +80,7 @@
                         <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="price">Số tiền
                         </nz-form-label>
                         <nz-form-control [nzSm]="16" [nzXs]="24">
-                            <input style="width: 172px;" nz-input [(ngModel)]="price" placeholder="Số tiền" formControlName="price" />
+                            <input style="width: 172px;" (keypress)="numberOnly($event)" nz-input [(ngModel)]="price" (ngModelChange)="changeInputPrice($event)" placeholder="Số tiền" formControlName="price" />
                             <nz-form-explain
                                 *ngIf="validateForm.get('price')?.dirty && validateForm.get('price')?.errors">
                                 Số tiền không được để trống!

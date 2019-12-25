@@ -29,6 +29,10 @@
         <label for=""> <b>Ngày vay:&nbsp;</b> </label>
         <span>{{ formatDate(customer.created,'DD/MM/YYYY') }}</span>
       </div>
+      <div class="col-12 col-sm-6 col-md-6 col-lg-6">
+        <label for=""> <b>Số tiền vay:&nbsp;</b> </label>
+        <span>{{ formatCurrency(customer.loan_price) }} đ</span>
+      </div>
     </div>
     <div class="row">
       <div class="col-12 col-sm-12 col-md-12 col-lg-12">

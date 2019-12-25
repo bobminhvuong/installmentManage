@@ -63,6 +63,9 @@
           <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="loan_price">Số tiền</nz-form-label>
           <nz-form-control [nzSm]="14" [nzXs]="24">
             <input nz-input placeholder="Số tiền" 
+            [(ngModel)]="loan_price" 
+            (keypress)="numberOnly($event)"
+            (ngModelChange)="changInputPrice($event)"
               formControlName="loan_price" />
             <nz-form-explain *ngIf="validateForm.get('loan_price')?.dirty && validateForm.get('loan_price')?.errors">
               Số tiền không được để trống!
@@ -144,7 +147,7 @@
           <nz-form-control [nzSm]="12" [nzXs]="21">
             <div nz-row>
               <div nz-col [nzSpan]="20">
-                <input nz-input placeholder="Số tiền" (ngModelChange)="changeInputAsset(i)" [(ngModel)]="item.price"
+                <input (keypress)="numberOnly($event)" nz-input placeholder="Số tiền" (ngModelChange)="item.price = $event"  (ngModelChange)="changeInputAsset($event,i)" [(ngModel)]="item.price"
                   style="width: 100%;" [ngModelOptions]="{standalone: true}" />
               </div>
               <div nz-col [nzSpan]="4">
@@ -176,9 +179,8 @@
           <nz-form-control [nzSm]="12" [nzXs]="24">
             <div nz-row>
               <div nz-col [nzSpan]="12">
-                <nz-input-number [nzMin]="1" [nzPlaceHolder]="'Số tiền'" [(ngModel)]="item.price" style="width: 90%;"
-                  [ngModelOptions]="{standalone: true}">
-                </nz-input-number>
+                <input (keypress)="numberOnly($event)" nz-input placeholder="Số tiền" (ngModelChange)="changeInputCap($event)" [(ngModel)]="item.price"
+                style="width: 100%;" [ngModelOptions]="{standalone: true}" />
               </div>
               <div nz-col [nzSpan]="9">
                 <select class="ant-input" [(ngModel)]="item.money_source_id" [ngModelOptions]="{standalone: true}"

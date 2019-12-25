@@ -17,7 +17,7 @@ export class PaymoneyComponent implements OnInit {
   validateForm: FormGroup;
   dataSource: any;
   pay: any;
-  price: '';
+  price: any;
   constructor(private fb: FormBuilder,
     private invSV: InvoiceService, private modalService: NzModalService, private message: NzMessageService) { }
 
@@ -35,7 +35,8 @@ export class PaymoneyComponent implements OnInit {
         address: this.dataEdit.customer_address,
         identity_number: this.dataEdit.customer_identity_number,
         phone: this.dataEdit.customer_phone,
-        created: this.dataEdit.created
+        created: this.dataEdit.created,
+        loan_price: this.dataEdit.loan_price
       }
       this.getInvoiceDetail();
     }
@@ -61,7 +62,7 @@ export class PaymoneyComponent implements OnInit {
     };
     this.invSV.getCaculatePayPrice(data).subscribe(r => {
       if (r && r.status == 1) {
-        this.price = r.data.money;
+        this.price = this.formatCurrency(r.data.money);
         this.pay = r.data;
       } else {
         this.message.create('error', r && r.message ? r.message : 'Đã có lổi xẩy ra. Vui lòng thử lại!');
@@ -151,6 +152,23 @@ export class PaymoneyComponent implements OnInit {
     } else {
       return 0;
     }
+  }
+ 
+  changeInputPrice(e) {
+    if (this.price != '') {
+      let val = Number((this.price + '').replace(/,/g, ""));
+      this.price = '';
+      if (!isNaN(val)) this.price = val.toLocaleString();
+    }
+  }
+
+  numberOnly(event): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
+
   }
 
 }

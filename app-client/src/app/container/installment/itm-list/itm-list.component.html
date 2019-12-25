@@ -93,7 +93,7 @@
               <table>
                 <tr>
                   <td> <span class="badge badge-primary">Số tiền vay</span> </td>
-                  <td class="text-right">{{formatCurrency(data.loan_price)}} đ</td>
+                  <td class="text-right">{{data.loan_price  | number }} đ</td>
                 </tr>
                 <tr>
                   <td> <span class="badge badge-success">Lãi suất</span> </td>
@@ -129,7 +129,7 @@
                   </td>
                   <td class="text-right">
                     <span *ngIf="data.repay_total_finish && data.repay_total_finish > 0">
-                      {{formatCurrency(data.repay_total_finish)}} đ
+                      {{data.repay_total_finish | number}} đ
                     </span>
                     <span *ngIf="!data.repay_total_finish || data.repay_total_finish == 0">
                       Chưa đóng
