@@ -62,12 +62,12 @@ export class AddContractComponent implements OnInit {
       endDate = new Date(dateEndArray[1] + '/' + dateEndArray[0] + '/' + dateEndArray[2]);
     }
     this.loan_price = this.dataEdit.loan_price ? this.dataEdit.loan_price : '';
-    this.loan_price = this.formatCurrentcy(this.dataEdit.loan_price ? this.dataEdit.loan_price : '');
+    this.loan_price = this.dataEdit.loan_price ? this.dataEdit.loan_price : '';
     this.loan_type = this.dataEdit && this.dataEdit.loan_type ? this.dataEdit.loan_type : 1;
 
     this.validateForm = this.fb.group({
       // loan_price: [this.dataEdit.loan_price ? this.dataEdit.loan_price : '', [Validators.required]],
-      loan_price: [this.formatCurrentcy(this.dataEdit.loan_price ? this.dataEdit.loan_price : ''), [Validators.required]],
+      loan_price: [this.dataEdit.loan_price ? this.dataEdit.loan_price : '', [Validators.required]],
       loan_date_start: [startDate, [Validators.required]],
       loan_date_end: [endDate, [Validators.required]],
       loan_rate: [this.dataEdit.loan_rate ? this.dataEdit.loan_rate : '', [Validators.required]],
@@ -97,13 +97,13 @@ export class AddContractComponent implements OnInit {
         r.data.asset.forEach(e => {
           e.name = e.asset_source_name;
           e.id = e.asset_source_id;
-          e.price = this.formatCurrentcy(e.price);
+          e.price = e.price;
         })
 
         r.data.capital.forEach(e => {
           e.id = e.user_id;
           e.name = e.user_name;
-          e.price = this.formatCurrentcy(e.price);
+          e.price = e.price;
           // e.price = e.price;
         })
         r.data.image.forEach(function (e, i) {
@@ -262,41 +262,10 @@ export class AddContractComponent implements OnInit {
   addNewCustomer(): void {
     this.isVisibleUser = true;
   }
+
   closeModalUser(e) {
     this.isVisibleUser = false;
     this.getCustomers();
-  }
-
-  changInputPrice(e) {
-    if (this.loan_price != '') {
-      let val = Number((this.loan_price + '').replace(/,/g, ""));
-      this.loan_price = '';
-      if (!isNaN(val)) this.loan_price = val.toLocaleString();
-    }
-  }
-
-  numberOnly(event): boolean {
-    const charCode = (event.which) ? event.which : event.keyCode;
-    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-      return false;
-    }
-    return true;
-
-  }
-
-  changeInputAsset(val,index) {
-    if(this.lsAssets[index].price){
-      val = Number((val+'').replace(/,/g, ""));
-      this.lsAssets[index].price = '';
-      if(!isNaN(val)) this.lsAssets[index].price = val.toLocaleString();
-    }
-  }
-
-  formatCurrentcy(val) {
-    if (val && val != '') {
-      val = Number((val + '').replace(/,/g, ""));
-      return val.toLocaleString();
-    } else return '';
   }
 
   formatNumber(value) {

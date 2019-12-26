@@ -41,6 +41,8 @@ import { SellBdsComponent } from './container/bds/sell-bds/sell-bds.component';
 import { AddCostComponent } from './container/installment/add-cost/add-cost.component';
 import { UserRateComponent } from './container/installment/user-rate/user-rate.component';
 import { InterestPaymentHistoryComponent } from './container/installment/interest-payment-history/interest-payment-history.component';
+import { OnlyNumberDirective } from './directives/only-number.directive';
+import { FormatVNDirective } from './directives/format-vn.directive';
 
 registerLocaleData(en);
 
@@ -67,7 +69,9 @@ registerLocaleData(en);
     SellBdsComponent,
     AddCostComponent,
     UserRateComponent,
-    InterestPaymentHistoryComponent
+    InterestPaymentHistoryComponent,
+    OnlyNumberDirective,
+    FormatVNDirective
   ],
   imports: [
     BrowserModule,

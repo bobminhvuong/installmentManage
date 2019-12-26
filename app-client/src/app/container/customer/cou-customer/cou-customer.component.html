@@ -1,11 +1,11 @@
-<nz-modal [(nzVisible)]="isVisible" nzTitle="Khách hàng" nzOkText="Ok" nzCancelText="Cancel" (nzOnOk)="submitForm()"
-  (nzOnCancel)="handleCancel()" nzWidth="30%">
+<nz-modal [(nzVisible)]="isVisible" nzTitle="Khách hàng" nzOkText="Xác nhận" nzCancelText="Hủy" (nzOnOk)="submitForm()"
+  (nzOnCancel)="handleCancel()" nzWidth="40%">
   <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
 
     <nz-form-item>
       <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="name">Họ tên</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
-        <input [(ngModel)]="dataEdit.name" nz-input formControlName="name" id="name" />
+        <input [(appFormatVN)]="dataEdit.name" [(ngModel)]="dataEdit.name" nz-input formControlName="name" id="name" />
         <nz-form-explain *ngIf="validateForm.get('name')?.dirty && validateForm.get('name')?.errors">
           Họ tên không được để trống!
         </nz-form-explain>
@@ -23,25 +23,54 @@
     </nz-form-item>
 
     <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="identity_number">Chứng minh</nz-form-label>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="identity_number" nzRequired>Số chứng minh</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
         <input nz-input id="identity_number" formControlName="identity_number" [(ngModel)]="dataEdit.identity_number" />
+        <nz-form-explain *ngIf="validateForm.get('phone')?.dirty && validateForm.get('phone')?.errors">
+          Số chứng minh không được để trống
+        </nz-form-explain>
       </nz-form-control>
     </nz-form-item>
 
     <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="identity_date" nzRequired>Ngày cấp</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <nz-date-picker [nzFormat]="'dd/MM/yyyy'" formControlName="identity_date" [(ngModel)]="dataEdit.identity_date">
+        </nz-date-picker>
+        <nz-form-explain *ngIf="validateForm.get('identity_date')?.dirty && validateForm.get('identity_date')?.errors">
+          Ngày cấp không được để trống
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="identity_issued_by" nzRequired>Nơi cấp</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <input nz-input id="identity_issued_by" formControlName="identity_issued_by"
+          [(ngModel)]="dataEdit.identity_issued_by" />
+        <nz-form-explain
+          *ngIf="validateForm.get('identity_issued_by')?.dirty && validateForm.get('identity_issued_by')?.errors">
+          Nơi không được để trống!
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+
+
+
+    <nz-form-item>
       <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="identity_image">Hình ảnh</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
-        <nz-upload   (nzChange)="handleChangeImg($event)" nzAction="{{ API_IMG }}/api/fileUpload?pathImg=customers" nzListType="picture" [(nzFileList)]="avatar">
+        <nz-upload (nzChange)="handleChangeImg($event)" nzAction="{{ API_IMG }}/api/fileUpload?pathImg=customers"
+          nzListType="picture" [(nzFileList)]="avatar">
           <div nz-button><i nz-icon nzType="upload"></i><span>Upload</span></div>
         </nz-upload>
       </nz-form-control>
     </nz-form-item>
 
-    
+
 
     <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="address">Địa Chỉ</nz-form-label>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="address" nzRequired>Địa Chỉ</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
         <input [(ngModel)]="dataEdit.address" nz-input formControlName="address" id="address" />
       </nz-form-control>

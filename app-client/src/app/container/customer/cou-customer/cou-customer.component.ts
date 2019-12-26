@@ -3,6 +3,7 @@ import { CustomerService } from './../../../service/customer/customer.service';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormControl, Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { environment } from 'src/environments/environment';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-cou-customer',
@@ -27,11 +28,18 @@ export class CouCustomerComponent implements OnInit {
     private message: NzMessageService) { }
 
   ngOnInit() {
+    if (this.dataEdit && this.dataEdit.identity_date) {
+      let identity_date = this.dataEdit.identity_date.split("/");
+      this.dataEdit.identity_date = new Date(identity_date[1] + '/' + identity_date[0] + '/' + identity_date[2]);
+    }
+
     this.API_IMG = environment.APICURRENTSERVE;
     this.validateForm = this.fb.group({
       name: [null, [Validators.required]],
-      phone: [null, Validators.required],
-      identity_number: [null],
+      phone: [null, [Validators.required]],
+      identity_date: [this.dataEdit && this.dataEdit.identity_date ? this.dataEdit.identity_date : null, [Validators.required]],
+      identity_issued_by: [null, [Validators.required]],
+      identity_number: [null, [Validators.required]],
       address: [null],
     });
     if (this.dataEdit && this.dataEdit.identity_image && this.dataEdit.identity_image != '') {
@@ -68,7 +76,7 @@ export class CouCustomerComponent implements OnInit {
       let client = this.validateForm.value;
       client = { ...this.dataEdit, ...client };
       client.identity_image = this.avatar.length > 0 ? this.avatar[0].response.urlImage : '';
-
+      client.identity_date = moment(client.identity_date).format('DD/MM/YYYY');
       this.customerSV.updateOrCreateCustomer(client).subscribe(r => {
         if (r && r.status == 1) {
           this.message.create('success', this.dataEdit && this.dataEdit.id ? 'Tạo khách hàng thành công!' : 'Cập nhạt thành công!');

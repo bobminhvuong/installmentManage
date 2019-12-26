@@ -38,41 +38,47 @@
           <th width="10%" class="text-center">
             Điện thoại
           </th>
-          <th width="15%" class="text-center">
+          <th width="10%" class="text-center">
             Chứng minh
           </th>
-          <th width="15%" class="text-center">
+          <th width="10%" class="text-center">
+            Ngày cấp
+          </th>
+          <th width="10%" class="text-center">
+            Nơi cấp
+          </th>
+          <th width="7%" class="text-center">
             <span>Hình ảnh</span>
           </th>
           <th width="15%">
             <span>Địa chỉ</span>
           </th>
 
-          <th width="20%" class="text-center"><span>Action</span></th>
+          <th width="10%" class="text-center"><span>Action</span></th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let data of ajaxTable.data;let i = index">
           <td class="text-center">{{ i+ 1}}</td>
           <td>{{ data.name }}</td>
-          <td>{{ data.phone }}</td>
+          <td class="text-center">{{ data.phone }}</td>
           <td class="text-center">{{ data.identity_number }}</td>
+          <td class="text-center">{{ data.identity_date  }}</td>
+          <td >{{ data.identity_issued_by  }}</td>
           <td class="text-center">
             <div *ngIf="data.identity_image && data.identity_image!=''">
-              <i (click)="handlePreviewImg(data.identity_image)" nz-icon nzType="file-image" class="text-prinary" style="font-size: 24px;" nzTheme="outline"></i>
+              <i (click)="handlePreviewImg(data.identity_image)" nz-icon nzType="file-image" class="text-prinary"
+                style="font-size: 24px;" nzTheme="outline"></i>
             </div>
           </td>
           <td>{{ data.address }}</td>
           <td class="cttd" class="text-center">
             <div zn-row>
-              <button nz-tooltip nzTitle="Giao dịch và công nợ" [routerLink]="['/manager/clients',data.id]" nz-button
-                nzType="primary" style="margin-right: 10px">
-                <i nz-icon nzType="snippets" nzTheme="outline"></i>
-              </button>
-              <button nz-tooltip nzTitle="Sửa khách hàng" (click)="handleCorU(data)" nz-button nzType="primary"
-                style="margin-right: 10px">
-                <i nz-icon nzType="edit" nzTheme="outline"></i>
-              </button>
+              <i nz-icon class="iconAction text-primary" [routerLink]="['/manager/clients',data.id]" nzType="snippets"
+                nzTheme="outline"></i>
+
+              <i nz-icon nzType="edit" nz-tooltip nzTitle="Sửa khách hàng" class="iconAction text-warning"
+                (click)="handleCorU(data)" nzTheme="outline"></i>
             </div>
           </td>
         </tr>
