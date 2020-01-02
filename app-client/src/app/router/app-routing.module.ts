@@ -1,3 +1,4 @@
+import { BadDebtComponent } from './../container/installment/bad-debt/bad-debt.component';
 import { InterestPaymentHistoryComponent } from './../container/installment/interest-payment-history/interest-payment-history.component';
 import { BdsComponent } from './../container/bds/bds.component';
 import { AssetComponent } from './../container/asset/asset.component';
@@ -27,6 +28,7 @@ const routes: Routes = [
                 {path: '', redirectTo: 'itm-list', pathMatch: 'full'},
                 {path: 'itm-list', component: ItmListComponent},
                 {path: 'pay-interest-history', component: InterestPaymentHistoryComponent},
+                {path: 'bad-debt', component: BadDebtComponent},
             ] },
             { path: 'dashboard', component: DashboardComponent },
             { path: 'customer', component: CustomerComponent },

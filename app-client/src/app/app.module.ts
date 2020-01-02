@@ -43,6 +43,7 @@ import { UserRateComponent } from './container/installment/user-rate/user-rate.c
 import { InterestPaymentHistoryComponent } from './container/installment/interest-payment-history/interest-payment-history.component';
 import { OnlyNumberDirective } from './directives/only-number.directive';
 import { FormatVNDirective } from './directives/format-vn.directive';
+import { BadDebtComponent } from './container/installment/bad-debt/bad-debt.component';
 
 registerLocaleData(en);
 
@@ -71,7 +72,8 @@ registerLocaleData(en);
     UserRateComponent,
     InterestPaymentHistoryComponent,
     OnlyNumberDirective,
-    FormatVNDirective
+    FormatVNDirective,
+    BadDebtComponent
   ],
   imports: [
     BrowserModule,
