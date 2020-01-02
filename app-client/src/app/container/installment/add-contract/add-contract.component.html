@@ -101,8 +101,9 @@
           <nz-form-control [nzSm]="14" [nzXs]="24">
             <div nz-row [nzGutter]="8">
               <div nz-col [nzSpan]="12">
-                <nz-input-number style="width: 100%;" [nzMin]="0" formControlName="loan_rate" [nzMax]="500"
-                  [nzStep]="1"></nz-input-number>
+
+                <input appOnlyNumber nz-input placeholder="Lãi suất" [(appFormatVN)]="loan_rate" formControlName="loan_rate" [(ngModel)]="loan_rate"
+                  style="width: 100%;"/>
               </div>
               <div nz-col [nzSpan]="12">
                 <select class="ant-input" [(ngModel)]="loan_type" placeholder="Lãi theo" formControlName="loan_type">
@@ -181,7 +182,7 @@
             <div nz-row>
               <div nz-col [nzSpan]="12">
                 <!-- (ngModelChange)="changeInputCap($event)" -->
-                <input appOnlyNumber nz-input placeholder="Số tiền" [(appFormatVN)]="item.price"  [(ngModel)]="item.price"
+                <input nz-input placeholder="Số tiền" [(appFormatVN)]="item.price"  [(ngModel)]="item.price"
                 style="width: 100%;" [ngModelOptions]="{standalone: true}" />
               </div>
               <div nz-col [nzSpan]="9">

@@ -54,6 +54,7 @@
         <thead>
           <tr>
             <th width="3%" class="text-center">STT</th>
+            <th width="5%" class="text-center">ID</th>
             <th width="10%" class="text-center">
               Ngày tạo
             <th width="10%" class="text-center">
@@ -80,6 +81,7 @@
         <tbody>
           <tr *ngFor="let data of ajaxTable.data;let i = index">
             <td class="text-center">{{ i + 1 + ((pageIndex -1) * pageSize) }}</td>
+            <td class="text-center">{{ data.id }}</td>
             <td class="text-center">{{ data.created_date }}</td>
             <td>{{ data.user_name }}</td>
             <td>
@@ -140,8 +142,10 @@
             </td>
             <td>{{ data.note }}</td>
             <td class="text-center">
-              <span *ngIf="data.status_id ==1" class="badge badge-success">{{ data.status_name }}</span>
-              <span *ngIf="data.status_id ==0" class="badge badge-danger">{{ data.status_name }}</span>
+              <span *ngIf="data.status_id ==1" class="badge badge-primary">{{ data.status_name }}</span>
+              <span *ngIf="data.status_id ==2 || data.status_id ==4" class="badge badge-danger">{{ data.status_name }}</span>
+              <span *ngIf="data.status_id ==3" class="badge badge-success">{{ data.status_name }}</span>
+              <span *ngIf="data.status_id !=1 && data.status_id !=2 &&data.status_id !=3 &&data.status_id !=4" class="badge badge-primary">{{ data.status_name }}</span>
             </td>
             <td class="cttd" class="text-center">
               <div zn-row>

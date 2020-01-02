@@ -34,9 +34,10 @@ export class AddContractComponent implements OnInit {
   isVisibleUser = false;
   dataUser = {};
   loan_price = '';
-  loan_type = '';
+  loan_rate = '';
+  loan_type = 0;
   capital_sources = [];
-  API_IMG ='';
+  API_IMG = '';
 
   formatterMoney = (value: number) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   parserMoney = (value: string) => value.replace(/\$\s?|(,*)/g, '');
@@ -54,7 +55,6 @@ export class AddContractComponent implements OnInit {
     let startDate = new Date();
     let endDate = new Date();
     this.API_IMG = environment.APICURRENTSERVE;
-
     if (this.dataEdit && this.dataEdit.id) {
       let dateStartArray = this.dataEdit.loan_date_start.split("/");
       let dateEndArray = this.dataEdit.loan_date_end.split("/");
@@ -62,8 +62,8 @@ export class AddContractComponent implements OnInit {
       endDate = new Date(dateEndArray[1] + '/' + dateEndArray[0] + '/' + dateEndArray[2]);
     }
     this.loan_price = this.dataEdit.loan_price ? this.dataEdit.loan_price : '';
-    this.loan_price = this.dataEdit.loan_price ? this.dataEdit.loan_price : '';
-    this.loan_type = this.dataEdit && this.dataEdit.loan_type ? this.dataEdit.loan_type : 1;
+    this.loan_rate = this.dataEdit.loan_rate ? this.dataEdit.loan_rate : '';
+    this.loan_type = this.dataEdit && this.dataEdit.loan_type ? this.dataEdit.loan_type : 0;
 
     this.validateForm = this.fb.group({
       // loan_price: [this.dataEdit.loan_price ? this.dataEdit.loan_price : '', [Validators.required]],

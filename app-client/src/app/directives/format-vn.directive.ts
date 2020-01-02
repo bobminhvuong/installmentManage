@@ -14,22 +14,29 @@ export class FormatVNDirective {
 
   constructor(public el: ElementRef) {
     this.el.nativeElement.onkeypress = (evt) => {
-      if (evt.which < 48 || evt.which > 57) {
-        evt.preventDefault();
-      }
+      this.el.nativeElement.onkeypress = (evt) => {
+        var theEvent = evt || window.event;
+        var key = theEvent.keyCode || theEvent.which;
+        key = String.fromCharCode(key);
+        var regex = /[0-9]|\./;
+        if (!regex.test(key)) {
+          theEvent.returnValue = false;
+          if (theEvent.preventDefault) theEvent.preventDefault();
+        }
+      };
     };
   }
-
+ 
   ngOnInit() {
     this.appFormatVN = this.appFormatVN || '';
     this.format(this.appFormatVN);
   }
 
   format(value) {
-    if(value && value != ''){
+    if (value && value != '') {
       let val = Number((value + '').replace(/,/g, ""));
       this.appFormatVNChange.next(val.toLocaleString());
-    }else{
+    } else {
       this.appFormatVNChange.next('');
     }
   }
