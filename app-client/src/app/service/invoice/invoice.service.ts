@@ -123,4 +123,11 @@ export class InvoiceService {
       catchError(this.mainSV.handleError)
     );
   }
+
+  changeStatus(data): Observable<any>{
+    data.api = this.mainSV.getApikey();
+    return this.http.post(environment.APIHOST + '/api/invoice/changestatus', data, this.mainSV.getHttpOptionsNotToken()).pipe(
+      catchError(this.mainSV.handleError)
+    );
+  }
 }

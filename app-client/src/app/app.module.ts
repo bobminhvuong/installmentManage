@@ -1,3 +1,4 @@
+import { ReportService } from './service/report/report.service';
 import { BdsService } from './service/bds/bds.service';
 import { InvoiceService } from './service/invoice/invoice.service';
 import { AssetService } from './service/asset/asset.service';
@@ -96,7 +97,8 @@ registerLocaleData(en);
     CustomerService,
     AssetService,
     InvoiceService,
-    BdsService
+    BdsService,
+    ReportService
   ],
   bootstrap: [AppComponent]
 })

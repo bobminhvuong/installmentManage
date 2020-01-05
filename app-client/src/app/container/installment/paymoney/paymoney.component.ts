@@ -153,7 +153,7 @@ export class PaymoneyComponent implements OnInit {
       return 0;
     }
   }
- 
+
   changeInputPrice(e) {
     if (this.price != '') {
       let val = Number((this.price + '').replace(/,/g, ""));
@@ -169,6 +169,30 @@ export class PaymoneyComponent implements OnInit {
     }
     return true;
 
+  }
+
+  setBaddebt() {
+    this.modalService.confirm({
+      nzTitle: 'Thêm hợp đồng vào nợ xấu?',
+      nzOkText: 'Xác nhận',
+      nzOkType: 'danger',
+      nzOnOk: () => this.changeStatusContact(4),
+      nzCancelText: 'Hủy',
+    });
+  }
+
+  changeStatusContact(status) {
+    let data = {
+      status_id: status,
+      invoice_id: this.dataEdit.id
+    }
+    this.invSV.changeStatus(data).subscribe(r => {
+      if (r && r.status == 1) {
+        this.message.create('success', 'Cập nhật hợp đồng thành công!');
+      } else {
+        this.message.create('error', r && r.message ? r.message : 'Đã có lổi xẩy ra. Vui lòng thử lại');
+      }
+    })
   }
 
 }

@@ -1,0 +1,156 @@
+<nz-skeleton [nzLoading]="loading" [nzActive]="true" [nzParagraph]="{ rows: 12 }"></nz-skeleton>
+
+<div *ngIf="dataReport && !loading">
+    <div class="row">
+
+
+        <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+            <!-- START WIDGET CONCTACT -->
+            <div class="widget widget-default widget-item-icon">
+                <div class="widget-item-left">
+                    <span class="fa fa-file-invoice-dollar text-warning"></span>
+                </div>
+                <div class="widget-data">
+                    <div class="widget-int num-count">{{ dataReport.total_loan_price | number }} đ</div>
+                    <div class="widget-title">TIỀN CHO VAY</div>
+                    <div class="widget-subtitle">Tổng số tiền đã cho vay</div>
+                </div>
+            </div>
+            <!-- END WIDGET CONCTACT -->
+        </div>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+            <!-- START WIDGET CONCTACT -->
+            <div class="widget widget-default widget-item-icon">
+                <div class="widget-item-left">
+                    <span class="fa fa-file-invoice-dollar text-success"></span>
+                </div>
+                <div class="widget-data">
+                    <div class="widget-int num-count">{{ dataReport.total_pay | number }} đ</div>
+                    <div class="widget-title">TIỀN LÃI</div>
+                    <div class="widget-subtitle">Tổng tiền lãi thu về</div>
+                </div>
+            </div>
+            <!-- END WIDGET CONCTACT -->
+        </div>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+            <!-- START WIDGET CONCTACT -->
+            <div class="widget widget-default widget-item-icon">
+                <div class="widget-item-left">
+                    <span class="fa fa-wrench text-danger"></span>
+                </div>
+                <div class="widget-data">
+                    <div class="widget-int num-count">{{ dataReport.total_cashbook | number }} đ</div>
+                    <div class="widget-title">CHI PHÍ</div>
+                    <div class="widget-subtitle">Tổng chi phí hợp đồng</div>
+                </div>
+            </div>
+            <!-- END WIDGET CONCTACT -->
+        </div>
+
+        <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+            <!-- START WIDGET CONCTACT -->
+            <div class="widget widget-default widget-item-icon">
+                <div class="widget-item-left">
+                    <span class="fa fa-file-signature"></span>
+                </div>
+                <div class="widget-data">
+                    <div class="widget-int num-count">{{ dataReport.total_invoice | number}}</div>
+                    <div class="widget-title">Hợp đồng</div>
+                    <div class="widget-subtitle">Tổng hợp đồng đã được lập</div>
+                </div>
+            </div>
+            <!-- END WIDGET CONCTACT -->
+        </div>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+            <!-- START WIDGET CONCTACT -->
+            <div class="widget widget-default widget-item-icon">
+                <div class="widget-item-left">
+                    <span class="fa fa-clock" style="color: #3380CB;"></span>
+                </div>
+                <div class="widget-data">
+                    <div class="widget-int num-count">{{ dataReport.total_day_type | number }}</div>
+                    <div class="widget-title">Hợp đồng Ngày</div>
+                    <div class="widget-subtitle">Tổng hợp đồng theo ngày</div>
+                </div>
+            </div>
+            <!-- END WIDGET CONCTACT -->
+        </div>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+            <!-- START WIDGET CONCTACT -->
+            <div class="widget widget-default widget-item-icon">
+                <div class="widget-item-left">
+                    <span class="fa fa-calendar-alt" style="color: #33CBCB;"></span>
+                </div>
+                <div class="widget-data">
+                    <div class="widget-int num-count">{{ dataReport.total_month_type  | number}}</div>
+                    <div class="widget-title">Hợp đồng tháng</div>
+                    <div class="widget-subtitle">Tổng hợp đồng theo tháng</div>
+                </div>
+            </div>
+            <!-- END WIDGET CONCTACT -->
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+            <div class="box box-success">
+                <div class="box-body ">
+                    <div class="ant-table-body">
+                        <table class="table table-bordered" style="width: 100%;">
+                            <thead class=" ant-table-thead  ">
+                                <tr>
+                                    <th class="text-center">Hợp đồng</th>
+                                    <th class="text-center">Trạng thái</th>
+                                </tr>
+                            </thead>
+                            <tbody class="ant-table-tbody">
+                                <tr class="ant-table-row">
+                                    <td> <b>Hợp đồng ngày sắp đến hạn</b> </td>
+                                    <td class="text-center">
+                                        <span class="badge badge-warning">
+                                            {{dataReport.total_near_over_day | number}}
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr class="ant-table-row">
+                                    <td><b>Hợp đồng tháng sắp đến hạn</b></td>
+                                    <td class="text-center">
+                                        <span class="badge badge-warning">
+                                            {{dataReport.total_near_over_month | number}}
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr class="ant-table-row">
+                                    <td><b>Tổng hợp đồng nợ xấu</b></td>
+                                    <td class="text-center">
+                                        <span class="badge badge-danger">
+                                            {{dataReport.total_bad | number}}
+                                        </span>
+
+                                    </td>
+                                </tr>
+                                <tr class="ant-table-row">
+                                    <td><b>Tổng hợp đồng quá hạn</b></td>
+                                    <td class="text-center">
+                                        <span class="badge badge-danger">
+                                            {{dataReport.total_over | number}}
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr class="ant-table-row">
+                                    <td><b>Tổng hợp đồng hoàn tất</b></td>
+                                    <td class="text-center">
+                                        <span class="badge badge-success">
+                                            {{dataReport.total_finish | number}}
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -132,8 +132,9 @@
     </ng-template>
 
     <ng-template #modalFooter>
+        <button *ngIf="dataEdit.status_id != 4 && dataEdit.status_id != 3" class="btn btn-danger btn-sm" (click)="setBaddebt()">Nợ xấu</button>
+        <button *ngIf="dataEdit.status_id != 3 && dataEdit.status_id != 2" class="btn btn-primary btn-sm" (click)="showConfirmPay(false)">Đóng lãi</button>
+        <button *ngIf="dataEdit.status_id != 3 && dataEdit.status_id != 2" class="btn btn-success btn-sm" (click)="showConfirmPay(true)">Đóng lãi và kết thúc</button>
         <button class="btn btn-sm btn-light" (click)="handleCancel()">Đóng</button>
-        <button class="btn btn-primary btn-sm" (click)="showConfirmPay(false)">Đóng lãi</button>
-        <button class="btn btn-success btn-sm" (click)="showConfirmPay(true)">Đóng lãi và kết thúc</button>
     </ng-template>
 </nz-modal>

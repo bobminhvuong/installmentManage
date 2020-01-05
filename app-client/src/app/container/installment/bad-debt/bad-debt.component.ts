@@ -51,12 +51,10 @@ export class BadDebtComponent implements OnInit {
       to: valFilter.date && valFilter.date[1] ? moment(valFilter.date[1]).format('DD/MM/YYYY') : '',
       active: valFilter.active,
       find: valFilter.find,
-      is_over:0
+      is_over: true
     }
 
     this.invSv.getAll(filter).subscribe(res => {
-      console.log(res);
-      
       this.listOfData = res.data;
       this.loading = false;
       this.total = res.total;

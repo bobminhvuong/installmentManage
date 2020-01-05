@@ -1,3 +1,4 @@
+import { NzModalService, NzMessageService } from 'ng-zorro-antd';
 import { InvoiceService } from './../../../service/invoice/invoice.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -21,7 +22,7 @@ export class ItmListComponent implements OnInit {
   lsStatus = [];
   isVisiblePay = false;
   isVisibleCost = false;
-  constructor(private invSv: InvoiceService, private fb: FormBuilder) { }
+  constructor(private invSv: InvoiceService, private modalService: NzModalService, private message: NzMessageService, private fb: FormBuilder) { }
 
   ngOnInit() {
     this.filterForm = this.fb.group({
@@ -53,8 +54,6 @@ export class ItmListComponent implements OnInit {
     }
 
     this.invSv.getAll(filter).subscribe(res => {
-      console.log(res);
-      
       this.listOfData = res.data;
       this.loading = false;
       this.total = res.total;
@@ -96,12 +95,47 @@ export class ItmListComponent implements OnInit {
     this.isVisibleCost = true;
   }
 
-  
+
 
   formatCurrency(val) {
     if (val && val != '') {
       val = Number((val + '').replace(/,/g, ""));
       return val.toLocaleString();
     } else return '';
+  }
+
+  setBadDebt(data) {
+    this.modalService.confirm({
+      nzTitle: 'Thêm hợp đồng vào nợ xấu?',
+      nzOkText: 'Xác nhận',
+      nzOkType: 'danger',
+      nzOnOk: () => this.changeStatusContact(4, data.id),
+      nzCancelText: 'Hủy',
+    });
+  }
+
+  cancelContact(data){
+    this.modalService.confirm({
+      nzTitle: 'Bạn muốn hủy hợp đồng này?',
+      nzOkText: 'Xác nhận',
+      nzOkType: 'danger',
+      nzOnOk: () => this.changeStatusContact(2, data.id),
+      nzCancelText: 'Hủy',
+    });
+  }
+
+  changeStatusContact(status, id_iv) {
+    let data = {
+      status_id: status,
+      invoice_id: id_iv
+    }
+    this.invSv.changeStatus(data).subscribe(r => {
+      if (r && r.status == 1) {
+        this.message.create('success', 'Cập nhật hợp đồng thành công!');
+        this.getAll(this.filterForm.value);
+      } else {
+        this.message.create('error', r && r.message ? r.message : 'Đã có lổi xẩy ra. Vui lòng thử lại');
+      }
+    })
   }
 }

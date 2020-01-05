@@ -1,6 +1,4 @@
-<nz-modal [(nzVisible)]="isVisible" nzTitle="{{ dataEdit && dataEdit.id ? 'Cập nhật hợp Đồng' : 'Tạo hợp đồng' }}"
-  nzOkText="{{ dataEdit && dataEdit.id ? 'Cập nhật hợp Đồng' : 'Tạo hợp đồng' }}" nzCancelText="Đóng"
-  (nzOnOk)="submitForm()" (nzOnCancel)="handleCancel()" nzWidth="75%">
+<nz-modal [(nzVisible)]="isVisible" nzTitle="{{ dataEdit && dataEdit.id ? 'Cập nhật hợp Đồng' : 'Tạo hợp đồng' }}" (nzOnCancel)="handleCancel()" [nzFooter]="modalFooter" nzWidth="75%">
   <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
 
     <div class="row">
@@ -63,9 +61,7 @@
           <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="loan_price">Số tiền</nz-form-label>
           <nz-form-control [nzSm]="14" [nzXs]="24">
             <!-- (keypress)="numberOnly($event)" -->
-            <input nz-input placeholder="Số tiền" 
-            [(ngModel)]="loan_price" 
-            [(appFormatVN)]="loan_price"
+            <input nz-input placeholder="Số tiền" [(ngModel)]="loan_price" [(appFormatVN)]="loan_price"
               formControlName="loan_price" />
             <nz-form-explain *ngIf="validateForm.get('loan_price')?.dirty && validateForm.get('loan_price')?.errors">
               Số tiền không được để trống!
@@ -102,8 +98,8 @@
             <div nz-row [nzGutter]="8">
               <div nz-col [nzSpan]="12">
 
-                <input appOnlyNumber nz-input placeholder="Lãi suất" [(appFormatVN)]="loan_rate" formControlName="loan_rate" [(ngModel)]="loan_rate"
-                  style="width: 100%;"/>
+                <input appOnlyNumber nz-input placeholder="Lãi suất" [(appFormatVN)]="loan_rate"
+                  formControlName="loan_rate" [(ngModel)]="loan_rate" style="width: 100%;" />
               </div>
               <div nz-col [nzSpan]="12">
                 <select class="ant-input" [(ngModel)]="loan_type" placeholder="Lãi theo" formControlName="loan_type">
@@ -122,9 +118,8 @@
         </nz-form-item>
 
         <nz-form-item>
-          <nz-upload class="upload-list-inline offset-sm-3"
-            nzAction="{{API_IMG}}/api/fileUpload?pathImg=invoices" nzListType="picture"
-            [(nzFileList)]="images">
+          <nz-upload class="upload-list-inline offset-sm-3" nzAction="{{API_IMG}}/api/fileUpload?pathImg=invoices"
+            nzListType="picture" [(nzFileList)]="images">
             <div nz-button>
               <span style="margin-top: 5px;"><i nz-icon nzType="upload"></i> Thêm hình ảnh</span>
             </div>
@@ -149,8 +144,8 @@
             <div nz-row>
               <div nz-col [nzSpan]="20">
                 <!-- (ngModelChange)="changeInputAsset($event,i)" -->
-                <input appOnlyNumber nz-input placeholder="Số tiền" [(appFormatVN)]="item.price" [(ngModel)]="item.price"
-                  style="width: 100%;" [ngModelOptions]="{standalone: true}" />
+                <input appOnlyNumber nz-input placeholder="Số tiền" [(appFormatVN)]="item.price"
+                  [(ngModel)]="item.price" style="width: 100%;" [ngModelOptions]="{standalone: true}" />
               </div>
               <div nz-col [nzSpan]="4">
                 <i (click)="deleteAsset(i)" nz-icon class="text-danger" nzType="delete" style="cursor: pointer;
@@ -182,8 +177,8 @@
             <div nz-row>
               <div nz-col [nzSpan]="12">
                 <!-- (ngModelChange)="changeInputCap($event)" -->
-                <input nz-input placeholder="Số tiền" [(appFormatVN)]="item.price"  [(ngModel)]="item.price"
-                style="width: 100%;" [ngModelOptions]="{standalone: true}" />
+                <input nz-input placeholder="Số tiền" [(appFormatVN)]="item.price" [(ngModel)]="item.price"
+                  style="width: 100%;" [ngModelOptions]="{standalone: true}" />
               </div>
               <div nz-col [nzSpan]="9">
                 <select class="ant-input" [(ngModel)]="item.money_source_id" [ngModelOptions]="{standalone: true}"
@@ -207,6 +202,10 @@
     </div>
   </form>
 
+  <ng-template #modalFooter>
+    <button *ngIf="dataEdit.status_id != 2 && dataEdit.status_id != 3" class="btn btn-primary btn-sm" (click)="submitForm()">{{ !dataEdit.id ? 'Tạo hợp đồng' : 'Cập nhật hợp đồng' }}</button>
+    <button class="btn btn-sm btn-light" (click)="handleCancel()">Đóng</button>
+  </ng-template>
 
   <app-cou-customer *ngIf="isVisibleUser" [dataEdit]="dataUser" [isVisible]="isVisibleUser"
     (closeModal)="closeModalUser($event)" class="fade in">
