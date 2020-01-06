@@ -28,7 +28,8 @@ export class BadDebtComponent implements OnInit {
     this.filterForm = this.fb.group({
       date: [null],
       find: [''],
-      active: [1]
+      active: [1],
+      status_id: [null]
     });
 
     this.getAll(this.filterForm.value);
@@ -50,7 +51,9 @@ export class BadDebtComponent implements OnInit {
       from: valFilter.date && valFilter.date[0] ? moment(valFilter.date[0]).format('DD/MM/YYYY') : '',
       to: valFilter.date && valFilter.date[1] ? moment(valFilter.date[1]).format('DD/MM/YYYY') : '',
       active: valFilter.active,
-      find: valFilter.find
+      status_id: valFilter.status_id,
+      find: valFilter.find,
+      is_over: true
     }
 
     this.invSv.getAll(filter).subscribe(res => {

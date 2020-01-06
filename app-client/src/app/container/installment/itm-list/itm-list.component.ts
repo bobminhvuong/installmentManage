@@ -28,7 +28,8 @@ export class ItmListComponent implements OnInit {
     this.filterForm = this.fb.group({
       date: [null],
       find: [''],
-      active: [1]
+      active: [1],
+      status_id: [null]
     });
 
     this.getAll(this.filterForm.value);

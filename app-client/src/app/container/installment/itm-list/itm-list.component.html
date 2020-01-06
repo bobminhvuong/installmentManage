@@ -29,13 +29,26 @@
           </nz-input-group>
         </nz-form-control>
       </nz-form-item>
+
+      <!-- <nz-form-item>
+        <nz-form-control>
+          <nz-select style="width: 200px;" formControlName="active" nzPlaceHolder="Tình trạng">
+            <nz-option nzValue="1" nzLabel="Hoạt động"></nz-option>
+            <nz-option nzValue="0" nzLabel="Đã xóa"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item> -->
+
       <nz-form-item>
         <nz-form-control>
-          <nz-select style="width: 200px;" formControlName="active" nzPlaceHolder="Trạng thái">
+          <nz-select style="width: 200px;" formControlName="status_id" nzPlaceHolder="Trạng thái">
             <nz-option *ngFor="let item of lsStatus" nzValue="{{item.id}}" nzLabel="{{item.name}}"></nz-option>
           </nz-select>
         </nz-form-control>
       </nz-form-item>
+
+
+
       <nz-form-item>
         <nz-form-control>
           <button nz-button (click)="filterData()" nzType="primary">Hiển thị</button>
@@ -158,11 +171,11 @@
                 <i nz-icon nz-tooltip nzTitle="Đóng lãi" (click)="payContact(data)" nzType="pay-circle"
                   class="text-primary iconAction" nzTheme="outline"></i>
 
-                <i *ngIf="data.status_id != 3" nz-icon nzType="edit" (click)="handleCorU(data)" nz-tooltip nzTitle="Chỉnh sửa" nzTheme="outline"
-                  class="text-warning iconAction"></i>
+                <i *ngIf="data.status_id != 3" nz-icon nzType="edit" (click)="handleCorU(data)" nz-tooltip
+                  nzTitle="Chỉnh sửa" nzTheme="outline" class="text-warning iconAction"></i>
 
-                  <i *ngIf="data.status_id == 3" nz-icon nzType="eye" (click)="handleCorU(data)" nz-tooltip nzTitle="Chỉnh sửa" nzTheme="outline"
-                  class="text-primary iconAction"></i>
+                <i *ngIf="data.status_id == 3" nz-icon nzType="eye" (click)="handleCorU(data)" nz-tooltip
+                  nzTitle="Chỉnh sửa" nzTheme="outline" class="text-primary iconAction"></i>
 
                 <br>
 
