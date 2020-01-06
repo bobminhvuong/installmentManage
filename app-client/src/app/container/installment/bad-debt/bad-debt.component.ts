@@ -29,7 +29,7 @@ export class BadDebtComponent implements OnInit {
       date: [null],
       find: [''],
       active: [1],
-      status_id: [null]
+      status_id: [0]
     });
 
     this.getAll(this.filterForm.value);
