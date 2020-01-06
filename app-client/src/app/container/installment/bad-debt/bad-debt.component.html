@@ -2,7 +2,7 @@
   <div class="row">
 
     <div class="col-6 col-sm-6 col-md-6 col-lg-6">
-      <h4>Danh sách hợp đồng</h4>
+      <h4>Hợp đồng quá hạn</h4>
     </div>
     <div class="col-6 col-sm-6 col-md-6 col-lg-6">
       <button (click)="handleCorU({})" nz-button nzType="primary" class="float-right">
@@ -143,21 +143,41 @@
             <td>{{ data.note }}</td>
             <td class="text-center">
               <span *ngIf="data.status_id ==1" class="badge badge-primary">{{ data.status_name }}</span>
-              <span *ngIf="data.status_id ==2 || data.status_id ==4" class="badge badge-danger">{{ data.status_name }}</span>
+              <span *ngIf="data.status_id ==2 || data.status_id ==4"
+                class="badge badge-danger">{{ data.status_name }}</span>
               <span *ngIf="data.status_id ==3" class="badge badge-success">{{ data.status_name }}</span>
-              <span *ngIf="data.status_id !=1 && data.status_id !=2 &&data.status_id !=3 &&data.status_id !=4" class="badge badge-primary">{{ data.status_name }}</span>
+              <span *ngIf="data.status_id !=1 && data.status_id !=2 &&data.status_id !=3 &&data.status_id !=4"
+                class="badge badge-primary">{{ data.status_name }}</span>
             </td>
             <td class="cttd" class="text-center">
-              <div zn-row>
+              <div *ngIf="data.status_id != 2" zn-row>
+
                 <i class="text-success iconAction" nz-icon nz-tooltip nzTitle="Thêm chi phí" nzType="money-collect"
                   nzTheme="outline" (click)="addCost(data)"></i>
 
                 <i nz-icon nz-tooltip nzTitle="Đóng lãi" (click)="payContact(data)" nzType="pay-circle"
                   class="text-primary iconAction" nzTheme="outline"></i>
 
-                <i nz-icon nzType="edit" (click)="handleCorU(data)" nz-tooltip nzTitle="Chỉnh sửa" nzTheme="outline"
+                <i *ngIf="data.status_id != 3" nz-icon nzType="edit" (click)="handleCorU(data)" nz-tooltip nzTitle="Chỉnh sửa" nzTheme="outline"
                   class="text-warning iconAction"></i>
 
+                  <i *ngIf="data.status_id == 3" nz-icon nzType="eye" (click)="handleCorU(data)" nz-tooltip nzTitle="Chỉnh sửa" nzTheme="outline"
+                  class="text-primary iconAction"></i>
+
+                <br>
+
+                <i *ngIf="data.status_id ==1" class="text-danger iconAction" nz-icon nz-tooltip nzTitle="Gán nợ xấu"
+                  nzType="frown" nzTheme="outline" (click)="setBadDebt(data)"></i>
+
+                <i *ngIf="data.status_id !=2 && data.status_id !=3" nz-icon nzType="close-circle"
+                  (click)="cancelContact(data)" nz-tooltip nzTitle="Hủy hợp đồng" nzTheme="outline"
+                  class="text-danger iconAction">
+                </i>
+
+              </div>
+              <div *ngIf="data.status_id == 2" zn-row>
+                <i nz-icon nzType="eye" (click)="handleCorU(data)" nz-tooltip nzTitle="Chỉnh sửa" nzTheme="outline"
+                  class="text-primary iconAction"></i>
               </div>
             </td>
           </tr>

@@ -60,7 +60,7 @@ export class MainComponent implements OnInit {
             url: '/manager/installment/pay-interest-history',
             role: ['admin']
           },{
-            title: 'Nợ xấu',
+            title: 'Hợp đồng quá hạn',
             url: '/manager/installment/bad-debt',
             role: ['admin']
           }

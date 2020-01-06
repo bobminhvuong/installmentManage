@@ -1,7 +1,8 @@
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { NzModalService, NzMessageService } from 'ng-zorro-antd';
 import { InvoiceService } from './../../../service/invoice/invoice.service';
-import * as moment from 'moment';
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-bad-debt',
@@ -10,7 +11,6 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BadDebtComponent implements OnInit {
 
-  
   isVisible = false;
   pageIndex = 1;
   pageSize = 20;
@@ -22,7 +22,7 @@ export class BadDebtComponent implements OnInit {
   lsStatus = [];
   isVisiblePay = false;
   isVisibleCost = false;
-  constructor(private invSv: InvoiceService, private fb: FormBuilder) { }
+  constructor(private invSv: InvoiceService, private modalService: NzModalService, private message: NzMessageService, private fb: FormBuilder) { }
 
   ngOnInit() {
     this.filterForm = this.fb.group({
@@ -50,8 +50,7 @@ export class BadDebtComponent implements OnInit {
       from: valFilter.date && valFilter.date[0] ? moment(valFilter.date[0]).format('DD/MM/YYYY') : '',
       to: valFilter.date && valFilter.date[1] ? moment(valFilter.date[1]).format('DD/MM/YYYY') : '',
       active: valFilter.active,
-      find: valFilter.find,
-      is_over: true
+      find: valFilter.find
     }
 
     this.invSv.getAll(filter).subscribe(res => {
@@ -96,7 +95,7 @@ export class BadDebtComponent implements OnInit {
     this.isVisibleCost = true;
   }
 
-  
+
 
   formatCurrency(val) {
     if (val && val != '') {
@@ -105,4 +104,38 @@ export class BadDebtComponent implements OnInit {
     } else return '';
   }
 
+  setBadDebt(data) {
+    this.modalService.confirm({
+      nzTitle: 'Thêm hợp đồng vào nợ xấu?',
+      nzOkText: 'Xác nhận',
+      nzOkType: 'danger',
+      nzOnOk: () => this.changeStatusContact(4, data.id),
+      nzCancelText: 'Hủy',
+    });
+  }
+
+  cancelContact(data){
+    this.modalService.confirm({
+      nzTitle: 'Bạn muốn hủy hợp đồng này?',
+      nzOkText: 'Xác nhận',
+      nzOkType: 'danger',
+      nzOnOk: () => this.changeStatusContact(2, data.id),
+      nzCancelText: 'Hủy',
+    });
+  }
+
+  changeStatusContact(status, id_iv) {
+    let data = {
+      status_id: status,
+      invoice_id: id_iv
+    }
+    this.invSv.changeStatus(data).subscribe(r => {
+      if (r && r.status == 1) {
+        this.message.create('success', 'Cập nhật hợp đồng thành công!');
+        this.getAll(this.filterForm.value);
+      } else {
+        this.message.create('error', r && r.message ? r.message : 'Đã có lổi xẩy ra. Vui lòng thử lại');
+      }
+    })
+  }
 }
