@@ -5,7 +5,7 @@
     <nz-form-item>
       <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="name">Họ tên</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
-        <input [(appFormatVN)]="dataEdit.name" [(ngModel)]="dataEdit.name" nz-input formControlName="name" id="name" />
+        <input  [(ngModel)]="dataEdit.name" nz-input formControlName="name" id="name" />
         <nz-form-explain *ngIf="validateForm.get('name')?.dirty && validateForm.get('name')?.errors">
           Họ tên không được để trống!
         </nz-form-explain>

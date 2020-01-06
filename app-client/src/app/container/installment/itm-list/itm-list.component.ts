@@ -51,7 +51,8 @@ export class ItmListComponent implements OnInit {
       from: valFilter.date && valFilter.date[0] ? moment(valFilter.date[0]).format('DD/MM/YYYY') : '',
       to: valFilter.date && valFilter.date[1] ? moment(valFilter.date[1]).format('DD/MM/YYYY') : '',
       active: valFilter.active,
-      find: valFilter.find
+      find: valFilter.find,
+      status_id: valFilter.status_id
     }
 
     this.invSv.getAll(filter).subscribe(res => {

@@ -39,13 +39,13 @@
         </nz-form-control>
       </nz-form-item> -->
 
-      <nz-form-item>
+      <!-- <nz-form-item>
         <nz-form-control>
           <nz-select style="width: 200px;" formControlName="status_id" nzPlaceHolder="Trạng thái">
             <nz-option *ngFor="let item of lsStatus" nzValue="{{item.id}}" nzLabel="{{item.name}}"></nz-option>
           </nz-select>
         </nz-form-control>
-      </nz-form-item>
+      </nz-form-item> -->
 
       <nz-form-item>
         <nz-form-control>
@@ -161,35 +161,11 @@
                 class="badge badge-primary">{{ data.status_name }}</span>
             </td>
             <td class="cttd" class="text-center">
-              <div *ngIf="data.status_id != 2" zn-row>
-
-                <i class="text-success iconAction" nz-icon nz-tooltip nzTitle="Thêm chi phí" nzType="money-collect"
-                  nzTheme="outline" (click)="addCost(data)"></i>
-
-                <i nz-icon nz-tooltip nzTitle="Đóng lãi" (click)="payContact(data)" nzType="pay-circle"
-                  class="text-primary iconAction" nzTheme="outline"></i>
-
-                <i *ngIf="data.status_id != 3" nz-icon nzType="edit" (click)="handleCorU(data)" nz-tooltip
-                  nzTitle="Chỉnh sửa" nzTheme="outline" class="text-warning iconAction"></i>
-
-                <i *ngIf="data.status_id == 3" nz-icon nzType="eye" (click)="handleCorU(data)" nz-tooltip
-                  nzTitle="Chỉnh sửa" nzTheme="outline" class="text-primary iconAction"></i>
-
-                <br>
-
                 <i *ngIf="data.status_id ==1" class="text-danger iconAction" nz-icon nz-tooltip nzTitle="Gán nợ xấu"
                   nzType="frown" nzTheme="outline" (click)="setBadDebt(data)"></i>
 
-                <i *ngIf="data.status_id !=2 && data.status_id !=3" nz-icon nzType="close-circle"
-                  (click)="cancelContact(data)" nz-tooltip nzTitle="Hủy hợp đồng" nzTheme="outline"
-                  class="text-danger iconAction">
-                </i>
-
-              </div>
-              <div *ngIf="data.status_id == 2" zn-row>
-                <i nz-icon nzType="eye" (click)="handleCorU(data)" nz-tooltip nzTitle="Chỉnh sửa" nzTheme="outline"
+                <i nz-icon nzType="eye" (click)="handleCorU(data)" nz-tooltip nzTitle="Chi tiết" nzTheme="outline"
                   class="text-primary iconAction"></i>
-              </div>
             </td>
           </tr>
         </tbody>
@@ -202,7 +178,6 @@
 <app-add-contract *ngIf="isVisible" [dataEdit]="dataEdit" [isVisible]="isVisible" (closeModal)="closeModal($event)"
   class="fade in">
 </app-add-contract>
-
 
 <app-paymoney *ngIf="isVisiblePay" [dataEdit]="dataEdit" [isVisible]="isVisiblePay"
   (closeModal)="closeModalPay($event)">

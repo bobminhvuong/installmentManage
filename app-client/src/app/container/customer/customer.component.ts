@@ -63,4 +63,8 @@ export class CustomerComponent implements OnInit {
     this.previewImage = environment.APICURRENTSERVE + '/' + url;
     this.previewVisible = true;
   };
+
+  formatDate(date,fm){
+    return moment(date).format('DD/MM/YYYY');
+  }
 }

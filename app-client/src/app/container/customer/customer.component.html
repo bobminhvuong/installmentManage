@@ -63,8 +63,8 @@
           <td>{{ data.name }}</td>
           <td class="text-center">{{ data.phone }}</td>
           <td class="text-center">{{ data.identity_number }}</td>
-          <td class="text-center">{{ data.identity_date  }}</td>
-          <td >{{ data.identity_issued_by  }}</td>
+          <td class="text-center">{{ formatDate(data.identity_date)  }}</td>
+          <td class="text-center">{{ data.identity_issued_by  }}</td>
           <td class="text-center">
             <div *ngIf="data.identity_image && data.identity_image!=''">
               <i (click)="handlePreviewImg(data.identity_image)" nz-icon nzType="file-image" class="text-prinary"

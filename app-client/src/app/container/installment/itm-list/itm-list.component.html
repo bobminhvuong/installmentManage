@@ -41,13 +41,12 @@
 
       <nz-form-item>
         <nz-form-control>
-          <nz-select style="width: 200px;" formControlName="status_id" nzPlaceHolder="Trạng thái">
+          <nz-select style="width: 200px;" formControlName="status_id" nzPlaceHolder="Trạng thái" >
+            <nz-option nzValue="0" nzLabel="Tất cả"></nz-option>
             <nz-option *ngFor="let item of lsStatus" nzValue="{{item.id}}" nzLabel="{{item.name}}"></nz-option>
           </nz-select>
         </nz-form-control>
       </nz-form-item>
-
-
 
       <nz-form-item>
         <nz-form-control>
@@ -177,10 +176,10 @@
                 <i *ngIf="data.status_id == 3" nz-icon nzType="eye" (click)="handleCorU(data)" nz-tooltip
                   nzTitle="Chỉnh sửa" nzTheme="outline" class="text-primary iconAction"></i>
 
-                <br>
+                <!-- <br>
 
                 <i *ngIf="data.status_id ==1" class="text-danger iconAction" nz-icon nz-tooltip nzTitle="Gán nợ xấu"
-                  nzType="frown" nzTheme="outline" (click)="setBadDebt(data)"></i>
+                  nzType="frown" nzTheme="outline" (click)="setBadDebt(data)"></i> -->
 
                 <i *ngIf="data.status_id !=2 && data.status_id !=3" nz-icon nzType="close-circle"
                   (click)="cancelContact(data)" nz-tooltip nzTitle="Hủy hợp đồng" nzTheme="outline"
