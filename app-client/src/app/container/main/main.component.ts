@@ -46,7 +46,7 @@ export class MainComponent implements OnInit {
         icon: 'home'
       },
       {
-        title: 'Trả góp',
+        title: 'Hợp đồng',
         url: '',
         role: ['admin'],
         icon: 'pay-circle',
@@ -62,6 +62,10 @@ export class MainComponent implements OnInit {
           },{
             title: 'Hợp đồng quá hạn',
             url: '/manager/installment/bad-debt',
+            role: ['admin']
+          },{
+            title: 'Báo cáo góp vốn',
+            url: '/manager/installment/capital-contribution',
             role: ['admin']
           }
         ]

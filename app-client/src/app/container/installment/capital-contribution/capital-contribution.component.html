@@ -1,0 +1,54 @@
+<div nz-row class="mgbt20">
+  <div class="row">
+
+    <div class="col-6 col-sm-6 col-md-6 col-lg-6">
+      <h4>Báo cáo góp vốn</h4>
+    </div>
+  </div>
+</div>
+
+<div class="box box-success">
+  <div class="box-body">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <div class="table-responsive">
+        <table class="table table-bordered" style="width: 100%;">
+          <thead class=" ant-table-thead  ">
+            <tr>
+              <th class="text-center" width="5%">STT</th>
+              <th>Người góp vốn</th>
+              <th class="text-center">Tổng đã trả</th>
+              <th class="text-center">Tổng còn lại</th>
+              <th class="text-center">Tổng góp vốn</th>
+              <th class="text-center">Hành động</th>
+            </tr>
+          </thead>
+          <tbody class="ant-table-tbody" *ngIf="!loading">
+            <tr *ngFor="let item of capitals.data;let i = index" class="ant-table-row">
+              <td class="text-center">{{ i +1}}</td>
+              <td>{{ item.name }}</td>
+              <td class="text-right">{{ item.refund | number }} đ</td>
+              <td class="text-right">{{ item.remain | number }} đ</td>
+              <td class="text-right">{{ item.capital | number }} đ</td>
+              <td class="text-center">
+                <i nz-icon nzType="eye" (click)="viewDetailCapital(item)" nz-tooltip nzTitle="Xem chi tiết"
+                  nzTheme="outline" class="text-primary iconAction"></i>
+              </td>
+            </tr>
+          </tbody>
+          <tbody class="ant-table-tbody" *ngIf="loading">
+            <tr>
+              <td colspan="6" class="text-center">
+                <nz-spin nzSimple></nz-spin>
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-capital-detail *ngIf="isVisibleCap" [dataEdit]="dataEdit" [isVisible]="isVisibleCap"
+  (closeModal)="closeModal($event)">
+</app-capital-detail>

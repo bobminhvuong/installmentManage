@@ -17,6 +17,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { MainComponent } from '../container/main/main.component';
+import { CapitalContributionComponent } from '../container/installment/capital-contribution/capital-contribution.component';
 
 const routes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -29,6 +30,7 @@ const routes: Routes = [
                 {path: 'itm-list', component: ItmListComponent},
                 {path: 'pay-interest-history', component: InterestPaymentHistoryComponent},
                 {path: 'bad-debt', component: BadDebtComponent},
+                {path: 'capital-contribution', component: CapitalContributionComponent},
             ] },
             { path: 'dashboard', component: DashboardComponent },
             { path: 'customer', component: CustomerComponent },

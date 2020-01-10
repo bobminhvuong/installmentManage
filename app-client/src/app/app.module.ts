@@ -45,6 +45,8 @@ import { InterestPaymentHistoryComponent } from './container/installment/interes
 import { OnlyNumberDirective } from './directives/only-number.directive';
 import { FormatVNDirective } from './directives/format-vn.directive';
 import { BadDebtComponent } from './container/installment/bad-debt/bad-debt.component';
+import { CapitalContributionComponent } from './container/installment/capital-contribution/capital-contribution.component';
+import { CapitalDetailComponent } from './container/installment/capital-contribution/capital-detail/capital-detail.component';
 
 registerLocaleData(en);
 
@@ -74,7 +76,9 @@ registerLocaleData(en);
     InterestPaymentHistoryComponent,
     OnlyNumberDirective,
     FormatVNDirective,
-    BadDebtComponent
+    BadDebtComponent,
+    CapitalContributionComponent,
+    CapitalDetailComponent
   ],
   imports: [
     BrowserModule,

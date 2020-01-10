@@ -13,9 +13,29 @@ import { environment } from './../../../environments/environment';
 export class ReportService {
 
   constructor(private http: HttpClient, private mainSV: MainService) { }
+  
   getReportDashboar(filter): Observable<any> {
     filter.api = this.mainSV.getApikey();
     return this.http.post(environment.APIHOST + '/api/report/dashboard', filter, this.mainSV.getHttpOptionsNotToken()).pipe(
+      catchError(this.mainSV.handleError)
+    );
+  }
+
+  getReportCapital(): Observable<any> {
+    let filter = {
+      api: this.mainSV.getApikey()
+    };
+    return this.http.post(environment.APIHOST + '/api/report/Capital', filter, this.mainSV.getHttpOptionsNotToken()).pipe(
+      catchError(this.mainSV.handleError)
+    );
+  }
+
+  getReportCapitalDetail(id): Observable<any> {
+    let val = {
+      api: this.mainSV.getApikey(),
+      user_id: id
+    };
+    return this.http.post(environment.APIHOST + '/api/report/Capital_detail', val, this.mainSV.getHttpOptionsNotToken()).pipe(
       catchError(this.mainSV.handleError)
     );
   }
