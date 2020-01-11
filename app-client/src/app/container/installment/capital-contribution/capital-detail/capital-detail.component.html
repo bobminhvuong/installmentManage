@@ -25,10 +25,10 @@
               <td class="text-center"> {{data.id}} </td>
               <td> {{data.customer_name}}
                 <span nz-tooltip ="Đã trả" class="float-right" style="cursor: pointer;">
-                  <i *ngIf="is_refund"  nz-icon nzType="check-circle" class="text-success" nzTheme="outline"></i>
+                  <i *ngIf="data.is_refund"  nz-icon nzType="check-circle" class="text-success" nzTheme="outline"></i>
                 </span>
                 <span nz-tooltip nzTitle="Chưa trả" class="float-right" style="cursor: pointer;">
-                  <i *ngIf="!is_refund" nz-icon nzType="issues-close" class="text-danger" nzTheme="outline"></i>
+                  <i *ngIf="!data.is_refund" nz-icon nzType="issues-close" class="text-danger" nzTheme="outline"></i>
                 </span>
               </td>
               <td class="text-center">{{data.loan_type_name}}</td>

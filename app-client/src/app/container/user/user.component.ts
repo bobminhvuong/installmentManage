@@ -11,8 +11,8 @@ export class UserComponent implements OnInit {
 
   isVisible = false;
   pageIndex = 1;
-  pageSize = 10;
-  total = 1;
+  pageSize = 20;
+  total = 0;
   listOfData = [];
   loading = true;
   order: any[] | null = null;

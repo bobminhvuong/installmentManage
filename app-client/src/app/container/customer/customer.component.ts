@@ -13,7 +13,7 @@ import * as moment from 'moment';
 export class CustomerComponent implements OnInit {
   isVisible = false;
   pageIndex = 1;
-  pageSize = 10;
+  pageSize = 20;
   total = 1;
   listOfData = [];
   loading = true;
