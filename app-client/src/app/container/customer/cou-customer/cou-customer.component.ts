@@ -29,8 +29,7 @@ export class CouCustomerComponent implements OnInit {
 
   ngOnInit() {
     if (this.dataEdit && this.dataEdit.identity_date) {
-      let identity_date = this.dataEdit.identity_date.split("/");
-      this.dataEdit.identity_date = new Date(identity_date[1] + '/' + identity_date[0] + '/' + identity_date[2]);
+      this.dataEdit.identity_date = new Date(this.dataEdit.identity_date);
     }
 
     this.API_IMG = environment.APICURRENTSERVE;
@@ -66,20 +65,19 @@ export class CouCustomerComponent implements OnInit {
   }
 
   submitForm(): void {
-    // tslint:disable-next-line:forin
     for (const i in this.validateForm.controls) {
       this.validateForm.controls[i].markAsDirty();
       this.validateForm.controls[i].updateValueAndValidity();
     }
     if (this.validateForm.status === 'VALID') {
-
+      
       let client = this.validateForm.value;
       client = { ...this.dataEdit, ...client };
       client.identity_image = this.avatar.length > 0 ? this.avatar[0].response.urlImage : '';
       client.identity_date = moment(client.identity_date).format('DD/MM/YYYY');
       this.customerSV.updateOrCreateCustomer(client).subscribe(r => {
         if (r && r.status == 1) {
-          this.message.create('success', this.dataEdit && this.dataEdit.id ? 'Tạo khách hàng thành công!' : 'Cập nhạt thành công!');
+          this.message.create('success', this.dataEdit && this.dataEdit.id ? 'Cập nhật thành công!' : 'Tạo khách hàng thành công!');
           this.handleCancel();
         } else {
           this.message.create('error', r && r.message ? r.message : 'Đã có lổi xẩy ra. Vui lòng thử lại!');

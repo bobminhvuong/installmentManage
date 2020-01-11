@@ -36,6 +36,7 @@ export class AddContractComponent implements OnInit {
   loan_price = '';
   loan_rate = '';
   loan_type = 0;
+  brokerage_amount = '0';
   capital_sources = [];
   API_IMG = '';
 
@@ -64,18 +65,19 @@ export class AddContractComponent implements OnInit {
     this.loan_price = this.dataEdit.loan_price ? this.dataEdit.loan_price : '';
     this.loan_rate = this.dataEdit.loan_rate ? this.dataEdit.loan_rate : '';
     this.loan_type = this.dataEdit && this.dataEdit.loan_type ? this.dataEdit.loan_type : 0;
+    this.brokerage_amount = this.dataEdit && this.dataEdit.brokerage_amount ? this.dataEdit.brokerage_amount + '' : '0';
 
     this.validateForm = this.fb.group({
-      // loan_price: [this.dataEdit.loan_price ? this.dataEdit.loan_price : '', [Validators.required]],
-      loan_price: [this.dataEdit.loan_price ? this.dataEdit.loan_price : '', [Validators.required]],
+      loan_price: [this.loan_price, [Validators.required]],
       loan_date_start: [startDate, [Validators.required]],
       loan_date_end: [endDate, [Validators.required]],
-      loan_rate: [this.dataEdit.loan_rate ? this.dataEdit.loan_rate : '', [Validators.required]],
+      loan_rate: [ this.loan_rate, [Validators.required]],
       customer_id: [this.dataEdit.customer_id ? this.dataEdit.customer_id : '', [Validators.required]],
-      loan_type: [this.dataEdit && this.dataEdit.loan_type ? this.dataEdit.loan_type : 0],
+      loan_type: [this.loan_type],
+      brokerage_amount : [this.brokerage_amount],
       note: [this.dataEdit.note ? this.dataEdit.note : '']
     });
-
+    
     this.getUser();
     this.getCustomers();
     this.getData();
@@ -207,6 +209,8 @@ export class AddContractComponent implements OnInit {
 
       let data = this.validateForm.value;
       data.loan_price = Number(data.loan_price.replace(/,/g, ''));
+      data.loan_rate = Number(data.loan_rate.replace(/,/g, ''));
+      data.brokerage_amount = Number(data.brokerage_amount.replace(/,/g, ''));
       data.capitals = capitals;
       data.loan_date_start = moment(data.loan_date_start).format('DD/MM/YYYY');
       data.loan_date_end = moment(data.loan_date_end).format('DD/MM/YYYY');

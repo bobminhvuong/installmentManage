@@ -6,7 +6,7 @@
   <ng-template #modalContent>
 
     <div class="col-12 col-sm-12 col-md-12 col-lg-12">
-      <div class="table-responsive">
+      <div *ngIf="capital && capital.data"  class="table-responsive">
         <nz-table #fixedTable [nzData]="capital.data" [nzFrontPagination]="false" [nzShowPagination]="false">
           <thead>
             <tr>
@@ -23,7 +23,14 @@
             <tr *ngFor="let data of fixedTable.data;let i= index;" >
               <td class="text-center"> {{i+1}} </td>
               <td class="text-center"> {{data.id}} </td>
-              <td> {{data.customer_name}} <span *ngIf="is_refund" class="badge badge-success">Đã trả</span> </td>
+              <td> {{data.customer_name}}
+                <span nz-tooltip ="Đã trả" class="float-right" style="cursor: pointer;">
+                  <i *ngIf="is_refund"  nz-icon nzType="check-circle" class="text-success" nzTheme="outline"></i>
+                </span>
+                <span nz-tooltip nzTitle="Chưa trả" class="float-right" style="cursor: pointer;">
+                  <i *ngIf="!is_refund" nz-icon nzType="issues-close" class="text-danger" nzTheme="outline"></i>
+                </span>
+              </td>
               <td class="text-center">{{data.loan_type_name}}</td>
               <td class="text-right"> {{data.loan_price | number}} đ</td>
               <td class="text-right"> {{data.capital | number}} đ</td>

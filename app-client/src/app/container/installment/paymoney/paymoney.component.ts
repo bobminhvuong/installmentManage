@@ -92,11 +92,20 @@ export class PaymoneyComponent implements OnInit {
   }
 
   showConfirmPay(isSuccess): void {
-    for (const i in this.validateForm.controls) {
-      this.validateForm.controls[i].markAsDirty();
-      this.validateForm.controls[i].updateValueAndValidity();
+    if(!isSuccess){
+      for (const i in this.validateForm.controls) {
+        this.validateForm.controls[i].markAsDirty();
+        this.validateForm.controls[i].updateValueAndValidity();
+      }
     }
-    if (this.validateForm.valid) {
+   
+    if (this.validateForm.valid && !isSuccess) {
+      this.modalService.confirm({
+        nzTitle: isSuccess ? '<i>Bạn muốn Đóng lãi và kết thúc hợp đồng này?</i>' : '<i>Bạn muốn Đóng lãi cho hợp đồng này?</i>',
+        nzOnOk: () => this.payMoney(isSuccess)
+      });
+    }
+    if(isSuccess){
       this.modalService.confirm({
         nzTitle: isSuccess ? '<i>Bạn muốn Đóng lãi và kết thúc hợp đồng này?</i>' : '<i>Bạn muốn Đóng lãi cho hợp đồng này?</i>',
         nzOnOk: () => this.payMoney(isSuccess)
