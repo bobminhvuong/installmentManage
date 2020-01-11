@@ -26,16 +26,30 @@ export class FormatVNDirective {
       };
     };
   }
- 
+
   ngOnInit() {
     this.appFormatVN = this.appFormatVN || '';
     this.format(this.appFormatVN);
   }
 
-  format(value) {
-    if (value && value != '') {
-      let val = Number((value + '').replace(/,/g, ""));
-      this.appFormatVNChange.next(val.toLocaleString());
+  format(val) {
+    if (val && val != '') {
+      // let val = Number((value + '').replace(/,/g, ""));
+      // this.appFormatVNChange.next(val.toLocaleString());
+      val = val+ '';
+      val = val.replace(/,/g, "")
+      val += '';
+      let x = val.split('.');
+      let x1 = x[0];
+      let x2 = x.length > 1 ? '.' + x[1] : '';
+
+      var rgx = /(\d+)(\d{3})/;
+
+      while (rgx.test(x1)) {
+        x1 = x1.replace(rgx, '$1' + ',' + '$2');
+      }
+      this.appFormatVNChange.next(x1 + x2)
+
     } else {
       this.appFormatVNChange.next('');
     }
