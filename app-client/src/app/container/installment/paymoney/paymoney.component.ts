@@ -120,17 +120,10 @@ export class PaymoneyComponent implements OnInit {
     pay.price = this.formatNumber(pay.price);
     pay.date = this.formatDate(pay.date, 'DD/MM/YYYY')
     pay.is_finish = isSuccess;
-    if (isSuccess) delete pay.next_payday;
-
+    
     this.invSV.payAdd(pay).subscribe(r => {
-      if (r && r.status == 1) {
-        this.handleCancel();
-        this.message.create('success', 'Đóng lãi thành công!');
-
-      } else {
-        this.message.create('error', r && r.message ? r.message : 'Đã có lổi xẩy ra. Vui lòng thử lại!');
-      }
-
+      let res = (r && r.status == 1) ?  this.message.create('success', 'Đóng lãi thành công!') :  this.message.create('error', r && r.message ? r.message : 'Đã có lổi xẩy ra. Vui lòng thử lại!');
+      this.getInvoiceDetail();
     })
   }
 
