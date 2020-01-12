@@ -53,7 +53,7 @@ export class BadDebtComponent implements OnInit {
       active: valFilter.active,
       status_id: valFilter.status_id,
       find: valFilter.find,
-      is_over: 0
+      is_over: true
     }
 
     this.invSv.getAll(filter).subscribe(res => {
