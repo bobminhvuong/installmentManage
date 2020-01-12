@@ -38,9 +38,12 @@ export class InvoiceService {
   updateOrCreate(data): Observable<any> {
     data.api = this.mainSV.getApikey();
     data.user_id = data.id ? data.user_id : this.mainSV.getCurrentUser().id;
-    return this.http.post(environment.APIHOST + '/api/invoice/add', data, this.mainSV.getHttpOptionsNotToken()).pipe(
-      catchError(this.mainSV.handleError)
-    );
+    console.log(data);
+    
+    return null;
+    // return this.http.post(environment.APIHOST + '/api/invoice/add', data, this.mainSV.getHttpOptionsNotToken()).pipe(
+    //   catchError(this.mainSV.handleError)
+    // );
   }
 
   getStatus(): Observable<any> {

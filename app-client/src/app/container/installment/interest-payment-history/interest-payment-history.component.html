@@ -51,6 +51,9 @@
             <th width="10%" class="text-center">
               Ngày tạo
             </th>
+            <th width="10%" class="text-center">
+              Ngày đóng lãi
+            </th>
             <th width="15%" class="text-center">
               Khách hàng
             </th>
@@ -63,10 +66,10 @@
             <th width="15%" class="text-center">
               Tiền đóng lãi
             </th>
-            <th width="15%" class="text-center">
+            <th width="10%" class="text-center">
               Chia lãi
             </th>
-            <th width="15%" class="text-center">
+            <th width="10%" class="text-center">
               Công cụ
             </th>
           </tr>
@@ -75,6 +78,7 @@
           <tr *ngFor="let data of ajaxTable.data;let i = index">
             <td class="text-center">{{ i + 1 + ((pageIndex -1) * pageSize) }}</td>
             <td class="text-center">{{ formatDate(data.pay_date_created,'DD/MM/YYYY HH:mm') }}</td>
+            <td class="text-center">{{ data.pay_date }}</td>
             <td>{{ data.name }}</td>
             <td class="text-center">{{ data.phone }}</td>
             <td class="text-right">{{ formatCurrency(data.loan_price) }} đ</td>

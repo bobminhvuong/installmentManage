@@ -14,18 +14,18 @@
 </div>
 <div class="box box-success">
   <div class="box-header">
-    <form nz-form [nzLayout]="'inline'" [formGroup]="filterForm" (ngSubmit)="filterData()">
+    <div class=" ant-form ant-form-inline ">
       <nz-form-item>
         <nz-form-control>
           <nz-input-group nzPrefixIcon="date">
-            <nz-range-picker formControlName="date"></nz-range-picker>
+            <nz-range-picker [(ngModel)]="filter.date"></nz-range-picker>
           </nz-input-group>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
         <nz-form-control>
           <nz-input-group nzPrefixIcon="key">
-            <input nz-input type="text" formControlName="find" placeholder="Từ khóa" />
+            <input nz-input type="text" [(ngModel)]="filter.find" placeholder="Từ khóa" />
           </nz-input-group>
         </nz-form-control>
       </nz-form-item>
@@ -41,7 +41,18 @@
 
       <nz-form-item>
         <nz-form-control>
-          <nz-select style="width: 200px;" formControlName="status_id" nzPlaceHolder="Trạng thái" >
+          <nz-select [(ngModel)]="filter.customer_id" style="width: 200px;" nzShowSearch nzAllowClear
+            nzPlaceHolder="Khách hàng">
+            <nz-option nzValue="0" nzLabel="Tất cả"></nz-option>
+            <nz-option *ngFor="let item of customers" nzValue="{{item.id}}"
+              nzLabel="{{item.name+ ' ('+item.phone+')'}}"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-control>
+          <nz-select style="width: 200px;" [(ngModel)]="filter.status_id" nzPlaceHolder="Trạng thái">
             <nz-option nzValue="0" nzLabel="Tất cả"></nz-option>
             <nz-option *ngFor="let item of lsStatus" nzValue="{{item.id}}" nzLabel="{{item.name}}"></nz-option>
           </nz-select>
@@ -53,7 +64,7 @@
           <button nz-button (click)="filterData()" nzType="primary">Hiển thị</button>
         </nz-form-control>
       </nz-form-item>
-    </form>
+    </div>
   </div>
   <div class="box-body">
 

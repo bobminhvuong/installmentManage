@@ -1,3 +1,4 @@
+import { CustomerService } from './../../../service/customer/customer.service';
 import { NzModalService, NzMessageService } from 'ng-zorro-antd';
 import { InvoiceService } from './../../../service/invoice/invoice.service';
 import { Component, OnInit } from '@angular/core';
@@ -22,18 +23,41 @@ export class ItmListComponent implements OnInit {
   lsStatus = [];
   isVisiblePay = false;
   isVisibleCost = false;
-  constructor(private invSv: InvoiceService, private modalService: NzModalService, private message: NzMessageService, private fb: FormBuilder) { }
+  customers = [];
+  customer_id = 0;
+  filter = {
+    offset: 0,
+    limit: this.pageSize,
+    customer_id : 0,
+    date : null,
+    find : '',
+    active: 1,
+    status_id: 0,
+    from :'',
+    to:''
+  }
+  constructor(private invSv: InvoiceService,
+    private modalService: NzModalService,
+    private message: NzMessageService,
+    private customerSV: CustomerService) { }
 
   ngOnInit() {
-    this.filterForm = this.fb.group({
-      date: [null],
-      find: [''],
-      active: [1],
-      status_id: [0]
-    });
-
-    this.getAll(this.filterForm.value);
+    this.getAll();
+    this.getCustomers();
     this.getStatus();
+  }
+
+  getCustomers() {
+    let ft = {
+      find: '',
+      offset: 0,
+      limit: 1000000
+    }
+    this.customerSV.getAll(ft).subscribe(r => {
+      if (r && r.status == 1) {
+        this.customers = r.data;
+      }
+    })
   }
 
   getStatus() {
@@ -44,18 +68,13 @@ export class ItmListComponent implements OnInit {
     })
   }
 
-  getAll(valFilter) {
-    let filter = {
-      offset: (this.pageIndex - 1) * this.pageSize,
-      limit: this.pageSize,
-      from: valFilter.date && valFilter.date[0] ? moment(valFilter.date[0]).format('DD/MM/YYYY') : '',
-      to: valFilter.date && valFilter.date[1] ? moment(valFilter.date[1]).format('DD/MM/YYYY') : '',
-      active: valFilter.active,
-      find: valFilter.find,
-      status_id: valFilter.status_id
-    }
+  getAll() {
+    this.filter.offset = (this.pageIndex - 1) * this.pageSize;
+    this.filter.limit = this.pageSize;
+    this.filter.from = this.filter.date && this.filter.date[0] ? moment(this.filter.date[0]).format('DD/MM/YYYY') : ''
+    this.filter.to = this.filter.date && this.filter.date[1] ? moment(this.filter.date[1]).format('DD/MM/YYYY') : ''
 
-    this.invSv.getAll(filter).subscribe(res => {
+    this.invSv.getAll(this.filter).subscribe(res => {
       this.listOfData = res.data;
       this.loading = false;
       this.total = res.total;
@@ -63,7 +82,7 @@ export class ItmListComponent implements OnInit {
   }
 
   filterData(): void {
-    this.getAll(this.filterForm.value);
+    this.getAll();
   }
 
   handleCorU(client) {
@@ -73,11 +92,11 @@ export class ItmListComponent implements OnInit {
 
   closeModal(e) {
     this.isVisible = e;
-    this.getAll(this.filterForm.value);
+    this.getAll();
   }
 
   panigate() {
-    this.getAll(this.filterForm.value);
+    this.getAll();
   }
 
   payContact(data) {
@@ -116,7 +135,7 @@ export class ItmListComponent implements OnInit {
     });
   }
 
-  cancelContact(data){
+  cancelContact(data) {
     this.modalService.confirm({
       nzTitle: 'Bạn muốn hủy hợp đồng này?',
       nzOkText: 'Xác nhận',
@@ -134,7 +153,7 @@ export class ItmListComponent implements OnInit {
     this.invSv.changeStatus(data).subscribe(r => {
       if (r && r.status == 1) {
         this.message.create('success', 'Cập nhật hợp đồng thành công!');
-        this.getAll(this.filterForm.value);
+        this.getAll();
       } else {
         this.message.create('error', r && r.message ? r.message : 'Đã có lổi xẩy ra. Vui lòng thử lại');
       }
