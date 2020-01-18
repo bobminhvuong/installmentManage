@@ -1,5 +1,6 @@
 import { ReportService } from './../../../service/report/report.service';
 import { Component, OnInit } from '@angular/core';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-capital-contribution',
@@ -12,6 +13,7 @@ export class CapitalContributionComponent implements OnInit {
   loading = true;
   isVisibleCap = false;
   dataEdit: any;
+  date = [moment().subtract(1, 'months').format('YYYY-MM-DD'), moment().format('YYYY-MM-DD')];
 
   constructor(private reportSV: ReportService) { }
 
@@ -20,7 +22,12 @@ export class CapitalContributionComponent implements OnInit {
   }
 
   getAll() {
-    this.reportSV.getReportCapital().subscribe(r => {
+    let val = {
+      from: moment(this.date[0]).format('DD/MM/YYYY'),
+      to: moment(this.date[1]).format('DD/MM/YYYY')
+    }
+    
+    this.reportSV.getReportCapital(val).subscribe(r => {
       if (r && r.status == 1) {
         this.capitals = r;
         this.loading = false;
@@ -32,7 +39,7 @@ export class CapitalContributionComponent implements OnInit {
     this.isVisibleCap = true;
     this.dataEdit = data ? data : {};
   }
-  closeModal(val){
+  closeModal(val) {
     this.isVisibleCap = false;
     this.getAll();
   }

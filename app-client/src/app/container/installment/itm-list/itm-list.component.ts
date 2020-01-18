@@ -29,7 +29,7 @@ export class ItmListComponent implements OnInit {
     offset: 0,
     limit: this.pageSize,
     customer_id: 0,
-    date: null,
+    date: [moment().subtract(1, 'months').format('YYYY-MM-DD'),moment().format('YYYY-MM-DD')],
     find: '',
     active: 1,
     status_id: 0,
@@ -49,6 +49,9 @@ export class ItmListComponent implements OnInit {
     this.getAll();
     // this.getCustomers();
     this.getStatus();
+    let date = new Date();
+
+    // this.filter.date = [date,date.setMonth(date.getMonth() -1)]
   }
 
   getCustomers(ft) {

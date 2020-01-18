@@ -13,7 +13,9 @@ export class InvoiceService {
   constructor(private http: HttpClient, private mainSV: MainService) { }
 
   getAll(filter): Observable<any> {
+    let userLog = this.mainSV.getCurrentUser();
     filter.api = this.mainSV.getApikey();
+    filter.user_id_capital = userLog.type == 'admin' ? 0 : userLog.id;
     return this.http.post(environment.APIHOST + '/api/invoice/get', filter, this.mainSV.getHttpOptionsNotToken()).pipe(
       catchError(this.mainSV.handleError)
     );

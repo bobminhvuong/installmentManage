@@ -13,7 +13,7 @@ import { environment } from './../../../environments/environment';
 export class ReportService {
 
   constructor(private http: HttpClient, private mainSV: MainService) { }
-  
+
   getReportDashboar(filter): Observable<any> {
     filter.api = this.mainSV.getApikey();
     return this.http.post(environment.APIHOST + '/api/report/dashboard', filter, this.mainSV.getHttpOptionsNotToken()).pipe(
@@ -21,11 +21,11 @@ export class ReportService {
     );
   }
 
-  getReportCapital(): Observable<any> {
+  getReportCapital(val): Observable<any> {
     let userLog = this.mainSV.getCurrentUser();
-    console.log(123123123,userLog);
-    
     let filter = {
+      from: val.from,
+      to: val.to,
       api: this.mainSV.getApikey(),
       user_id: userLog.type == 'admin' ? 0 : userLog.id,
     };

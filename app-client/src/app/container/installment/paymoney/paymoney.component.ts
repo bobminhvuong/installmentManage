@@ -73,8 +73,6 @@ export class PaymoneyComponent implements OnInit {
   getInvoiceDetail() {
     this.invSV.getDetail(this.dataEdit.id).subscribe(r => {
       if (r && r.status == 1) {
-        console.log(r.data);
-        
         this.dataSource = r.data;
       }
     })

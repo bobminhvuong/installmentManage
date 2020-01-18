@@ -8,6 +8,26 @@
 </div>
 
 <div class="box box-success">
+  <div class="box-header">
+
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <div class=" ant-form ant-form-inline ">
+        <nz-form-item>
+          <nz-form-control>
+            <nz-input-group nzPrefixIcon="date">
+              <nz-range-picker [(ngModel)]="date"></nz-range-picker>
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-control>
+            <button nz-button (click)="getAll()" nzType="primary">Hiển thị</button>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+  </div>
   <div class="box-body">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       <div *ngIf="capitals && capitals.data " class="table-responsive">

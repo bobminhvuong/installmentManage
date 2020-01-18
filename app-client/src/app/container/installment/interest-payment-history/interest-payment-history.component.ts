@@ -54,8 +54,6 @@ export class InterestPaymentHistoryComponent implements OnInit {
     }
 
     this.invSv.getAllPayHistory(filter).subscribe(res => {
-      console.log(res);
-      
       this.listOfData = res.data;
       this.loading = false;
       this.total = res.total;

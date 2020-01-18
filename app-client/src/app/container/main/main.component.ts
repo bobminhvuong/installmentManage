@@ -130,7 +130,6 @@ export class MainComponent implements OnInit {
   }
 
   getOpenSubMenu(item) {
-    // console.log(item);
     let hasItem = item.subMenu.find(e => { return e.url == this.currentUrl })
     return hasItem ? true : false;
   }

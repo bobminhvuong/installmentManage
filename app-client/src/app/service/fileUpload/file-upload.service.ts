@@ -14,7 +14,6 @@ export class FileUploadService {
   constructor(private http: HttpClient, private mainSV: MainService) { }
 
   uploadImage(file, path): Observable<any> {
-    console.log(environment.APICURRENTSERVE)
     return this.http.post(environment.APICURRENTSERVE + '/api/fileUpload?pathImg=' + path, file).pipe(
       catchError(this.mainSV.handleError)
     );
