@@ -22,8 +22,12 @@ export class ReportService {
   }
 
   getReportCapital(): Observable<any> {
+    let userLog = this.mainSV.getCurrentUser();
+    console.log(123123123,userLog);
+    
     let filter = {
-      api: this.mainSV.getApikey()
+      api: this.mainSV.getApikey(),
+      user_id: userLog.type == 'admin' ? 0 : userLog.id,
     };
     return this.http.post(environment.APIHOST + '/api/report/Capital', filter, this.mainSV.getHttpOptionsNotToken()).pipe(
       catchError(this.mainSV.handleError)
