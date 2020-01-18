@@ -47,6 +47,7 @@ import { FormatVNDirective } from './directives/format-vn.directive';
 import { BadDebtComponent } from './container/installment/bad-debt/bad-debt.component';
 import { CapitalContributionComponent } from './container/installment/capital-contribution/capital-contribution.component';
 import { CapitalDetailComponent } from './container/installment/capital-contribution/capital-detail/capital-detail.component';
+import { PermDirective } from './directives/perm.directive';
 
 registerLocaleData(en);
 
@@ -78,7 +79,8 @@ registerLocaleData(en);
     FormatVNDirective,
     BadDebtComponent,
     CapitalContributionComponent,
-    CapitalDetailComponent
+    CapitalDetailComponent,
+    PermDirective
   ],
   imports: [
     BrowserModule,

@@ -42,31 +42,31 @@ export class MainComponent implements OnInit {
       {
         title: 'Trang chủ',
         url: '/manager/dashboard',
-        role: ['admin'],
+        role: 'admin',
         icon: 'home'
       },
       {
         title: 'Hợp đồng',
         url: '',
-        role: ['admin'],
+        role: 'user',
         icon: 'pay-circle',
         subMenu: [
           {
             title: 'Danh sách hợp đồng',
             url: '/manager/installment',
-            role: ['admin'],
+            role: 'user',
           },{
             title: 'Lịch sử đóng lãi',
             url: '/manager/installment/pay-interest-history',
-            role: ['admin']
+            role: 'admin'
           },{
             title: 'Hợp đồng quá hạn',
             url: '/manager/installment/bad-debt',
-            role: ['admin']
+            role: 'admin'
           },{
             title: 'Báo cáo góp vốn',
             url: '/manager/installment/capital-contribution',
-            role: ['admin']
+            role: 'user'
           }
         ]
       },
@@ -100,12 +100,12 @@ export class MainComponent implements OnInit {
         title: 'Nhân viên',
         url: '',
         icon: 'user',
-        role: ['admin'],
+        role: 'admin',
         subMenu: [
           {
             title: 'Danh sách',
             url: '/manager/user',
-            role: ['admin'],
+            role: 'admin',
           }
         ]
       },
@@ -113,12 +113,12 @@ export class MainComponent implements OnInit {
         title: 'Khách hàng',
         url: '',
         icon: 'usergroup-add',
-        role: ['admin'],
+        role: 'admin',
         subMenu: [
           {
             title: 'Danh sách',
             url: '/manager/customer',
-            role: ['admin'],
+            role: 'admin',
           }
         ]
       }

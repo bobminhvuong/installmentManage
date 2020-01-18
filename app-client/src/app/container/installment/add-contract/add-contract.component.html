@@ -115,7 +115,7 @@
           <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="brokerage_amount">Chi phí mua giới</nz-form-label>
           <nz-form-control [nzSm]="14" [nzXs]="24">
             <!-- (keypress)="numberOnly($event)" -->
-            <input nz-input placeholder="Chi phí" [(ngModel)]="brokerage_amount" [(appFormatVN)]="brokerage_amount"
+            <input nz-input placeholder="Chi phí"  [(ngModel)]="brokerage_amount" [(appFormatVN)]="brokerage_amount"
               formControlName="brokerage_amount" />
             <nz-form-explain *ngIf="validateForm.get('brokerage_amount')?.dirty && validateForm.get('brokerage_amount')?.errors">
               Chi phí không được để trống!
@@ -216,7 +216,7 @@
   </form>
 
   <ng-template #modalFooter>
-    <button *ngIf="dataEdit.status_id != 2 && dataEdit.status_id != 3" class="btn btn-primary btn-sm" (click)="submitForm()">{{ !dataEdit.id ? 'Tạo hợp đồng' : 'Cập nhật hợp đồng' }}</button>
+    <button [appPerm]="'admin'" *ngIf="dataEdit.status_id != 2 && dataEdit.status_id != 3" class="btn btn-primary btn-sm" (click)="submitForm()">{{ !dataEdit.id ? 'Tạo hợp đồng' : 'Cập nhật hợp đồng' }}</button>
     <button class="btn btn-sm btn-light" (click)="handleCancel()">Đóng</button>
   </ng-template>
 

@@ -10,40 +10,75 @@
 <div class="box box-success">
   <div class="box-body">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <div class="table-responsive">
-        <table class="table table-bordered" style="width: 100%;">
-          <thead class=" ant-table-thead  ">
+      <div *ngIf="capitals && capitals.data " class="table-responsive">
+        <nz-table #editRowTable nzBordered [nzData]="capitals.data" [nzFrontPagination]="false"
+          [nzShowPagination]="false">
+          <thead>
             <tr>
-              <th class="text-center" width="5%">STT</th>
-              <th>Người góp vốn</th>
-              <th class="text-center">Tổng góp vốn</th>
-              <th class="text-center">Tổng còn lại</th>
-              <th class="text-center">Tổng đã trả</th>
-              <th class="text-center">Hành động</th>
+              <th width="5%" style="min-width: 50px;" class="text-center" width="5%">STT</th>
+              <th width="15%" style="min-width: 100px;">Người góp vốn</th>
+              <th width="30%" style="min-width: 250px;" class="text-center">Góp vốn</th>
+              <th width="30%" style="min-width: 250px;" class="text-center">Thu vốn</th>
+              <th width="20%" style="min-width: 70px;" class="text-center">Công cụ</th>
             </tr>
           </thead>
-          <tbody class="ant-table-tbody" *ngIf="!loading">
-            <tr *ngFor="let item of capitals.data;let i = index" class="ant-table-row">
+          <tbody>
+            <tr *ngFor="let data of editRowTable.data;let i =index">
               <td class="text-center">{{ i +1}}</td>
-              <td>{{ item.name }}</td>
-              <td class="text-right">{{ item.capital | number }} đ</td>
-              <td class="text-right">{{ item.remain | number }} đ</td>
-              <td class="text-right">{{ item.refund | number }} đ</td>
+              <td>{{ data.name }}</td>
               <td class="text-center">
-                <i nz-icon nzType="eye" (click)="viewDetailCapital(item)" nz-tooltip nzTitle="Xem chi tiết"
+                <table>
+                  <tr>
+                    <td><b>Tổng vốn góp</b></td>
+                    <td class="text-right">{{ data.capital | number }} đ</td>
+                  </tr>
+                  <tr>
+                    <td><b>Tổng đã nhận</b></td>
+                    <td class="text-right">{{ data.refund | number }} đ</td>
+                  </tr>
+                  <tr>
+                    <td><b>Tổng còn lại</b></td>
+                    <td class="text-right">{{ data.remain | number}} đ</td>
+                  </tr>
+                </table>
+              </td>
+
+              <td class="text-center">
+                <table>
+                  <tr>
+                    <td>
+                      <b>Tổng lãi</b>
+                    </td>
+                    <td class="text-right">{{ data.interest | number }} đ</td>
+                  </tr>
+
+                  <tr>
+                    <td>
+                      <b>Lãi đã thu về</b>
+                    </td>
+                    <td class="text-right">{{ data.interest_pay | number }} đ</td>
+                  </tr>
+
+                  <tr>
+                    <td>
+                      <b>Lãi còn lại</b>
+                    </td>
+                    <td class="text-right">
+                      {{ data.interest_remain | number }} đ
+                    </td>
+                  </tr>
+
+
+                </table>
+              </td>
+
+              <td class="text-center">
+                <i nz-icon nzType="eye" (click)="viewDetailCapital(data)" nz-tooltip nzTitle="Xem chi tiết"
                   nzTheme="outline" class="text-primary iconAction"></i>
               </td>
             </tr>
           </tbody>
-          <tbody class="ant-table-tbody" *ngIf="loading">
-            <tr>
-              <td colspan="6" class="text-center">
-                <nz-spin nzSimple></nz-spin>
-              </td>
-            </tr>
-
-          </tbody>
-        </table>
+        </nz-table>
       </div>
     </div>
   </div>

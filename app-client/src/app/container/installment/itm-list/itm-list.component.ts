@@ -28,14 +28,18 @@ export class ItmListComponent implements OnInit {
   filter = {
     offset: 0,
     limit: this.pageSize,
-    customer_id : 0,
-    date : null,
-    find : '',
+    customer_id: 0,
+    date: null,
+    find: '',
     active: 1,
     status_id: 0,
-    from :'',
-    to:''
+    from: '',
+    to: ''
   }
+  timeId: any;
+
+  searchCustomer: string;
+
   constructor(private invSv: InvoiceService,
     private modalService: NzModalService,
     private message: NzMessageService,
@@ -43,16 +47,11 @@ export class ItmListComponent implements OnInit {
 
   ngOnInit() {
     this.getAll();
-    this.getCustomers();
+    // this.getCustomers();
     this.getStatus();
   }
 
-  getCustomers() {
-    let ft = {
-      find: '',
-      offset: 0,
-      limit: 1000000
-    }
+  getCustomers(ft) {
     this.customerSV.getAll(ft).subscribe(r => {
       if (r && r.status == 1) {
         this.customers = r.data;
@@ -116,8 +115,6 @@ export class ItmListComponent implements OnInit {
     this.isVisibleCost = true;
   }
 
-
-
   formatCurrency(val) {
     if (val && val != '') {
       val = Number((val + '').replace(/,/g, ""));
@@ -159,4 +156,27 @@ export class ItmListComponent implements OnInit {
       }
     })
   }
+
+  onSearchCustomer(value: string): void {
+    // this.customers = value ? [value, value + value, value + value + value] : [];
+    this.filter.customer_id = 0;
+    if (value != '') {
+      let ft = {
+        find: value,
+        offset: 0,
+        limit: 10
+      }
+      clearTimeout(this.timeId);
+      this.timeId = setTimeout(() => {
+        this.getCustomers(ft);
+      }, 500);
+
+
+    }
+  }
+
+  chooseUser(val){
+    this.filter.customer_id = val;
+  }
+  
 }

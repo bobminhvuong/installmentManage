@@ -69,7 +69,7 @@
             <nz-form-label [nzSm]="5" [nzXs]="24" nzRequired nzFor="price">Chi phí
             </nz-form-label>
             <nz-form-control [nzSm]="12" [nzXs]="24">
-              <input nz-input placeholder="Số tiền" formControlName="price" />
+              <input nz-input placeholder="Số tiền" [(appFormatVN)]="brokerage_amount" formControlName="price" />
               <nz-form-explain *ngIf="validateForm.get('price')?.dirty && validateForm.get('price')?.errors">
                 Chi phí không được để trống!
               </nz-form-explain>
