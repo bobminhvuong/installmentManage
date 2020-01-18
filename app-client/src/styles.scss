@@ -321,6 +321,13 @@
   }
 }
 
+.tableFixHead {
+  max-width: 100%;
+  max-height: 55vh;
+  overflow-y: scroll;
+  position: relative;
+}
+
 
 @media (max-width: 768px){
   .ant-modal{

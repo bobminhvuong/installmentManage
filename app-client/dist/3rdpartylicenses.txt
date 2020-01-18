@@ -154,6 +154,8 @@ MIT
 @ant-design/icons-angular
 MIT
 
+ng-zorro-antd/auto-complete
+
 ng-zorro-antd/breadcrumb
 
 ng-zorro-antd/button

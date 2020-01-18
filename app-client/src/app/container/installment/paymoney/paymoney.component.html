@@ -82,7 +82,7 @@
                         <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="price">Số tiền
                         </nz-form-label>
                         <nz-form-control [nzSm]="16" [nzXs]="24">
-                            <input style="width: 172px;" (keypress)="numberOnly($event)" nz-input [(ngModel)]="price" (ngModelChange)="changeInputPrice($event)" placeholder="Số tiền" formControlName="price" />
+                            <input style="width: 172px;" nz-input [(ngModel)]="price" [(appFormatVN)]="brokerage_amount" placeholder="Số tiền" formControlName="price" />
                             <nz-form-explain
                                 *ngIf="validateForm.get('price')?.dirty && validateForm.get('price')?.errors">
                                 Số tiền không được để trống!

@@ -23,21 +23,23 @@ const routes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full' },
     { path: 'login', component: LoginComponent },
     {
-        path: 'manager', component: MainComponent,canActivate: [CanActivateService], data: {role: 'Admin'},  children: [
-            { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-            { path: 'installment', component: InstallmentComponent, children: [
-                {path: '', redirectTo: 'itm-list', pathMatch: 'full'},
-                {path: 'itm-list', component: ItmListComponent},
-                {path: 'pay-interest-history', component: InterestPaymentHistoryComponent},
-                {path: 'bad-debt', component: BadDebtComponent},
-                {path: 'capital-contribution', component: CapitalContributionComponent},
+        path: 'manager', component: MainComponent,canActivate: [CanActivateService], data: {role: 'LOGIN'},  children: [
+            { path: '',  redirectTo: 'dashboard', pathMatch: 'full' },
+
+            { path: 'installment', component: InstallmentComponent, canActivate: [CanActivateService], data: {role: 'user'},  children: [
+                {path: '', redirectTo: 'itm-list',canActivate: [CanActivateService], data: {role: 'user'} , pathMatch: 'full'},
+                {path: 'itm-list',canActivate: [CanActivateService], data: {role: 'user'},  component: ItmListComponent},
+                {path: 'pay-interest-history',canActivate: [CanActivateService], data: {role: 'admin'},  component: InterestPaymentHistoryComponent},
+                {path: 'bad-debt',canActivate: [CanActivateService], data: {role: 'admin'},  component: BadDebtComponent},
+                {path: 'capital-contribution',canActivate: [CanActivateService], data: {role: 'user'},  component: CapitalContributionComponent},
             ] },
+
             { path: 'dashboard', component: DashboardComponent },
-            { path: 'customer', component: CustomerComponent },
-            { path: 'user', component: UserComponent },
-            { path: 'profile', component: ProfileComponent },
-            { path: 'assets', component: AssetComponent },
-            { path: 'bds', component: BdsComponent },
+            { path: 'customer',canActivate: [CanActivateService], data: {role: 'admin'}, component: CustomerComponent },
+            { path: 'user',canActivate: [CanActivateService], data: {role: 'admin'}, component: UserComponent },
+            { path: 'profile',canActivate: [CanActivateService], data: {role: 'admin'}, component: ProfileComponent },
+            { path: 'assets',canActivate: [CanActivateService], data: {role: 'admin'}, component: AssetComponent },
+            { path: 'bds',canActivate: [CanActivateService], data: {role: 'admin'}, component: BdsComponent },
         ]
     },
 ];

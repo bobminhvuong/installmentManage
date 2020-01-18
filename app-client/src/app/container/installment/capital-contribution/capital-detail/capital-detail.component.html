@@ -6,7 +6,7 @@
   <ng-template #modalContent>
 
     <div class="col-12 col-sm-12 col-md-12 col-lg-12">
-      <div *ngIf="capital && capital.data"  class="table-responsive">
+      <div *ngIf="capital && capital.data"  class="table-responsive tableFixHead">
         <nz-table #fixedTable [nzData]="capital.data" [nzFrontPagination]="false" [nzShowPagination]="false">
           <thead>
             <tr>

@@ -1,6 +1,6 @@
 <nz-skeleton [nzLoading]="loading" [nzActive]="true" [nzParagraph]="{ rows: 12 }"></nz-skeleton>
 
-<div *ngIf="dataReport && !loading">
+<div [appPerm]="'admin'"  *ngIf="dataReport && !loading">
     <div class="row">
 
 
