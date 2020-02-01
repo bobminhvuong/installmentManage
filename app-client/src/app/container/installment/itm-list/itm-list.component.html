@@ -30,205 +30,188 @@
         </nz-form-control>
       </nz-form-item>
 
-      <!-- <nz-form-item>
-        <nz-form-control>
-          <nz-select style="width: 200px;" formControlName="active" nzPlaceHolder="Tình trạng">
-            <nz-option nzValue="1" nzLabel="Hoạt động"></nz-option>
-            <nz-option nzValue="0" nzLabel="Đã xóa"></nz-option>
-          </nz-select>
-        </nz-form-control>
-      </nz-form-item> -->
-
       <nz-form-item>
         <nz-form-control>
-          <!-- <nz-select [(ngModel)]="filter.customer_id" style="width: 200px;" nzShowSearch nzAllowClear (nzOpenChange)="changeA($event)"
-            nzPlaceHolder="Khách hàng">
-            <nz-option nzValue="0" nzLabel="Tất cả"></nz-option>
-            <nz-option *ngFor="let item of customers" nzValue="{{item.id}}"
-              nzLabel="{{item.name+ ' ('+item.phone+')'}}"></nz-option>
-          </nz-select> -->
-
-          <input placeholder="Tìm khách hàng" nz-input [(ngModel)]="searchCustomer" (input)="onSearchCustomer($event.target?.value)"
-            [nzAutocomplete]="auto" />
+          <input placeholder="Tìm khách hàng" nz-input [(ngModel)]="searchCustomer"
+            (input)="onSearchCustomer($event.target?.value)" [nzAutocomplete]="auto" />
           <nz-autocomplete nzBackfill #auto>
             <nz-auto-option *ngFor="let item of customers" [nzValue]="item.name" (click)="chooseUser(item.id)">
               {{ item.name +' (' + item.phone +')' }}
             </nz-auto-option>
           </nz-autocomplete>
+        </nz-form-control>
+      </nz-form-item>
 
-    </nz-form-control>
-    </nz-form-item>
+      <nz-form-item>
+        <nz-form-control>
+          <nz-select style="width: 200px;" [(ngModel)]="filter.status_id" nzPlaceHolder="Trạng thái">
+            <nz-option nzValue="0" nzLabel="Tất cả"></nz-option>
+            <nz-option *ngFor="let item of lsStatus" nzValue="{{item.id}}" nzLabel="{{item.name}}"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
 
-    <nz-form-item>
-      <nz-form-control>
-        <nz-select style="width: 200px;" [(ngModel)]="filter.status_id" nzPlaceHolder="Trạng thái">
-          <nz-option nzValue="0" nzLabel="Tất cả"></nz-option>
-          <nz-option *ngFor="let item of lsStatus" nzValue="{{item.id}}" nzLabel="{{item.name}}"></nz-option>
-        </nz-select>
-      </nz-form-control>
-    </nz-form-item>
-
-    <nz-form-item>
-      <nz-form-control>
-        <button nz-button (click)="filterData()" nzType="primary">Hiển thị</button>
-      </nz-form-control>
-    </nz-form-item>
+      <nz-form-item>
+        <nz-form-control>
+          <button nz-button (click)="filterData()" nzType="primary">Hiển thị</button>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
   </div>
-</div>
-<div class="box-body">
+  <div class="box-body">
 
-  <div class="table-responsive">
-    <nz-table nzBordered #ajaxTable nzShowSizeChanger
-      nzFooter="Hiển thị {{ (pageSize > listOfData.length) ? listOfData.length : pageSize  }} trên tổng số {{ total}}"
-      [nzFrontPagination]="false" [nzData]="listOfData" [nzLoading]="loading" [nzTotal]="total"
-      [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" (nzPageIndexChange)="panigate()"
-      (nzPageSizeChange)="panigate()">
-      <thead>
-        <tr>
-          <th width="3%" style="min-width: 50px;" class="text-center">STT</th>
-          <th width="5%" style="min-width: 50px;" class="text-center">ID</th>
-          <th width="7%" style="min-width: 100px;" class="text-center">
-            Ngày tạo
-          <th width="10%" style="min-width: 100px;" class="text-center">
-            Người tạo
-          </th>
-          <th width="10%" style="min-width: 150px;" class="text-center">
-            Khách hàng
-          </th>
-          <th width="18%" style="min-width: 200px;" class="text-center">
-            Thanh toán
-          </th>
-          <th width="18%" style="min-width: 200px;" class="text-center">
-            Ngày vay
-          </th>
-          <th width="10%" style="min-width: 100px;" class="text-center">
-            Ghi chú
-          </th>
-          <th width="10%" style="min-width: 100px;" class="text-center">
-            Trạng thái
-          </th>
-          <th width="10%" style="min-width: 70px;" class="text-center"><span>Công cụ</span></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let data of ajaxTable.data;let i = index">
-          <td class="text-center">{{ i + 1 + ((pageIndex -1) * pageSize) }}</td>
-          <td class="text-center">{{ data.id }}</td>
-          <td class="text-center">{{ data.created_date }}</td>
-          <td>{{ data.user_name }}</td>
-          <td>
-            <div>
-              <span>{{ data.customer_name }}</span>
-              <br>
-              <span>{{ data.customer_phone }}</span>
-            </div>
-          </td>
-          <td>
-            <table>
-              <tr>
-                <td> <span class="badge badge-primary">Số tiền vay</span> </td>
-                <td class="text-right">{{data.loan_price  | number }} đ</td>
-              </tr>
-              <tr>
-                <td> <span class="badge badge-success">Lãi suất</span> </td>
-                <td class="text-right"> {{data.loan_rate +' / '+ data.loan_type_name}}</td>
-              </tr>
-              <tr>
-                <td> <span class="badge badge-danger">Chi phí</span> </td>
-                <td class="text-right"> {{data.total_fee | number}} đ</td>
-              </tr>
-              <tr>
-                <td><span class="badge badge-warning">Số lần trả</span></td>
-                <td class="text-right"> {{data.num_repay_finish}}</td>
-              </tr>
-            </table>
-          </td>
-          <td>
-            <table>
-              <tr>
-                <td>
-                  <span class="badge badge-primary">Ngày bắt đầu</span>
-                </td>
-                <td class="text-right">
-                  <span>{{data.loan_date_start}}</span>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <span class="badge badge-success">Ngày kết thúc</span>
-                </td>
-                <td class="text-right">
-                  <span>{{ data.loan_date_end }}</span>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <span class="badge badge-danger">Ngày trả lãi KT</span>
-                </td>
-                <td class="text-right">
-                  <span>{{ data.next_payday }}</span>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <span class="badge badge-warning">Lãi đã đóng</span>
-                </td>
-                <td class="text-right">
-                  <span *ngIf="data.repay_total_finish && data.repay_total_finish > 0">
-                    {{data.repay_total | number}} đ
-                  </span>
-                  <span *ngIf="!data.repay_total_finish || data.repay_total_finish == 0">
-                    Chưa đóng
-                  </span>
-                </td>
-              </tr>
-            </table>
-          </td>
-          <td>{{ data.note }}</td>
-          <td class="text-center">
-            <span *ngIf="data.status_id ==1" class="badge badge-primary">{{ data.status_name }}</span>
-            <span *ngIf="data.status_id ==2 || data.status_id ==4"
-              class="badge badge-danger">{{ data.status_name }}</span>
-            <span *ngIf="data.status_id ==3" class="badge badge-success">{{ data.status_name }}</span>
-            <span *ngIf="data.status_id !=1 && data.status_id !=2 &&data.status_id !=3 &&data.status_id !=4"
-              class="badge badge-primary">{{ data.status_name }}</span>
-          </td>
-          <td class="cttd" class="text-center">
-            <div *ngIf="data.status_id != 2" zn-row>
+    <div class="table-responsive">
+      <nz-table nzBordered #ajaxTable nzShowSizeChanger
+        nzFooter="Hiển thị {{ (pageSize > listOfData.length) ? listOfData.length : pageSize  }} trên tổng số {{ total}}"
+        [nzFrontPagination]="false" [nzData]="listOfData" [nzLoading]="loading" [nzTotal]="total"
+        [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" (nzPageIndexChange)="panigate()"
+        (nzPageSizeChange)="panigate()">
+        <thead>
+          <tr>
+            <th width="3%" style="min-width: 50px;" class="text-center">STT</th>
+            <th width="5%" style="min-width: 50px;" class="text-center">ID</th>
+            <th width="7%" style="min-width: 100px;" class="text-center">
+              Ngày tạo
+            <th width="10%" style="min-width: 100px;" class="text-center">
+              Người tạo
+            </th>
+            <th width="10%" style="min-width: 150px;" class="text-center">
+              Khách hàng
+            </th>
+            <th width="18%" style="min-width: 200px;" class="text-center">
+              Thanh toán
+            </th>
+            <th width="18%" style="min-width: 200px;" class="text-center">
+              Ngày vay
+            </th>
+            <th width="10%" style="min-width: 100px;" class="text-center">
+              Ghi chú
+            </th>
+            <th width="10%" style="min-width: 100px;" class="text-center">
+              Trạng thái
+            </th>
+            <th width="10%" style="min-width: 70px;" class="text-center"><span>Công cụ</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of ajaxTable.data;let i = index">
+            <td class="text-center">{{ i + 1 + ((pageIndex -1) * pageSize) }}</td>
+            <td class="text-center">{{ data.id }}</td>
+            <td class="text-center">{{ data.created_date }}</td>
+            <td>{{ data.user_name }}</td>
+            <td>
+              <div>
+                <span>{{ data.customer_name }}</span>
+                <br>
+                <span>{{ data.customer_phone }}</span>
+              </div>
+            </td>
+            <td>
+              <table>
+                <tr>
+                  <td> <span class="badge badge-primary">Số tiền vay</span> </td>
+                  <td class="text-right">{{data.loan_price  | number }} đ</td>
+                </tr>
+                <tr>
+                  <td> <span class="badge badge-success">Lãi suất</span> </td>
+                  <td class="text-right"> {{data.loan_rate +' / '+ data.loan_type_name}}</td>
+                </tr>
+                <tr>
+                  <td> <span class="badge badge-danger">Chi phí</span> </td>
+                  <td class="text-right"> {{data.total_fee | number}} đ</td>
+                </tr>
+                <tr>
+                  <td><span class="badge badge-warning">Số lần trả</span></td>
+                  <td class="text-right"> {{data.num_repay_finish}}</td>
+                </tr>
+              </table>
+            </td>
+            <td>
+              <table>
+                <tr>
+                  <td>
+                    <span class="badge badge-primary">Ngày bắt đầu</span>
+                  </td>
+                  <td class="text-right">
+                    <span>{{data.loan_date_start}}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <span class="badge badge-success">Ngày kết thúc</span>
+                  </td>
+                  <td class="text-right">
+                    <span>{{ data.loan_date_end }}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <span class="badge badge-danger">Ngày trả lãi KT</span>
+                  </td>
+                  <td class="text-right">
+                    <span>{{ data.next_payday }}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <span class="badge badge-warning">Lãi đã đóng</span>
+                  </td>
+                  <td class="text-right">
+                    <span *ngIf="data.repay_total_finish && data.repay_total_finish > 0">
+                      {{data.repay_total | number}} đ
+                    </span>
+                    <span *ngIf="!data.repay_total_finish || data.repay_total_finish == 0">
+                      Chưa đóng
+                    </span>
+                  </td>
+                </tr>
+              </table>
+            </td>
+            <td>{{ data.note }}</td>
+            <td class="text-center">
+              <span *ngIf="data.status_id ==1" class="badge badge-primary">{{ data.status_name }}</span>
+              <span *ngIf="data.status_id ==2 || data.status_id ==4"
+                class="badge badge-danger">{{ data.status_name }}</span>
+              <span *ngIf="data.status_id ==3" class="badge badge-success">{{ data.status_name }}</span>
+              <span *ngIf="data.status_id !=1 && data.status_id !=2 &&data.status_id !=3 &&data.status_id !=4"
+                class="badge badge-primary">{{ data.status_name }}</span>
+            </td>
+            <td class="cttd" class="text-center">
+              <div *ngIf="data.status_id != 2" zn-row>
 
-              <i [appPerm]="'admin'" class="text-success iconAction" nz-icon nz-tooltip nzTitle="Thêm chi phí"
-                nzType="money-collect" nzTheme="outline" (click)="addCost(data)"></i>
+                <i [appPerm]="'admin'" class="text-success iconAction" nz-icon nz-tooltip nzTitle="Thêm chi phí"
+                  nzType="money-collect" nzTheme="outline" (click)="addCost(data)"></i>
 
-              <i [appPerm]="'admin'" nz-icon nz-tooltip nzTitle="Đóng lãi" (click)="payContact(data)"
-                nzType="pay-circle" class="text-primary iconAction" nzTheme="outline"></i>
+                <i [appPerm]="'admin'" nz-icon nz-tooltip nzTitle="Đóng lãi" (click)="payContact(data)"
+                  nzType="pay-circle" class="text-primary iconAction" nzTheme="outline"></i>
 
-              <i *ngIf="data.status_id != 3" nz-icon nzType="edit" (click)="handleCorU(data)" nz-tooltip
-                nzTitle="Chỉnh sửa" nzTheme="outline" class="text-warning iconAction"></i>
+                <i *ngIf="data.status_id != 3" nz-icon nzType="edit" (click)="handleCorU(data)" nz-tooltip
+                  nzTitle="Chỉnh sửa" nzTheme="outline" class="text-warning iconAction"></i>
 
-              <i *ngIf="data.status_id == 3" nz-icon nzType="eye" (click)="handleCorU(data)" nz-tooltip
-                nzTitle="Chi tiết" nzTheme="outline" class="text-primary iconAction"></i>
+                <i *ngIf="data.status_id == 3" nz-icon nzType="eye" (click)="handleCorU(data)" nz-tooltip
+                  nzTitle="Chi tiết" nzTheme="outline" class="text-primary iconAction"></i>
 
-              <!-- <br>
+                <!-- <br>
 
                 <i *ngIf="data.status_id ==1" class="text-danger iconAction" nz-icon nz-tooltip nzTitle="Gán nợ xấu"
                   nzType="frown" nzTheme="outline" (click)="setBadDebt(data)"></i> -->
 
-              <i [appPerm]="'admin'" *ngIf="data.status_id !=2 && data.status_id !=3" nz-icon nzType="close-circle"
-                (click)="cancelContact(data)" nz-tooltip nzTitle="Hủy hợp đồng" nzTheme="outline"
-                class="text-danger iconAction">
-              </i>
+                <i [appPerm]="'admin'" *ngIf="data.status_id !=2 && data.status_id !=3" nz-icon nzType="close-circle"
+                  (click)="cancelContact(data)" nz-tooltip nzTitle="Hủy hợp đồng" nzTheme="outline"
+                  class="text-danger iconAction">
+                </i>
 
-            </div>
-            <div *ngIf="data.status_id == 2" zn-row>
-              <i nz-icon nzType="eye" (click)="handleCorU(data)" nz-tooltip nzTitle="Chỉnh sửa" nzTheme="outline"
-                class="text-primary iconAction"></i>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </nz-table>
+              </div>
+              <div *ngIf="data.status_id == 2" zn-row>
+                <i nz-icon nzType="eye" (click)="handleCorU(data)" nz-tooltip nzTitle="Chỉnh sửa" nzTheme="outline"
+                  class="text-primary iconAction"></i>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </div>
   </div>
-</div>
 </div>
 
 

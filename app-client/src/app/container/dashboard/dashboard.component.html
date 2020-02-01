@@ -2,8 +2,6 @@
 
 <div [appPerm]="'admin'"  *ngIf="dataReport && !loading">
     <div class="row">
-
-
         <div class="col-12 col-sm-6 col-md-4 col-lg-4">
             <!-- START WIDGET CONCTACT -->
             <div class="widget widget-default widget-item-icon">
@@ -117,6 +115,14 @@
                                     <td class="text-center">
                                         <span class="badge badge-warning">
                                             {{dataReport.total_near_over_month | number}}
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr class="ant-table-row">
+                                    <td><b>Tổng hợp đồng sắp đến hạn</b></td>
+                                    <td class="text-center">
+                                        <span class="badge badge-warning">
+                                            {{dataReport.total_near_interest_pay | number}}
                                         </span>
                                     </td>
                                 </tr>
