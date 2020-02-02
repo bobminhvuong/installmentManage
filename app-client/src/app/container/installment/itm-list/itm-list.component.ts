@@ -1,3 +1,5 @@
+import { MainService } from './../../../service/main.service';
+import { UserService } from './../../../service/user/user.service';
 import { CustomerService } from './../../../service/customer/customer.service';
 import { NzModalService, NzMessageService } from 'ng-zorro-antd';
 import { InvoiceService } from './../../../service/invoice/invoice.service';
@@ -25,10 +27,14 @@ export class ItmListComponent implements OnInit {
   isVisibleCost = false;
   customers = [];
   customer_id = 0;
+  users = [];
+  selectedUser = null;
+  selectedStatus = null;
   filter = {
     offset: 0,
     limit: this.pageSize,
     customer_id: 0,
+    user_id_capital: 0,
     date: null,
     find: '',
     active: 1,
@@ -37,21 +43,33 @@ export class ItmListComponent implements OnInit {
     to: ''
   }
   timeId: any;
+  curUser: any;
 
   searchCustomer: string;
 
   constructor(private invSv: InvoiceService,
     private modalService: NzModalService,
     private message: NzMessageService,
-    private customerSV: CustomerService) { }
+    private customerSV: CustomerService,
+    private userSV: UserService,
+    private mainSV: MainService) { }
 
   ngOnInit() {
+    this.curUser = this.mainSV.getCurrentUser();
     this.getAll();
     // this.getCustomers();
     this.getStatus();
     let date = new Date();
 
     // this.filter.date = [date,date.setMonth(date.getMonth() -1)]
+
+    if(this.curUser.type == 'admin'){
+      this.userSV.getAll(true).subscribe(r=>{
+        if(r && r.status ==1){
+          this.users = r.data;
+        }
+      })
+    }
   }
 
   getCustomers(ft) {
@@ -75,7 +93,9 @@ export class ItmListComponent implements OnInit {
     this.filter.limit = this.pageSize;
     this.filter.from = this.filter.date && this.filter.date[0] ? moment(this.filter.date[0]).format('DD/MM/YYYY') : ''
     this.filter.to = this.filter.date && this.filter.date[1] ? moment(this.filter.date[1]).format('DD/MM/YYYY') : ''
-
+    if(this.curUser.type == 'user'){
+      this.filter.user_id_capital = this.curUser.id;
+    }
     this.invSv.getAll(this.filter).subscribe(res => {
       this.listOfData = res.data;
       this.loading = false;
@@ -84,6 +104,8 @@ export class ItmListComponent implements OnInit {
   }
 
   filterData(): void {
+    this.filter.status_id = this.selectedStatus;
+    this.filter.user_id_capital = this.selectedUser;
     this.getAll();
   }
 

@@ -13,7 +13,7 @@ export class CapitalContributionComponent implements OnInit {
   loading = true;
   isVisibleCap = false;
   dataEdit: any;
-  date = [moment().subtract(1, 'months').format('YYYY-MM-DD'), moment().format('YYYY-MM-DD')];
+  date = null;
 
   constructor(private reportSV: ReportService) { }
 
@@ -23,8 +23,8 @@ export class CapitalContributionComponent implements OnInit {
 
   getAll() {
     let val = {
-      from: moment(this.date[0]).format('DD/MM/YYYY'),
-      to: moment(this.date[1]).format('DD/MM/YYYY')
+      from: this.date && this.date[0] ?  moment(this.date[0]).format('DD/MM/YYYY') : '',
+      to: this.date && this.date[1] ? moment(this.date[1]).format('DD/MM/YYYY') : ''
     }
     
     this.reportSV.getReportCapital(val).subscribe(r => {

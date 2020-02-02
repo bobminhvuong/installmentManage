@@ -29,7 +29,8 @@ export class BadDebtComponent implements OnInit {
       date: [null],
       find: [''],
       active: [1],
-      status_id: [0]
+      status_id: [0],
+      is_over: [null]
     });
 
     this.getAll(this.filterForm.value);
@@ -53,7 +54,7 @@ export class BadDebtComponent implements OnInit {
       active: valFilter.active,
       status_id: valFilter.status_id,
       find: valFilter.find,
-      is_over: true
+      is_over: valFilter.is_over ? valFilter.is_over : 0
     }
 
     this.invSv.getAll(filter).subscribe(res => {

@@ -44,7 +44,18 @@
 
       <nz-form-item>
         <nz-form-control>
-          <nz-select style="width: 200px;" [(ngModel)]="filter.status_id" nzPlaceHolder="Trạng thái">
+          <nz-select style="width: 200px;" nzShowSearch nzAllowClear nzPlaceHolder="Người góp vốn"
+            [(ngModel)]="selectedUser">
+            <nz-option *ngFor="let item of users" nzValue="{{item.id}}" nzLabel="{{item.name}}"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+
+
+      <nz-form-item>
+        <nz-form-control>
+          <nz-select style="width: 200px;" nzShowSearch nzAllowClear nzPlaceHolder="Trạng thái"
+            [(ngModel)]="selectedStatus">
             <nz-option nzValue="0" nzLabel="Tất cả"></nz-option>
             <nz-option *ngFor="let item of lsStatus" nzValue="{{item.id}}" nzLabel="{{item.name}}"></nz-option>
           </nz-select>
