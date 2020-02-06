@@ -104,7 +104,7 @@ export class ItmListComponent implements OnInit {
   }
 
   filterData(): void {
-    this.filter.status_id = this.selectedStatus;
+    this.filter.status_id = this.selectedStatus ?  this.selectedStatus : 0;
     this.filter.user_id_capital = this.selectedUser;
     this.getAll();
   }
