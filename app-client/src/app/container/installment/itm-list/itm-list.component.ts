@@ -30,18 +30,6 @@ export class ItmListComponent implements OnInit {
   users = [];
   selectedUser = null;
   selectedStatus = null;
-  filter = {
-    offset: 0,
-    limit: this.pageSize,
-    customer_id: 0,
-    user_id_capital: 0,
-    date: null,
-    find: '',
-    active: 1,
-    status_id: 0,
-    from: '',
-    to: ''
-  }
   timeId: any;
   curUser: any;
 
@@ -52,9 +40,25 @@ export class ItmListComponent implements OnInit {
     private message: NzMessageService,
     private customerSV: CustomerService,
     private userSV: UserService,
-    private mainSV: MainService) { }
+    private mainSV: MainService,
+    private fb: FormBuilder) { }
 
   ngOnInit() {
+
+    this.filterForm = this.fb.group({
+      offset: [0],
+      limit: [this.pageSize],
+      customer_id: [0],
+      user_id_capitaltest: [null],
+      date: [null],
+      find: [''],
+      active: [1],
+      status_id: [null],
+      from: [''],
+      to: ['']
+    });
+
+
     this.curUser = this.mainSV.getCurrentUser();
     this.getAll();
     // this.getCustomers();
@@ -89,23 +93,23 @@ export class ItmListComponent implements OnInit {
   }
 
   getAll() {
-    this.filter.offset = (this.pageIndex - 1) * this.pageSize;
-    this.filter.limit = this.pageSize;
-    this.filter.from = this.filter.date && this.filter.date[0] ? moment(this.filter.date[0]).format('DD/MM/YYYY') : ''
-    this.filter.to = this.filter.date && this.filter.date[1] ? moment(this.filter.date[1]).format('DD/MM/YYYY') : ''
-    if(this.curUser.type == 'user'){
-      this.filter.user_id_capital = this.curUser.id;
-    }
-    this.invSv.getAll(this.filter).subscribe(res => {
+    let filter = this.filterForm.value;
+    filter.offset = (this.pageIndex - 1) * this.pageSize;
+    filter.limit = this.pageSize;
+    filter.from = filter.date && filter.date[0] ? moment(filter.date[0]).format('DD/MM/YYYY') : '';
+    filter.to = filter.date && filter.date[1] ? moment(filter.date[1]).format('DD/MM/YYYY') : '';
+    filter.status_id = filter.status_id ? filter.status_id : 0;
+    // filter.user_id_capital =  this.selectedUser ? Number(this.selectedUser) : 0;
+    filter.user_id_capitaltest = 6;
+    console.log(filter);
+    
+    this.invSv.getAll(filter).subscribe(res => {
       this.listOfData = res.data;
       this.loading = false;
       this.total = res.total;
     });
   }
-
   filterData(): void {
-    this.filter.status_id = this.selectedStatus;
-    this.filter.user_id_capital = this.selectedUser;
     this.getAll();
   }
 
@@ -184,7 +188,7 @@ export class ItmListComponent implements OnInit {
 
   onSearchCustomer(value: string): void {
     // this.customers = value ? [value, value + value, value + value + value] : [];
-    this.filter.customer_id = 0;
+    this.filterForm.patchValue({customer_id : 0});
     if (value != '') {
       let ft = {
         find: value,
@@ -201,7 +205,7 @@ export class ItmListComponent implements OnInit {
   }
 
   chooseUser(val){
-    this.filter.customer_id = val;
+    this.filterForm.patchValue({customer_id : val});
   }
   
 }
