@@ -50,7 +50,7 @@
 
       <nz-form-item>
         <nz-form-control>
-          <button nz-button  nzType="primary">Hiển thị</button>
+          <button nz-button nzType="primary">Hiển thị</button>
         </nz-form-control>
       </nz-form-item>
     </form>
@@ -114,6 +114,10 @@
                   <td class="text-right"> {{data.loan_rate +' / '+ data.loan_type_name}}</td>
                 </tr>
                 <tr>
+                  <td> <span class="badge badge-danger">Lãi còn lại</span> </td>
+                  <td class="text-right"> {{ (data.repay_total_finish - data.repay_total ) | number }} đ</td>
+                </tr>
+                <tr>
                   <td><span class="badge badge-warning">Số lần trả</span></td>
                   <td class="text-right"> {{data.num_repay_finish}}</td>
                 </tr>
@@ -139,6 +143,14 @@
                 </tr>
                 <tr>
                   <td>
+                    <span class="badge badge-danger">Ngày đóng lãi KT</span>
+                  </td>
+                  <td class="text-right">
+                    <span>{{ data.next_payday }}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
                     <span class="badge badge-warning">Lãi đã đóng</span>
                   </td>
                   <td class="text-right">
@@ -154,19 +166,30 @@
             </td>
             <td>{{ data.note }}</td>
             <td class="text-center">
-              <span *ngIf="data.status_id ==1" class="badge badge-primary">{{ data.status_name }}</span>
+              <span *ngIf="data.status_id ==1" 
+                class="badge badge-primary">{{ data.status_name }}</span>
+
               <span *ngIf="data.status_id ==2 || data.status_id ==4"
                 class="badge badge-danger">{{ data.status_name }}</span>
-              <span *ngIf="data.status_id ==3" class="badge badge-success">{{ data.status_name }}</span>
+
+              <span *ngIf="data.status_id ==3" 
+                class="badge badge-success">{{ data.status_name }}
+              </span>
+
               <span *ngIf="data.status_id !=1 && data.status_id !=2 &&data.status_id !=3 &&data.status_id !=4"
-                class="badge badge-primary">{{ data.status_name }}</span>
+                class="badge badge-primary">{{ data.status_name }}
+              </span>
+
             </td>
             <td class="cttd" class="text-center">
-                <i *ngIf="data.status_id ==1" class="text-danger iconAction" nz-icon nz-tooltip nzTitle="Gán nợ xấu"
-                  nzType="frown" nzTheme="outline" (click)="setBadDebt(data)"></i>
+              <i nz-icon nzType="history" (click)="payContact(data)" nz-tooltip nzTitle="Lịch sử đóng lãi" nzTheme="outline"
+                class="text-primary iconAction"></i>
 
-                <i nz-icon nzType="eye" (click)="handleCorU(data)" nz-tooltip nzTitle="Chi tiết" nzTheme="outline"
-                  class="text-primary iconAction"></i>
+              <i *ngIf="data.status_id ==1" class="text-danger iconAction" nz-icon nz-tooltip nzTitle="Gán nợ xấu"
+                nzType="frown" nzTheme="outline" (click)="setBadDebt(data)"></i>
+
+              <i nz-icon nzType="eye" (click)="handleCorU(data)" nz-tooltip nzTitle="Chi tiết" nzTheme="outline"
+                class="text-primary iconAction"></i>
             </td>
           </tr>
         </tbody>
