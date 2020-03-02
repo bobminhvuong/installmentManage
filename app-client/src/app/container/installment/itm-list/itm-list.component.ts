@@ -49,7 +49,6 @@ export class ItmListComponent implements OnInit {
       offset: [0],
       limit: [this.pageSize],
       customer_id: [0],
-      user_id_capitaltest: [null],
       date: [null],
       find: [''],
       active: [1],
@@ -58,14 +57,10 @@ export class ItmListComponent implements OnInit {
       to: ['']
     });
 
-
     this.curUser = this.mainSV.getCurrentUser();
     this.getAll();
-    // this.getCustomers();
     this.getStatus();
     let date = new Date();
-
-    // this.filter.date = [date,date.setMonth(date.getMonth() -1)]
 
     if(this.curUser.type == 'admin'){
       this.userSV.getAll(true).subscribe(r=>{
@@ -99,10 +94,8 @@ export class ItmListComponent implements OnInit {
     filter.from = filter.date && filter.date[0] ? moment(filter.date[0]).format('DD/MM/YYYY') : '';
     filter.to = filter.date && filter.date[1] ? moment(filter.date[1]).format('DD/MM/YYYY') : '';
     filter.status_id = filter.status_id ? filter.status_id : 0;
-    // filter.user_id_capital =  this.selectedUser ? Number(this.selectedUser) : 0;
-    filter.user_id_capitaltest = 6;
-    console.log(filter);
-    
+    filter.user_id_capital = this.selectedUser ? this.selectedUser : 0;
+
     this.invSv.getAll(filter).subscribe(res => {
       this.listOfData = res.data;
       this.loading = false;

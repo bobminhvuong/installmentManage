@@ -216,7 +216,7 @@
   </form>
 
   <ng-template #modalFooter>
-    <button [appPerm]="'admin'" *ngIf="dataEdit.status_id != 2 && dataEdit.status_id != 3" class="btn btn-primary btn-sm" (click)="submitForm()">{{ !dataEdit.id ? 'Tạo hợp đồng' : 'Cập nhật hợp đồng' }}</button>
+    <button [appPerm]="'admin'" *ngIf="dataEdit.status_id != 2 && dataEdit.status_id != 3 && !dataEdit.isView" class="btn btn-primary btn-sm" (click)="submitForm()">{{ !dataEdit.id ? 'Tạo hợp đồng' : 'Cập nhật hợp đồng' }}</button>
     <button class="btn btn-sm btn-light" (click)="handleCancel()">Đóng</button>
   </ng-template>
 

@@ -30,7 +30,7 @@ export class BadDebtComponent implements OnInit {
       find: [''],
       active: [1],
       status_id: [0],
-      is_over: [null]
+      is_over: ['2']
     });
 
     this.getAll(this.filterForm.value);
@@ -69,6 +69,7 @@ export class BadDebtComponent implements OnInit {
   }
 
   handleCorU(client) {
+    client.isView = true;
     this.dataEdit = client ? client : {};
     this.isVisible = true;
   }
@@ -118,7 +119,7 @@ export class BadDebtComponent implements OnInit {
     });
   }
 
-  cancelContact(data){
+  cancelContact(data) {
     this.modalService.confirm({
       nzTitle: 'Bạn muốn hủy hợp đồng này?',
       nzOkText: 'Xác nhận',
