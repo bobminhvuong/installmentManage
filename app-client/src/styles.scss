@@ -360,3 +360,7 @@
   transition: all 0.3s;
   padding: 4px;
 }
+
+a:not([href]):not([tabindex]) {
+  color: #1890ff;
+}

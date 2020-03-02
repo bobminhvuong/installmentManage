@@ -1,6 +1,16 @@
 <nz-skeleton [nzLoading]="loading" [nzActive]="true" [nzParagraph]="{ rows: 12 }"></nz-skeleton>
 
-<div [appPerm]="'admin'"  *ngIf="dataReport && !loading">
+<div [appPerm]="'admin'" *ngIf="dataReport && !loading">
+    <div class="row">
+
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12" style="margin-bottom: 10px;">
+            <button nz-button nzType="primary" class="float-right" (click)="getReport()">
+                <i nz-icon nzType="filter" nzTheme="outline"></i> Lọc
+            </button>
+
+            <nz-range-picker [nzRanges]="ranges1" class="float-right" [(ngModel)]="dateSort"  ></nz-range-picker>
+        </div>
+    </div>
     <div class="row">
         <div class="col-12 col-sm-6 col-md-4 col-lg-4">
             <!-- START WIDGET CONCTACT -->
