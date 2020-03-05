@@ -27,11 +27,11 @@
 
             <div class="col-12 col-sm-6 col-md-6 col-lg-6">
                 <label for=""> <b>Ngày vay:&nbsp;</b> </label>
-                <span>{{ formatDate(customer.created,'DD/MM/YYYY') }}</span>
+                <span>{{ customer.loan_date_start }}</span>
             </div>
             <div class="col-12 col-sm-6 col-md-6 col-lg-6">
                 <label for=""> <b>Số tiền vay:&nbsp;</b> </label>
-                <span>{{ formatCurrency(customer.loan_price) }} đ</span>
+                <span>{{ customer.loan_price | number }} đ</span>
             </div>
         </div>
         <div class="row">
@@ -41,11 +41,13 @@
                         [nzShowPagination]="false">
                         <thead>
                             <tr>
-                                <th width="10%" class="text-center">STT</th>
-                                <th width="20%" class="text-center">Ngày tạo</th>
-                                <th width="20%" class="text-center">Ngày đóng lãi</th>
-                                <th width="30%" class="text-center">Số tiền</th>
-                                <th width="20%" class="text-center"></th>
+                                <th width="5%" class="text-center">STT</th>
+                                <th width="15%" class="text-center">Ngày tạo</th>
+                                <th width="15%" class="text-center">Ngày đóng lãi</th>
+                                <th width="20%" class="text-center">Số tiền</th>
+                                <th width="20%" class="text-center">Tiền nợ</th>
+                                <th width="20">Ghi chú</th>
+                                <th width="5%" class="text-center"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -53,7 +55,9 @@
                                 <td class="text-center">{{ i+1 }}</td>
                                 <td class="text-center">{{ formatDate(data.created,'DD/MM/YYYY') }}</td>
                                 <td class="text-center">{{ formatDate(data.date,'DD/MM/YYYY') }}</td>
-                                <td class="text-right">{{ formatCurrency(data.price) }} đ</td>
+                                <td class="text-right">{{ data.price | number }} đ</td>
+                                <td class="text-right">{{ data.debit | number }} đ</td>
+                                <td>{{ data.note }} đ</td>
                                 <td class="text-center">
                                     <i nz-icon nz-tooltip nzTitle="Xóa phiên đóng lãi" (click)="confirmDeletePay(data)"
                                         nzType="delete" class="text-danger iconAction" nzTheme="outline"></i>
@@ -63,80 +67,107 @@
                     </nz-table>
                 </div>
             </div>
-            <div class="col-12 col-sm-6 col-md-6 col-lg-6">
-                <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="showConfirmPay(false)">
 
-                    <nz-form-item>
-                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="date">Ngày trả lãi
-                        </nz-form-label>
-                        <nz-form-control [nzSm]="16" [nzXs]="24">
-                            <nz-date-picker [nzFormat]="'dd/MM/yyyy'" (ngModelChange)="getPrice()" formControlName="date"></nz-date-picker>
-                            <!-- <nz-form-explain
+            <div *ngIf="pay" class="col-12 col-sm-12 col-md-12 col-lg-12" style="margin-bottom: 15px;">
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-md-6 col-lg-6 text-center">
+                            <label for=""> <b>
+                                Ngày trả lãi trước đó:&nbsp;
+                            </b> </label>
+                        <span>{{pay.last_pay_date}}</span>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-6 col-lg-6 text-center">
+                        <label for=""> <b>Số ngày đóng lãi:&nbsp;</b> </label>
+                        <b>
+                            <span *ngIf="pay.years > 0">
+                                {{ pay.years }} Năm
+                            </span>
+    
+                            <span *ngIf="pay.months > 0">
+                                {{ pay.months }} Tháng
+                            </span>
+                            <span>
+                                {{ pay.days }} Ngày
+                            </span>
+                        </b>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                <form nz-form [formGroup]="validateForm" class="login-form row" (ngSubmit)="showConfirmPay(false)">
+                    <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+                        <nz-form-item>
+                            <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="date">Ngày trả lãi
+                            </nz-form-label>
+                            <nz-form-control [nzSm]="16" [nzXs]="24">
+                                <nz-date-picker [nzFormat]="'dd/MM/yyyy'" (ngModelChange)="getPrice()"
+                                    formControlName="date"></nz-date-picker>
+                                <!-- <nz-form-explain
                                 *ngIf="validateForm.get('next_payday')?.dirty && validateForm.get('next_payday')?.errors">
                                 Chọn ngày trả lãi kế tiếp!
                             </nz-form-explain> -->
-                        </nz-form-control>
-                    </nz-form-item>
+                            </nz-form-control>
+                        </nz-form-item>
 
-                    <nz-form-item>
-                        <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="price">Số tiền
-                        </nz-form-label>
-                        <nz-form-control [nzSm]="16" [nzXs]="24">
-                            <input style="width: 172px;" nz-input [(ngModel)]="price" [(appFormatVN)]="brokerage_amount" placeholder="Số tiền" formControlName="price" />
-                            <nz-form-explain
-                                *ngIf="validateForm.get('price')?.dirty && validateForm.get('price')?.errors">
-                                Số tiền không được để trống!
-                            </nz-form-explain>
-                        </nz-form-control>
-                    </nz-form-item>
+                        <nz-form-item>
+                            <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="price">Số tiền
+                            </nz-form-label>
+                            <nz-form-control [nzSm]="16" [nzXs]="24">
+                                <input nz-input [(ngModel)]="price" (ngModelChange)="handlePrice()"
+                                    [(appFormatVN)]="price" placeholder="Số tiền" formControlName="price" />
+                                <nz-form-explain
+                                    *ngIf="validateForm.get('price')?.dirty && validateForm.get('price')?.errors">
+                                    Số tiền không được để trống!
+                                </nz-form-explain>
+                            </nz-form-control>
+                        </nz-form-item>
 
-                    <nz-form-item>
-                        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="next_payday">Ngày trả lãi kế tiếp
-                        </nz-form-label>
-                        <nz-form-control [nzSm]="16" [nzXs]="24">
-                            <nz-date-picker [nzFormat]="'dd/MM/yyyy'" formControlName="next_payday">
-                            </nz-date-picker>
-                            <nz-form-explain
-                                *ngIf="validateForm.get('next_payday')?.dirty && validateForm.get('next_payday')?.errors">
-                                Ngày đóng lãi kế tiếp phải lớn hơn ngày đóng lãi hiện tại!
-                            </nz-form-explain>
-                        </nz-form-control>
-                    </nz-form-item>
+                        <nz-form-item>
+                            <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="debit">Tiền nợ
+                            </nz-form-label>
+                            <nz-form-control [nzSm]="16" [nzXs]="24">
+                                <input nz-input [(ngModel)]="debit" placeholder="Số tiền" formControlName="debit" />
+                            </nz-form-control>
+                        </nz-form-item>
+
+
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+                        <nz-form-item>
+                            <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="next_payday">Ngày trả lãi kế tiếp
+                            </nz-form-label>
+                            <nz-form-control [nzSm]="16" [nzXs]="24">
+                                <nz-date-picker [nzFormat]="'dd/MM/yyyy'" formControlName="next_payday">
+                                </nz-date-picker>
+                                <nz-form-explain
+                                    *ngIf="validateForm.get('next_payday')?.dirty && validateForm.get('next_payday')?.errors">
+                                    Ngày đóng lãi kế tiếp phải lớn hơn ngày đóng lãi hiện tại!
+                                </nz-form-explain>
+                            </nz-form-control>
+                        </nz-form-item>
+                        <nz-form-item>
+                            <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="debit">Ghi chú
+                            </nz-form-label>
+                            <nz-form-control [nzSm]="16" [nzXs]="24">
+                                <textarea formControlName="note" nz-input rows="3"></textarea>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
                 </form>
             </div>
 
-
-            <div *ngIf="pay" class="col-12 col-sm-6 col-md-6 col-lg-6">
-                <div class="row">
-                    <label for=""> <b>
-                            Ngày trả lãi trước đó:&nbsp;
-                        </b> </label>
-                    <span>{{pay.last_pay_date}}</span>
-                </div>
-                <div class="row">
-                    <label for=""> <b>Số ngày đóng lãi:&nbsp;</b> </label>
-                    <b>
-                        <span *ngIf="pay.years > 0">
-                            {{ pay.years }} Năm
-                        </span>
-                        
-                        <span *ngIf="pay.months > 0">
-                            {{ pay.months }} Tháng
-                        </span>
-                        <span>
-                            {{ pay.days }} Ngày
-                        </span>
-                    </b>
-                </div>
-            </div>
 
         </div>
     </ng-template>
 
     <ng-template #modalFooter>
-        <button *ngIf="dataEdit.status_id != 4 && dataEdit.status_id != 3" class="btn btn-danger btn-sm" (click)="setBaddebt()">Nợ xấu</button>
-        <button *ngIf="dataEdit.status_id != 3 && dataEdit.status_id != 2" class="btn btn-primary btn-sm" (click)="showConfirmPay(false)">Đóng lãi</button>
-        <button *ngIf="dataEdit.status_id != 3 && dataEdit.status_id != 2" class="btn btn-success btn-sm" (click)="showConfirmPay(true)">Đóng lãi và kết thúc</button>
+        <button *ngIf="dataEdit.status_id != 4 && dataEdit.status_id != 3" class="btn btn-danger btn-sm"
+            (click)="setBaddebt()">Nợ xấu</button>
+        <button *ngIf="dataEdit.status_id != 3 && dataEdit.status_id != 2" class="btn btn-primary btn-sm"
+            (click)="showConfirmPay(false)">Đóng lãi</button>
+        <button *ngIf="dataEdit.status_id != 3 && dataEdit.status_id != 2" class="btn btn-success btn-sm"
+            (click)="showConfirmPay(true)">Đóng lãi và kết thúc</button>
         <button class="btn btn-sm btn-light" (click)="handleCancel()">Đóng</button>
     </ng-template>
 </nz-modal>

@@ -23,9 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 
-@angular/animations
-MIT
-
 @angular/cdk
 MIT
 The MIT License
@@ -53,21 +50,6 @@ THE SOFTWARE.
 
 @angular/cdk/scrolling
 
-@angular/common
-MIT
-
-@angular/core
-MIT
-
-@angular/forms
-MIT
-
-@angular/platform-browser
-MIT
-
-@angular/router
-MIT
-
 @ant-design/colors
 MIT
 MIT LICENSE
@@ -93,9 +75,6 @@ LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-
-@ant-design/icons-angular
-MIT
 
 bootstrap
 MIT
@@ -158,6 +137,29 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 
 ng-zorro-antd
+MIT
+
+undefined
+
+@angular/animations
+MIT
+
+@angular/common
+MIT
+
+@angular/core
+MIT
+
+@angular/forms
+MIT
+
+@angular/platform-browser
+MIT
+
+@angular/router
+MIT
+
+@ant-design/icons-angular
 MIT
 
 ng-zorro-antd/auto-complete
@@ -442,8 +444,6 @@ NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
 LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-undefined
 
 tslib
 Apache-2.0

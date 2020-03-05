@@ -18,14 +18,19 @@ export class PaymoneyComponent implements OnInit {
   dataSource: any;
   pay: any;
   price: any;
+  debit: any;
+  dataPrice: any;
   constructor(private fb: FormBuilder,
     private invSV: InvoiceService, private modalService: NzModalService, private message: NzMessageService) { }
 
   ngOnInit() {
+    this.debit = 0;
     this.validateForm = this.fb.group({
       date: [new Date()],
       price: [null, [Validators.required]],
-      next_payday: [new Date(), [this.nextDateOke]]
+      debit: [0],
+      next_payday: [new Date(), [this.nextDateOke]],
+      note: [null]
     });
 
     if (this.dataEdit && this.dataEdit.id) {
@@ -36,13 +41,13 @@ export class PaymoneyComponent implements OnInit {
         identity_number: this.dataEdit.customer_identity_number,
         phone: this.dataEdit.customer_phone,
         created: this.dataEdit.created,
-        loan_price: this.dataEdit.loan_price
+        loan_price: this.dataEdit.loan_price,
+        loan_date_start: this.dataEdit.loan_date_start
       }
       this.getInvoiceDetail();
     }
 
     this.getPrice();
-
   }
 
   nextDateOke = (control: FormControl): { [s: string]: boolean } => {
@@ -55,6 +60,13 @@ export class PaymoneyComponent implements OnInit {
     return {};
   };
 
+  handlePrice() {
+    let price = this.price;
+    price = price && price != '' ? this.formatNumber(price) : 0;
+    this.validateForm.patchValue({ debit: this.formatCurrency((this.pay && this.pay.money && price <= this.pay.money) ? (this.pay.money - price) : 0) });
+
+  }
+
   getPrice() {
     let data = {
       invoice_id: this.dataEdit.id,
@@ -64,6 +76,7 @@ export class PaymoneyComponent implements OnInit {
       if (r && r.status == 1) {
         this.price = this.formatCurrency(r.data.money);
         this.pay = r.data;
+        this.handlePrice();
       } else {
         this.message.create('error', r && r.message ? r.message : 'Đã có lổi xẩy ra. Vui lòng thử lại!');
       }
@@ -88,24 +101,24 @@ export class PaymoneyComponent implements OnInit {
   }
 
   formatCurrency(price) {
-    return !price ? '' : Number(price + '').toLocaleString();
+    return !price ? 0 : Number(price + '').toLocaleString();
   }
 
   showConfirmPay(isSuccess): void {
-    if(!isSuccess){
+    if (!isSuccess) {
       for (const i in this.validateForm.controls) {
         this.validateForm.controls[i].markAsDirty();
         this.validateForm.controls[i].updateValueAndValidity();
       }
     }
-   
+
     if (this.validateForm.valid && !isSuccess) {
       this.modalService.confirm({
         nzTitle: isSuccess ? '<i>Bạn muốn Đóng lãi và kết thúc hợp đồng này?</i>' : '<i>Bạn muốn Đóng lãi cho hợp đồng này?</i>',
         nzOnOk: () => this.payMoney(isSuccess)
       });
     }
-    if(isSuccess){
+    if (isSuccess) {
       this.modalService.confirm({
         nzTitle: isSuccess ? '<i>Bạn muốn Đóng lãi và kết thúc hợp đồng này?</i>' : '<i>Bạn muốn Đóng lãi cho hợp đồng này?</i>',
         nzOnOk: () => this.payMoney(isSuccess)
@@ -120,9 +133,10 @@ export class PaymoneyComponent implements OnInit {
     pay.price = this.formatNumber(pay.price);
     pay.date = this.formatDate(pay.date, 'DD/MM/YYYY')
     pay.is_finish = isSuccess;
+    pay.debit = (pay.debit && pay.debit != '') ? this.formatNumber(pay.debit) : 0;
     
     this.invSV.payAdd(pay).subscribe(r => {
-      let res = (r && r.status == 1) ?  this.message.create('success', 'Đóng lãi thành công!') :  this.message.create('error', r && r.message ? r.message : 'Đã có lổi xẩy ra. Vui lòng thử lại!');
+      let res = (r && r.status == 1) ? this.message.create('success', 'Đóng lãi thành công!') : this.message.create('error', r && r.message ? r.message : 'Đã có lổi xẩy ra. Vui lòng thử lại!');
       this.getInvoiceDetail();
     })
   }
