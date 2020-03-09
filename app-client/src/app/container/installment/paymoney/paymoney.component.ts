@@ -63,8 +63,8 @@ export class PaymoneyComponent implements OnInit {
   handlePrice() {
     let price = this.price;
     price = price && price != '' ? this.formatNumber(price) : 0;
-    this.validateForm.patchValue({ debit: this.formatCurrency((this.pay && this.pay.money && price <= this.pay.money) ? (this.pay.money - price) : 0) });
-
+    let dbit = this.formatCurrency((this.pay && this.pay.money && price <= this.pay.money) ? (this.pay.money - price) : 0);
+    this.debit = dbit;
   }
 
   getPrice() {
@@ -100,8 +100,27 @@ export class PaymoneyComponent implements OnInit {
     return moment(date).format(format);
   }
 
-  formatCurrency(price) {
-    return !price ? 0 : Number(price + '').toLocaleString();
+  formatCurrency(val) {
+      if (val && val != '') {
+        // let val = Number((value + '').replace(/,/g, ""));
+        // this.appFormatVNChange.next(val.toLocaleString());
+        val = val+ '';
+        val = val.replace(/,/g, "")
+        val += '';
+        let x = val.split('.');
+        let x1 = x[0];
+        let x2 = x.length > 1 ? '.' + x[1] : '';
+  
+        var rgx = /(\d+)(\d{3})/;
+  
+        while (rgx.test(x1)) {
+          x1 = x1.replace(rgx, '$1' + ',' + '$2');
+        }
+        return(x1 + x2)
+  
+      } else {
+        return 0;
+      }
   }
 
   showConfirmPay(isSuccess): void {

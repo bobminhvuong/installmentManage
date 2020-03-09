@@ -127,7 +127,7 @@
                             <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="debit">Tiền nợ
                             </nz-form-label>
                             <nz-form-control [nzSm]="16" [nzXs]="24">
-                                <input nz-input [(ngModel)]="debit" placeholder="Số tiền" formControlName="debit" />
+                                <input nz-input [(ngModel)]="debit" placeholder="Số tiền" [(appFormatVN)]="debit" formControlName="debit" />
                             </nz-form-control>
                         </nz-form-item>
 
