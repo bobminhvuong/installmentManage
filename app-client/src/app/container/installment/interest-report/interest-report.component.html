@@ -1,0 +1,72 @@
+<div nz-row class="mgbt20">
+  <div nz-col nzSpan="24">
+    <h3>Báo cáo lãi</h3>
+  </div>
+</div>
+<div class="box box-success">
+
+  <div class="box-header">
+   
+
+    <div nz-form [nzLayout]="'inline'">
+      <nz-form-item>
+        <nz-form-control>
+          <nz-input-group nzPrefixIcon="date">
+            <nz-range-picker [(ngModel)]="filter.date" ></nz-range-picker>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+     
+      <nz-form-item>
+        <nz-form-control>
+          <button nz-button (click)="filterData()" nzType="primary">Hiển thị</button>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+
+  <div class="box-body">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <nz-col [nzSpan]="12" class="text-center">
+          <nz-statistic
+            [nzValue]="dataReport.pay_total | number "
+            [nzTitle]="'Tổng thu lãi'"
+            [nzSuffix]="'đ'"
+            [nzValueStyle]="{ color: '#3F8600' }"
+          >
+          </nz-statistic>
+      </nz-col>
+      <nz-col [nzSpan]="12" class="text-center">
+          <nz-statistic
+            [nzValue]="dataReport.profit_total | number: '1.0-2'"
+            [nzTitle]="'Tổng chi lãi'"
+            [nzSuffix]="'đ'"
+            [nzValueStyle]="{ color: '#ffc107' }"
+          >
+          </nz-statistic>
+      </nz-col>
+    </div>
+    <div class="table-responsive">
+      <nz-table nzBordered #ajaxTable  [nzShowPagination] ="false" [nzData]="listOfData"
+        [nzLoading]="loading" [nzTotal]="total" >
+        <thead>
+          <tr>
+            <th width="3%" class="text-center">STT</th>
+            <th width="55%" style="min-width: 150px;">
+              Người góp vốn
+            <th width="40%" style="min-width: 100px;" class="text-center">
+              Số tiền chia
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of ajaxTable.data;let i = index">
+            <td class="text-center">{{ i+ 1}}</td>
+            <td>{{ data.user_name }}</td>
+            <td class="text-right">{{ data.profit | number }} đ</td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </div>
+  </div>
+</div>

@@ -48,6 +48,7 @@ import { BadDebtComponent } from './container/installment/bad-debt/bad-debt.comp
 import { CapitalContributionComponent } from './container/installment/capital-contribution/capital-contribution.component';
 import { CapitalDetailComponent } from './container/installment/capital-contribution/capital-detail/capital-detail.component';
 import { PermDirective } from './directives/perm.directive';
+import { InterestReportComponent } from './container/installment/interest-report/interest-report.component';
 
 registerLocaleData(en);
 
@@ -80,7 +81,8 @@ registerLocaleData(en);
     BadDebtComponent,
     CapitalContributionComponent,
     CapitalDetailComponent,
-    PermDirective
+    PermDirective,
+    InterestReportComponent
   ],
   imports: [
     BrowserModule,

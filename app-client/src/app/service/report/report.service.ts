@@ -43,4 +43,11 @@ export class ReportService {
       catchError(this.mainSV.handleError)
     );
   }
+
+  getReportInterest(objectFilter): Observable<any> {
+    objectFilter.api= this.mainSV.getApikey();
+    return this.http.post(environment.APIHOST + '/api/report/Interest', objectFilter, this.mainSV.getHttpOptionsNotToken()).pipe(
+      catchError(this.mainSV.handleError)
+    );
+  }
 }

@@ -1,3 +1,4 @@
+import { InterestReportComponent } from './../container/installment/interest-report/interest-report.component';
 import { BadDebtComponent } from './../container/installment/bad-debt/bad-debt.component';
 import { InterestPaymentHistoryComponent } from './../container/installment/interest-payment-history/interest-payment-history.component';
 import { BdsComponent } from './../container/bds/bds.component';
@@ -32,6 +33,7 @@ const routes: Routes = [
                 {path: 'pay-interest-history',canActivate: [CanActivateService], data: {role: 'admin'},  component: InterestPaymentHistoryComponent},
                 {path: 'bad-debt',canActivate: [CanActivateService], data: {role: 'admin'},  component: BadDebtComponent},
                 {path: 'capital-contribution',canActivate: [CanActivateService], data: {role: 'user'},  component: CapitalContributionComponent},
+                {path: 'interest-report',canActivate: [CanActivateService], data: {role: 'admin'},  component: InterestReportComponent},
             ] },
 
             { path: 'dashboard', component: DashboardComponent },

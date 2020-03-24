@@ -67,6 +67,10 @@ export class MainComponent implements OnInit {
             title: 'Báo cáo góp vốn',
             url: '/manager/installment/capital-contribution',
             role: 'user'
+          },{
+            title: 'Báo cáo lãi',
+            url: '/manager/installment/interest-report',
+            role: 'admin'
           }
         ]
       },

@@ -47,6 +47,7 @@ export class ItmListComponent implements OnInit {
 
     this.filterForm = this.fb.group({
       offset: [0],
+      loan_type: null,
       limit: [this.pageSize],
       customer_id: [0],
       date: [null],
@@ -95,6 +96,7 @@ export class ItmListComponent implements OnInit {
     filter.to = filter.date && filter.date[1] ? moment(filter.date[1]).format('DD/MM/YYYY') : '';
     filter.status_id = filter.status_id ? filter.status_id : 0;
     filter.user_id_capital = this.selectedUser ? this.selectedUser : 0;
+    filter.loan_type = filter.loan_type ? filter.loan_type : 0;
 
     this.invSv.getAll(filter).subscribe(res => {
       this.listOfData = res.data;
