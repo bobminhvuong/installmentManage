@@ -87,6 +87,8 @@ export class PaymoneyComponent implements OnInit {
     this.invSV.getDetail(this.dataEdit.id).subscribe(r => {
       if (r && r.status == 1) {
         this.dataSource = r.data;
+        let date = this.dataSource.pay[this.dataSource.pay.length -1].next_payday;
+        this.validateForm.patchValue({date: date})
       }
     })
   }
